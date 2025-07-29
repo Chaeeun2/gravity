@@ -1,0 +1,339 @@
+body:has(.header.menu-hovered) {
+  overflow: hidden;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1002;
+  transition: all 0.3s ease;
+  background: transparent;
+  height: 90px;
+}
+
+.header.menu-hovered {
+  background: var(--primary-color);
+}
+
+.header.scrolling {
+  background: var(--white-color);
+}
+
+.header.scrolling.menu-hovered {
+  background: var(--primary-color);
+}
+
+.header-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100dvh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay);
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.header-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.header-container {
+  margin: 0 auto;
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  position: relative;
+  z-index: 1003;
+}
+
+.logo {
+  width: 140px;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo-navy {
+  display: none;
+}
+
+.header.scrolling .logo-navy {
+  display: block;
+}
+
+.header.scrolling .logo-white {
+  display: none;
+}
+
+.header.scrolling.menu-hovered .logo-navy {
+  display: none;
+}
+
+.header.scrolling.menu-hovered .logo-white {
+  display: block;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  position: relative;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 45px;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-neue);
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-menu li a.active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-color: rgba(255, 255, 255, 1);
+}
+
+.header.scrolling .nav-menu li a.active {
+  color: var(--text-black);
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-color: rgba(0, 0, 0, 1);
+}
+
+.header.scrolling.menu-hovered .nav-menu li a.active {
+  color: var(--text-white);
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-color: rgba(255, 255, 255, 1);
+}
+
+.nav-menu:hover .submenu-dropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-menu li a {
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: var(--spacing-02);
+  color: var(--text-white);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-menu li a:hover {
+  opacity: 1;
+}
+
+.header.scrolling .nav-menu li a {
+  color: var(--text-black);
+}
+
+.header.scrolling.menu-hovered .nav-menu li a {
+  color: var(--text-white);
+}
+
+/* 드롭다운 메뉴 스타일 */
+.submenu-dropdown {
+  position: absolute;
+  top: 100%;
+  list-style: none;
+  min-width: 100%;
+  margin-top: 25px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.submenu-dropdown li {
+  margin: 0;
+}
+
+.submenu-dropdown li a {
+  display: block;
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--text-white);
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 0;
+  font-family: "neue-haas-grotesk-display", sans-serif, Pretendard;
+  letter-spacing: var(--spacing-02);
+}
+
+.submenu-dropdown li a:hover {
+  opacity: 0.5;
+}
+
+.header.scrolling .submenu-dropdown li a {
+  color: var(--text-black);
+  opacity: 0.7;
+}
+
+.header.scrolling.menu-hovered .submenu-dropdown li a {
+  color: var(--text-white);
+  opacity: 0.7;
+}
+
+.submenu-dropdown li a::after {
+  display: none;
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.language-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-right: 40px;
+}
+
+.header.scrolling .language-divider {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.header.scrolling.menu-hovered .language-divider {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.language-separator {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-top: 1px;
+}
+
+.header.scrolling .language-separator {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.header.scrolling.menu-hovered .language-separator {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.lang-btn {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  padding: 0;
+  font-family: "neue-haas-grotesk-display", sans-serif, Pretendard;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.header.scrolling .lang-btn {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.header.scrolling.menu-hovered .lang-btn {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.lang-btn.active {
+  color: var(--text-white);
+}
+
+.header.scrolling .lang-btn.active {
+  color: var(--text-black);
+}
+
+.header.scrolling.menu-hovered .lang-btn.active {
+  color: var(--text-white);
+}
+
+.lang-btn:hover {
+  color: var(--text-white);
+}
+
+.header.scrolling .lang-btn:hover {
+  color: var(--text-black);
+}
+
+.header.scrolling.menu-hovered .lang-btn:hover {
+  color: var(--text-white);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 15px;
+    height: 60px;
+  }
+
+  .nav-menu {
+    gap: 20px;
+  }
+
+  .nav-menu li a {
+    font-size: 1.4rem;
+  }
+
+  .navigation {
+    gap: 20px;
+  }
+
+  .submenu-container {
+    gap: 40px;
+    padding: 20px 0;
+  }
+
+  .submenu-column {
+    min-width: 150px;
+  }
+
+  .submenu-column h4 {
+    font-size: 1.2rem;
+  }
+
+  .submenu li a {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .language-selector {
+    gap: 10px;
+  }
+
+  .lang-btn {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+}

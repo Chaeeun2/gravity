@@ -1,0 +1,110 @@
+/* Footer Section */
+.overview-footer {
+  background: var(--white-color);
+  padding: 30px 0;
+  margin-top: 150px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-content {
+  max-width: 1800px;
+  width: 100%;
+  margin: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  gap: 70px;
+  align-items: start;
+  align-items: center;
+}
+
+.footer-left {
+  display: flex;
+  gap: 70px;
+  align-items: center;
+}
+
+.footer-logo {
+  width: 110px;
+}
+
+.footer-logo img {
+  width: 100%;
+  object-fit: contain;
+}
+
+.footer-info {
+  color: var(--text-black);
+  line-height: 1.7;
+  font-size: 1.6rem;
+  font-family: var(--font-pret);
+  font-weight: 400;
+  letter-spacing: var(--spacing-91);
+}
+
+.footer-info-strong {
+  font-weight: 600;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-91);
+}
+
+.footer-policies {
+  display: flex;
+  gap: 10px;
+  font-size: 1.6rem;
+  color: var(--text-black);
+}
+
+.footer-policies a {
+  color: var(--text-black);
+  text-decoration: none;
+}
+
+.separator {
+  color: var(--text-black);
+}
+
+.footer-copyright {
+  font-size: 1.6rem;
+  color: var(--text-black);
+  text-align: right;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .footer-links {
+    align-items: center;
+  }
+
+  .footer-copyright {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-policies {
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .separator {
+    display: none;
+  }
+}

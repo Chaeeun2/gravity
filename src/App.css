@@ -1,38 +1,80 @@
-.App {
-  text-align: center;
+/* CSS Variables (Custom Properties) */
+:root {
+  /* Main Colors */
+  --primary-color: #292959;
+  --muted-color: #f2f2f4;
+  --line-color: #e3e3e9;
+  --light-grey: #f8f8f8;
+  --white-color: white;
+  --black-color: #000000;
+
+  /* Text Colors */
+  --text-black: #000000;
+  --text-primary: #292959;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --text-white: #ffffff;
+
+  /* Opacity Colors */
+  --overlay: rgba(0, 0, 0, 0.2);
+
+  /* Typography */
+  --font-neue: "neue-haas-grotesk-display", sans-serif;
+  --font-pret: "Pretendard", sans-serif;
+
+  /* Spacing */
+  --spacing-92: -0.02rem;
+  --spacing-91: -0.01rem;
+  --spacing-00: 0rem;
+  --spacing-01: 0.01rem;
+  --spacing-02: 0.02rem;
+
+  /* Z-index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+::-webkit-scrollbar {
+  display: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* 스크롤바 숨기기 */
+::-webkit-scrollbar {
+  display: none;
 }
 
-.App-link {
-  color: #61dafb;
+html {
+  font-size: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+body {
+  font-family: var(--font-neue), var(--font-pret);
+  color: var(--text-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 10px;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }

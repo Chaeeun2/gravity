@@ -1,0 +1,568 @@
+/* Risk & Compliance Page */
+.risk-compliance-page {
+  min-height: 100vh;
+  background: var(--white-color);
+}
+
+/* 애니메이션 키프레임 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 애니메이션 클래스 */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* subtitle-line 애니메이션 후 최종 위치 */
+.subtitle-line.animate-fade-in-up {
+  transform: translateY(-15px) !important;
+}
+
+/* Header */
+.risk-compliance-header {
+  background: var(--primary-color);
+  padding: 40px 50px;
+  min-height: 300px;
+  height: 380px;
+  text-align: left;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 120px;
+}
+
+.risk-compliance-header-content {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: left;
+}
+
+.risk-compliance-title {
+  width: 100%;
+  max-width: 1800px;
+  text-align: left;
+  font-size: 12rem;
+  font-weight: 500;
+  color: var(--text-white);
+  margin: 0;
+  letter-spacing: var(--spacing-92);
+  font-family: var(--font-neue);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.risk-compliance-title-ko {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-92);
+}
+
+/* Main Content */
+.risk-compliance-content {
+  display: flex;
+  justify-content: center;
+  padding: 0 50px;
+}
+
+.risk-compliance-container {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+}
+
+/* Section Styles */
+.risk-management-section {
+  margin-bottom: 120px;
+}
+
+/* Section Titles */
+.risk-section-title {
+  font-size: 7rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin: 0 0 60px 0;
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-92);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.subtitle {
+  font-size: 3rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin: 0;
+  padding-bottom: 20px;
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-92);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.subtitle-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+}
+
+.subtitle-line {
+  flex: 1;
+  height: 1.5px;
+  background-color: var(--line-color);
+  width: 40px;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* Section Description */
+.section-description {
+  font-size: 2rem;
+  color: var(--text-black);
+  line-height: 1.8;
+  margin: 0 0 50px 0;
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-92);
+  font-weight: 500;
+  word-break: keep-all;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section-description-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+  line-height: 1.4;
+}
+
+/* Risk Management Principles Grid */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0px;
+}
+
+.principle-box:first-child {
+  border-left: 1px solid var(--line-color);
+}
+
+.principle-box {
+  border-top: 1px solid var(--line-color);
+  border-bottom: 1px solid var(--line-color);
+  border-right: 1px solid var(--line-color);
+  padding: 50px 80px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.principle-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-92);
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.principle-title-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+  line-height: 1.2;
+}
+
+/* Compliance Principles Circles */
+.compliance-principles {
+  margin-bottom: 60px;
+  border: 1px solid var(--line-color);
+  padding: 70px;
+}
+
+.circles-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 30px;
+  margin-bottom: 0px;
+  position: relative;
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-items: center;
+  justify-content: center;
+}
+
+.principle-circle {
+  width: 100%;
+  min-width: 150px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(30px);
+  position: relative;
+}
+
+@media (max-width: 1500px) {
+  .circle-text {
+    font-size: 1.8rem !important;
+  }
+
+  .circle-text-en {
+    font-size: 1.6rem !important;
+  }
+
+  .circles-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1350px) {
+  .circles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.principle-circle:nth-child(odd) {
+  background: var(--primary-color);
+  color: var(--text-white);
+}
+
+.principle-circle:nth-child(even) {
+  background: var(--muted-color);
+  color: var(--text-primary);
+}
+
+.circle-text {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-92);
+  line-height: 1.4;
+  padding: 30px;
+  word-break: keep-all;
+}
+
+.circle-text-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+  font-size: 1.8rem;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+/* Outcome Section */
+.outcome-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.outcome-arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+  margin-bottom: 40px;
+}
+
+/* Outcome Text */
+.outcome-text {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-92);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.outcome-text-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+  font-weight: 500;
+}
+
+/* Compliance Process */
+.compliance-process {
+  margin-top: 60px;
+}
+
+.compliance-process-flow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  height: auto;
+  gap: 0px;
+}
+
+.process-box {
+  background: var(--muted-color);
+  padding: 25px;
+  text-align: center;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  position: relative;
+  border-radius: 8px;
+  flex: 1;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process-box:first-child {
+  margin-left: 0;
+}
+
+.process-box:last-child {
+  margin-right: 0;
+}
+
+.process-text {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-92);
+  line-height: 1.3;
+  word-break: keep-all;
+}
+
+.process-text-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.process-arrow {
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+  transform: rotate(-90deg);
+  margin: 0 20px;
+}
+
+.process-arrow-bottom {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+}
+
+.process-box:first-child .process-arrow-bottom {
+  transform: translateX(-50%) rotate(180deg);
+}
+
+/* Feedback Arrow and Text */
+.compliance-process {
+  position: relative;
+  border: 1px solid var(--line-color);
+  padding: 90px;
+}
+
+.feedback-empty-box {
+  border-bottom: 1.5px solid var(--primary-color);
+  border-left: 1.5px solid var(--primary-color);
+  height: 35px;
+}
+
+.feedback-container {
+  margin-top: 60px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-top: -15px;
+}
+
+.feedback-text {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* Arrow Connections for Circles */
+.circles-grid {
+  position: relative;
+}
+
+/* Arrow Connections for Process */
+.compliance-process-flow {
+  position: relative;
+}
+
+/* Arrow between process boxes */
+.process-box {
+  position: relative;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .risk-compliance-title {
+    font-size: 8rem;
+  }
+
+  .section-title {
+    font-size: 3.6rem;
+  }
+
+  .principles-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .circles-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .compliance-process-flow {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .process-box {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .risk-compliance-header {
+    padding: 30px 20px;
+    height: 250px;
+    margin-bottom: 80px;
+  }
+
+  .risk-compliance-title {
+    font-size: 5rem;
+  }
+
+  .risk-compliance-content {
+    padding: 0 20px;
+  }
+
+  .section-title {
+    font-size: 2.8rem;
+  }
+
+  .subtitle {
+    font-size: 2rem;
+  }
+
+  .section-description {
+    font-size: 1.6rem;
+  }
+
+  .principle-box {
+    padding: 30px 20px;
+  }
+
+  .principle-title {
+    font-size: 1.8rem;
+  }
+
+  .principle-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .circle-text {
+    font-size: 1.4rem;
+    padding: 15px;
+  }
+
+  .outcome-text {
+    font-size: 2rem;
+  }
+
+  .process-text {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .risk-compliance-header {
+    padding: 20px 15px;
+    height: 200px;
+    margin-bottom: 60px;
+  }
+
+  .risk-compliance-title {
+    font-size: 3.5rem;
+  }
+
+  .risk-compliance-content {
+    padding: 0 15px;
+  }
+
+  .section-title {
+    font-size: 2.4rem;
+  }
+
+  .subtitle {
+    font-size: 1.8rem;
+  }
+
+  .section-description {
+    font-size: 1.4rem;
+  }
+
+  .principle-box {
+    padding: 25px 15px;
+  }
+
+  .principle-title {
+    font-size: 1.6rem;
+  }
+
+  .principle-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .circle-text {
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+
+  .outcome-text {
+    font-size: 1.8rem;
+  }
+
+  .process-text {
+    font-size: 1.2rem;
+  }
+}

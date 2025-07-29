@@ -1,0 +1,340 @@
+.professional-page {
+  min-height: 100vh;
+}
+
+/* 애니메이션 키프레임 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 애니메이션 클래스 */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* 초기 상태 */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.animate-on-scroll.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Header Section */
+.professional-header {
+  background: var(--primary-color);
+  padding: 40px 50px;
+  min-height: 300px;
+  height: 380px;
+  text-align: left;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 120px;
+}
+
+.professional-header-content {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.professional-title {
+  width: 100%;
+  max-width: 1800px;
+  text-align: left;
+  font-size: 12rem;
+  font-weight: 500;
+  color: var(--text-white);
+  margin: 0;
+  letter-spacing: var(--spacing-02);
+  font-family: var(--font-neue);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* Main Content Section */
+.professional-main {
+  display: flex;
+  justify-content: center;
+}
+
+.professional-container {
+  margin: 0 50px;
+  width: 100%;
+  max-width: 1800px;
+}
+
+.professional-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section Styles */
+.professional-section {
+  display: flex;
+  gap: 30px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-title {
+  width: calc(15% - 15px);
+  font-size: 3rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 40px 0;
+  letter-spacing: var(--spacing-92);
+  font-family: var(--font-neue);
+  min-width: 150px;
+  position: relative;
+  margin-top: 15px;
+}
+
+.section-title::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 0;
+  width: 30px;
+  height: 1.5px;
+  background-color: var(--line-color);
+}
+
+.investment-group {
+  margin-top: 80px;
+}
+
+/* Members Grid */
+.members-grid {
+  display: flex;
+  gap: 0px;
+  width: calc(85% - 15px);
+  border-top: 1px solid var(--line-color);
+}
+
+.professional-section:nth-child(2) .members-grid,
+.professional-section:nth-child(3) .members-grid {
+  border-top: none;
+}
+
+/* Member Card */
+.member-card {
+  width: 33.3%;
+  display: flex;
+  background: var(--white-color);
+  border-right: 1px solid var(--line-color);
+  border-bottom: 1px solid var(--line-color);
+  padding: 40px 35px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.member-card:nth-child(1) {
+  border-left: 1px solid var(--line-color);
+}
+
+.member-card:hover {
+  background: var(--muted-color);
+}
+
+.member-arrow {
+  width: 10px;
+  height: 10px;
+  fill: var(--text-primary);
+  margin-top: 10px;
+}
+
+.member-info {
+  flex: 1;
+}
+
+.member-name {
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.member-position {
+  font-size: 1.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* 언어별 스타일 */
+.member-card-ko .member-name {
+  font-family: var(--font-pret);
+  letter-spacing: var(--spacing-92);
+}
+
+.member-card-en .member-name {
+  font-family: var(--font-neue);
+}
+
+.member-card-ko .member-position {
+  font-family: var(--font-pret);
+  font-weight: 400;
+  letter-spacing: var(--spacing-92);
+}
+
+.member-card-en .member-position {
+  font-family: var(--font-neue);
+  font-weight: 500;
+}
+
+/* Part.1 제목 스타일 강제 적용 */
+.part-title-en {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+  .professional-title {
+    font-size: 8rem;
+  }
+
+  .section-title {
+    font-size: 3rem;
+  }
+
+  .part-title {
+    font-size: 2rem;
+  }
+
+  .members-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .professional-header {
+    padding: 40px 30px;
+    height: 300px;
+  }
+
+  .professional-title {
+    font-size: 4rem;
+  }
+
+  .professional-content {
+    margin: 0 30px;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .part-title {
+    font-size: 1.8rem;
+  }
+
+  .members-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .member-card {
+    padding: 15px;
+  }
+
+  .member-name {
+    font-size: 1.6rem;
+  }
+
+  .member-position {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .professional-header {
+    padding: 30px 20px;
+    height: 250px;
+  }
+
+  .professional-title {
+    font-size: 3rem;
+  }
+
+  .professional-content {
+    margin: 0 20px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .part-title {
+    font-size: 1.5rem;
+  }
+
+  .member-card {
+    padding: 12px;
+  }
+
+  .member-name {
+    font-size: 1.4rem;
+  }
+
+  .member-position {
+    font-size: 1rem;
+  }
+}
