@@ -148,6 +148,7 @@
   word-break: keep-all;
   opacity: 0;
   transform: translateY(30px);
+  width: 60%;
 }
 
 .section-description-en {
@@ -564,6 +565,10 @@
     flex-direction: row;
     margin-left: 29px;
   }
+
+  .section-description {
+    width: 80%;
+  }
 }
 
 @media (max-width: 1000px) {
@@ -597,6 +602,10 @@
 
   .section-description-en {
     line-height: 1.3;
+  }
+
+  .section-description {
+    width: 100%;
   }
 
   .principle-box {

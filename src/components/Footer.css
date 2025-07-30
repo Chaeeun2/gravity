@@ -68,6 +68,27 @@
 .footer-policies a {
   color: var(--text-black);
   text-decoration: none;
+  outline: none;
+}
+
+.footer-policies a:visited {
+  color: var(--text-black);
+}
+
+.footer-policies a:hover {
+  color: var(--text-black);
+  text-decoration: none;
+}
+
+.footer-policies a:active {
+  color: var(--text-black);
+  text-decoration: none;
+}
+
+.footer-policies a:focus {
+  color: var(--text-black);
+  text-decoration: none;
+  outline: none;
 }
 
 .separator {
@@ -133,6 +154,27 @@
   .footer-policies a {
     color: var(--text-black);
     text-decoration: none;
+    outline: none;
+  }
+
+  .footer-policies a:visited {
+    color: var(--text-black);
+  }
+
+  .footer-policies a:hover {
+    color: var(--text-black);
+    text-decoration: none;
+  }
+
+  .footer-policies a:active {
+    color: var(--text-black);
+    text-decoration: none;
+  }
+
+  .footer-policies a:focus {
+    color: var(--text-black);
+    text-decoration: none;
+    outline: none;
   }
 
   .footer-policies a::before {

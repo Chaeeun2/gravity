@@ -130,7 +130,7 @@ const RiskCompliance = ({ language }) => {
       riskManagement: {
         title: "Risk Management",
         subtitle: "위험관리 기본방침",
-        description: "당사는 고객의 자산을 관리하는 자산운용사로서 건전성 유지 및 신뢰 증진을 위하여<br />아래 기본방침에 따라 위험관리업무를 수행하고 있습니다.",
+        description: "당사는 고객의 자산을 관리하는 자산운용사로서 건전성 유지 및 신뢰 증진을 위하여 아래 기본방침에 따라 위험관리업무를 수행하고 있습니다.",
         principles: [
           "위험과 수익의 균형 유지",
           "사전적 & 선제적 대응 및 보고",
@@ -141,7 +141,7 @@ const RiskCompliance = ({ language }) => {
       compliance: {
         title: "Compliance",
         subtitle: "컴플라이언스는",
-        description: "금융회사 및 모든 임직원이 직무를 수행할 때 감독법규 및 내부통제기준 등 사규를 준수하고<br />선량한 관리자로서의 주의의무를 다할 수 있도록 사전적・상시적으로 교육, 모니터링, 통제하는 제도입니다.",
+        description: "금융회사 및 모든 임직원이 직무를 수행할 때 감독법규 및 내부통제기준 등 사규를 준수하고 선량한 관리자로서의 주의의무를 다할 수 있도록 사전적・상시적으로 교육, 모니터링, 통제하는 제도입니다.",
         principles: [
           "내부통제체계 구축",
           "선관주의의무, 신의성실의무 이행",

@@ -457,11 +457,13 @@ body:has(.header.menu-hovered) {
   justify-content: flex-end;
   gap: 15px;
   padding-top: 30px;
+  transition: all 0.3s ease;
+  position: fixed;
+  bottom: 35px;
+  right: -100%;
 }
 
 .mobile-menu.open .mobile-language-selector {
-  position: fixed;
-  bottom: 35px;
   right: 35px;
 }
 
