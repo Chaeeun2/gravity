@@ -4,15 +4,13 @@
   --primary-color: #292959;
   --muted-color: #f2f2f4;
   --line-color: #e3e3e9;
-  --light-grey: #f8f8f8;
   --white-color: white;
   --black-color: #000000;
 
   /* Text Colors */
   --text-black: #000000;
   --text-primary: #292959;
-  --text-secondary: #666666;
-  --text-muted: #999999;
+  --text-muted: rgb(169, 169, 169);
   --text-white: #ffffff;
 
   /* Opacity Colors */

@@ -109,7 +109,7 @@
 .chart-image {
   width: 100%;
   height: auto;
-  max-width: 100%;
+  max-width: 1200px;
   display: block;
   margin: 0 auto;
 }
@@ -188,10 +188,10 @@
   flex: 3;
   font-size: 2rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-black);
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
-  line-height: 1.6;
+  line-height: 1.7;
   word-break: keep-all;
   opacity: 0;
   transform: translateY(20px);
@@ -215,7 +215,7 @@
   font-weight: 500;
   color: var(--text-primary);
   margin: 0 0 60px 0;
-  text-align: lefr;
+  text-align: left;
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
   line-height: 1.3;
@@ -281,7 +281,7 @@
 .product-description {
   font-size: 2rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-black);
   margin: 0;
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
@@ -300,63 +300,161 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .investment-strategy-header {
+    height: 350px;
+    min-height: 350px;
+    padding: 30px 50px;
+  }
+
   .investment-strategy-title {
-    font-size: 8rem;
+    font-size: 10rem;
   }
 
   .investment-strategy-description p {
     font-size: 2rem;
+  }
+
+  .investment-strategy-chart {
+    min-height: 0px;
   }
 
   .strategy-grid,
   .products-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
   }
 
-  .chart-image {
-    max-width: 90%;
+  .strategy-title-container {
+    margin-bottom: 10px;
+  }
+
+  .strategy-item {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 60px;
+  }
+
+  .product-item:nth-child(1) {
+    border-top: 1px solid var(--line-color) !important;
+  }
+
+  .product-item,
+  .product-item:nth-child(2),
+  .product-item:nth-child(odd) {
+    border-bottom: 1px solid var(--line-color);
+    border-left: 1px solid var(--line-color);
+    border-right: 1px solid var(--line-color);
+    border-top: none;
+  }
+
+  .product-item {
+    min-height: 0px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .investment-strategy-header {
+    max-height: 280px;
+    min-height: 280px;
+    padding: 20px 30px;
+    margin-bottom: 0px;
+  }
+
+  .investment-strategy-title {
+    font-size: 8rem;
+  }
+
+  .investment-strategy-chart {
+    border: none !important;
+    margin-bottom: 0px;
+  }
+
+  .investment-strategy-container {
+    margin: 0 30px;
+  }
+
+  .chart-container {
+    padding: 100px 0 80px 0;
+  }
+
+  .strategy-grid {
+    background: var(--muted-color);
+    padding: 40px;
+  }
+
+  .strategy-title {
+    font-size: 3.5rem;
+  }
+
+  .strategy-title-suffix {
+    font-size: 3rem;
+  }
+
+  .strategy-description {
+    font-size: 1.8rem;
+  }
+
+  .strategy-item {
+    margin-bottom: 50px;
+  }
+
+  .strategy-item:last-child {
+    margin-bottom: 10px;
+  }
+
+  .investment-strategies {
+    margin-bottom: 120px;
+  }
+
+  .products-title {
+    font-size: 5rem;
+    margin: 0 0 50px 0;
+  }
+
+  .product-title {
+    font-size: 3rem;
+    margin: 0 0 15px 0;
+  }
+
+  .product-title-line {
+    margin-bottom: 15px;
+  }
+
+  .product-description {
+    font-size: 1.8rem;
+  }
+
+  .strategy-title-line {
+    background-color: #e0e0e1;
   }
 }
 
 @media (max-width: 768px) {
   .investment-strategy-header {
-    padding: 30px 30px;
-    height: 250px;
-    margin-bottom: 80px;
-  }
-
-  .investment-strategy-content {
-    padding: 80px 0;
-  }
-
-  .investment-strategy-container {
-    padding: 0 20px;
+    max-height: 230px;
+    min-height: 230px;
+    padding: 20px 25px;
+    margin-bottom: 0px;
   }
 
   .investment-strategy-title {
-    font-size: 6rem;
+    font-size: 5rem;
   }
 
-  .investment-strategy-description p {
-    font-size: 1.8rem;
+  .investment-strategy-chart {
+    border: none !important;
+    margin-bottom: 0px;
   }
 
-  .products-title {
-    font-size: 2.8rem;
-  }
-
-  .strategy-title {
-    font-size: 2rem;
-  }
-
-  .product-title {
-    font-size: 1.8rem;
+  .investment-strategy-container {
+    margin: 0 0px;
+    padding: 0 25px;
   }
 
   .chart-container {
-    padding: 30px 20px;
+    padding: 70px 0 60px 0;
   }
 
   .chart-image-desktop {
@@ -368,43 +466,101 @@
   }
 
   .chart-image {
-    max-width: 95%;
+    max-width: 400px;
+  }
+
+  .investment-strategy-description {
+    margin-bottom: 40px;
+  }
+
+  .investment-strategy-description p {
+    font-size: 1.6rem;
+    word-break: keep-all;
+    padding: 0 10%;
+  }
+
+  .strategy-grid {
+    background: var(--muted-color);
+    padding: 25px;
+  }
+
+  .strategy-title-line {
+    width: 25px;
+  }
+
+  .strategy-title {
+    font-size: 2.5rem;
+  }
+
+  .strategy-title-suffix {
+    font-size: 2rem;
+  }
+
+  .strategy-title-en,
+  .strategy-title-suffix-en {
+    font-size: 2.5rem;
+  }
+
+  .strategy-title-suffix {
+    margin-left: 3px;
+  }
+
+  .strategy-description {
+    font-size: 1.6rem;
+  }
+
+  .investment-strategy-description-en p {
+    line-height: 1.3;
+  }
+
+  .strategy-item {
+    margin-bottom: 40px;
+  }
+
+  .strategy-item:last-child {
+    margin-bottom: 10px;
+  }
+
+  .investment-strategies {
+    margin-bottom: 100px;
+  }
+
+  .product-item {
+    padding: 25px;
+  }
+
+  .products-title {
+    font-size: 3rem;
+    margin: 0 0 35px 0;
+  }
+
+  .product-title {
+    font-size: 2.2rem;
+    margin: 0 0 15px 0;
+  }
+
+  .product-title-line {
+    margin-bottom: 15px;
+  }
+
+  .product-description {
+    font-size: 1.6rem;
+    line-height: 1.7;
+  }
+
+  .product-description-en {
+    line-height: 1.3;
   }
 }
 
 @media (max-width: 480px) {
   .investment-strategy-header {
-    padding: 20px 20px;
-    height: 200px;
-    margin-bottom: 60px;
-  }
-
-  .investment-strategy-content {
-    padding: 60px 0;
+    max-height: 200px;
+    min-height: 200px;
+    padding: 20px 25px;
   }
 
   .investment-strategy-title {
     font-size: 4rem;
-  }
-
-  .investment-strategy-description p {
-    font-size: 1.6rem;
-  }
-
-  .products-title {
-    font-size: 2.4rem;
-  }
-
-  .strategy-item,
-  .product-item {
-    padding: 30px 20px;
-  }
-
-  .chart-container {
-    padding: 20px 15px;
-  }
-
-  .chart-image {
-    max-width: 100%;
   }
 }

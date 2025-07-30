@@ -9,8 +9,9 @@ const useIntersectionObserver = (ref, options = {}) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           const delay = options.delay || 0;
+          const animationClass = options.animationClass || "animate-fade-in-up";
           setTimeout(() => {
-            entry.target.classList.add("animate-fade-in-up");
+            entry.target.classList.add(animationClass);
           }, delay);
         }
       },
@@ -86,7 +87,7 @@ const RiskCompliance = ({ language }) => {
   useIntersectionObserver(process3Ref, { delay: 300 });
   useIntersectionObserver(process4Ref, { delay: 400 });
   useIntersectionObserver(process5Ref, { delay: 500 });
-  useIntersectionObserver(feedbackRef, { delay: 100 });
+  useIntersectionObserver(feedbackRef, { delay: 100, animationClass: 'animate-fade-in' });
   useIntersectionObserver(riskDescriptionRef, { delay: 250 });
   useIntersectionObserver(complianceDescriptionRef, { delay: 100 });
 

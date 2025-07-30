@@ -30,11 +30,11 @@ const useIntersectionObserver = (ref, options = {}) => {
   }, [ref, options.delay]);
 };
 
-const News = ({ language }) => {
+const Disclosure = ({ language }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('제목');
-  const [filteredNews, setFilteredNews] = useState([]);
+  const [filteredDisclosures, setFilteredDisclosures] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
@@ -42,13 +42,13 @@ const News = ({ language }) => {
   // Refs for animations
   const titleRef = useRef(null);
   const searchBarRef = useRef(null);
-  const newsListRef = useRef(null);
+  const disclosureListRef = useRef(null);
   const paginationRef = useRef(null);
 
   // Apply intersection observer
   useIntersectionObserver(titleRef, { delay: 100 });
   useIntersectionObserver(searchBarRef, { delay: 200 });
-  useIntersectionObserver(newsListRef, { delay: 300 });
+  useIntersectionObserver(disclosureListRef, { delay: 300 });
   useIntersectionObserver(paginationRef, { delay: 400 });
 
   // Handle window resize for mobile detection
@@ -76,124 +76,123 @@ const News = ({ language }) => {
   };
 
   const content = {
-    title: "소식",
+    title: "공시",
     filterLabel: "제목",
     searchLabel: "검색어",
-    newsItems: [
+    disclosureItems: [
       { 
         id: 10, 
-        title: "voco 서울명동호텔 편의점 입찰공고", 
-        date: "2024-04-10",
-        content: "voco 서울명동호텔 편의점 입찰공고입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다. 입찰 관련 문의사항이 있으시면 언제든지 연락주시기 바랍니다."
+        title: "2024년 1분기 실적 공시", 
+        date: "2024-04-15",
+        content: "2024년 1분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다. 문의사항이 있으시면 언제든지 연락주시기 바랍니다."
       },
       { 
         id: 9, 
-        title: "Gravity Asset Management 홈페이지 7월 오픈 예정", 
-        date: "2024-04-10",
-        content: "Gravity Asset Management 홈페이지가 7월에 오픈될 예정입니다. 새로운 홈페이지에서는 더욱 편리한 서비스를 제공할 예정이니 많은 관심 부탁드립니다."
+        title: "주주총회 소집 공고", 
+        date: "2024-04-12",
+        content: "2024년 정기주주총회 소집 공고입니다. 일시, 장소 및 안건은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 8, 
-        title: "제목이 들어갑니다.", 
+        title: "대표이사 변경 공시", 
         date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        content: "대표이사 변경에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 7, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        title: "2023년 사업보고서", 
+        date: "2024-03-28",
+        content: "2023년 사업보고서입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 6, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        title: "분기별 실적 공시", 
+        date: "2024-03-15",
+        content: "2023년 4분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 5, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        title: "투자신탁 계약 변경 공시", 
+        date: "2024-03-10",
+        content: "투자신탁 계약 변경에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 4, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        title: "자기주식 취득 공시", 
+        date: "2024-02-28",
+        content: "자기주식 취득에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 3, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        title: "분기별 실적 공시", 
+        date: "2024-02-15",
+        content: "2023년 3분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 2, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        title: "투자신탁 계약 해지 공시", 
+        date: "2024-02-10",
+        content: "투자신탁 계약 해지에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       },
       { 
         id: 1, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
+        title: "분기별 실적 공시", 
+        date: "2024-01-15",
+        content: "2023년 2분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
       }
     ]
   };
 
   const currentContent = content;
 
-    const handlePageChange = (page) => {
+  // 페이지네이션 로직
+  const itemsPerPage = 10;
+  const displayItems = isSearching ? filteredDisclosures : currentContent.disclosureItems;
+  const totalPages = Math.ceil(displayItems.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = displayItems.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleSearch = () => {
     if (!searchTerm.trim()) {
-      setFilteredNews([]);
+      setFilteredDisclosures([]);
       setIsSearching(false);
-      setCurrentPage(1);
       return;
     }
 
-    const filtered = content.newsItems.filter(item => {
-      const searchLower = searchTerm.toLowerCase();
-      
-      switch (filterType) {
-        case '제목':
-          return item.title.toLowerCase().includes(searchLower);
-        case '내용':
-          return item.content.toLowerCase().includes(searchLower);
-        default:
-          return item.title.toLowerCase().includes(searchLower) || 
-                 item.content.toLowerCase().includes(searchLower);
+    const filtered = currentContent.disclosureItems.filter(item => {
+      if (filterType === '제목') {
+        return item.title.toLowerCase().includes(searchTerm.toLowerCase());
+      } else if (filterType === '내용') {
+        return item.content.toLowerCase().includes(searchTerm.toLowerCase());
       }
+      return false;
     });
 
-    setFilteredNews(filtered);
+    setFilteredDisclosures(filtered);
     setIsSearching(true);
     setCurrentPage(1);
   };
 
   const handleClearSearch = () => {
     setSearchTerm('');
-    setFilteredNews([]);
+    setFilteredDisclosures([]);
     setIsSearching(false);
     setCurrentPage(1);
   };
 
-  const handleNewsClick = (news) => {
-    navigate(`/news/${news.id}`);
+  const handleDisclosureClick = (disclosure) => {
+    navigate(`/disclosure/${disclosure.id}`, { 
+      state: { 
+        disclosure,
+        language 
+      } 
+    });
   };
-
-  // 페이지네이션 로직
-  const itemsPerPage = 10;
-  const displayItems = isSearching ? filteredNews : currentContent.newsItems;
-  const totalPages = Math.ceil(displayItems.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = displayItems.slice(startIndex, endIndex);
 
   // 페이지 번호 배열 생성
   const getPageNumbers = () => {
@@ -223,7 +222,9 @@ const News = ({ language }) => {
     return pages;
   };
 
-  return (
+
+
+    return (
     <div className="news-page">
       {/* Header Section */}
       <section className="news-header">
@@ -271,18 +272,18 @@ const News = ({ language }) => {
             {/* Search Results Info */}
             {isSearching && (
               <div className="search-results-info">
-                <span>검색 결과: {filteredNews.length}건</span>
+                <span>검색 결과: {filteredDisclosures.length}건</span>
               </div>
             )}
 
             {/* News List */}
-            <div ref={newsListRef} className="news-list">
+            <div ref={disclosureListRef} className="news-list">
               {currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
                   <div 
                     key={item.id} 
                     className="news-item"
-                    onClick={() => handleNewsClick(item)}
+                    onClick={() => handleDisclosureClick(item)}
                     style={{ cursor: 'pointer' }}
                   >
                     <div className="news-number">{startIndex + index + 1}</div>
@@ -292,7 +293,7 @@ const News = ({ language }) => {
                 ))
               ) : (
                 <div className="no-results">
-                  {isSearching ? '검색 결과가 없습니다.' : '뉴스가 없습니다.'}
+                  {isSearching ? '검색 결과가 없습니다.' : '공시가 없습니다.'}
                 </div>
               )}
             </div>
@@ -329,8 +330,6 @@ const News = ({ language }) => {
                 </button>
               </div>
             )}
-
-
           </div>
         </div>
       </section>
@@ -340,4 +339,4 @@ const News = ({ language }) => {
   );
 };
 
-export default News; 
+export default Disclosure; 

@@ -189,69 +189,122 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 1024px) {
-  .overview-content {
-    gap: var(--spacing-xl);
+@media (max-width: 1200px) {
+  .overview-header {
+    height: 350px;
+    min-height: 350px;
+    padding: 30px 50px;
+  }
+
+  .overview-title {
+    font-size: 10rem;
+  }
+
+  .overview-text {
+    gap: 50px;
   }
 
   .overview-subtitle {
-    font-size: 2.5rem;
+    font-size: 6rem;
+  }
+
+  .overview-description {
+    font-size: 1.8rem;
+    margin-right: 0px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .overview-header {
+    max-height: 280px;
+    min-height: 280px;
+    padding: 20px 30px;
+    margin-bottom: 0px;
+  }
+
+  .overview-title {
+    font-size: 8rem;
+  }
+
+  .overview-container {
+    margin: 0px;
+  }
+
+  .overview-content {
+    grid-template-columns: 1fr;
+    gap: 60px;
   }
 
   .overview-image {
-    height: 500px;
+    order: -1;
+    height: 400px !important;
+  }
+
+  .overview-image .building-image {
+    content: url("https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/overview-mo.jpg");
+  }
+
+  .overview-text {
+    order: 1;
+    margin: 0 30px;
+  }
+
+  .overview-subtitle {
+    white-space: normal;
   }
 }
 
 @media (max-width: 768px) {
   .overview-header {
-    padding: var(--spacing-xxl) 0 var(--spacing-lg);
+    max-height: 230px;
+    min-height: 230px;
+    padding: 20px 25px;
   }
 
   .overview-title {
-    font-size: 3rem;
-  }
-
-  .overview-main {
-    padding: var(--spacing-xl) 0;
+    font-size: 5rem;
   }
 
   .overview-content {
     grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
-  }
-
-  .overview-subtitle {
-    font-size: 2rem;
+    gap: 60px;
   }
 
   .overview-image {
-    height: 400px;
+    order: -1;
+    height: 300px !important;
+  }
+
+  .overview-text {
+    margin: 0 25px;
+    gap: 35px;
+  }
+
+  .overview-subtitle {
+    font-size: 5rem;
+  }
+
+  .overview-description {
+    font-size: 1.6rem;
   }
 }
 
 @media (max-width: 480px) {
   .overview-header {
-    padding: var(--spacing-xxl) 0 var(--spacing-lg);
+    max-height: 200px;
+    min-height: 200px;
+    padding: 20px 25px;
   }
 
   .overview-title {
-    font-size: 2.5rem;
-  }
-
-  .overview-main {
-    padding: var(--spacing-lg) 0;
-  }
-
-  .overview-subtitle {
-    font-size: 1.8rem;
-  }
-
-  .overview-paragraph {
-    font-size: 1rem;
+    font-size: 4rem;
   }
 
   .overview-image {
-    height: 300px;
+    height: 200px !important;
+  }
+
+  .overview-subtitle {
+    font-size: 3.5rem;
   }
 }

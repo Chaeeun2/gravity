@@ -297,136 +297,245 @@
   letter-spacing: var(--spacing-00);
 }
 
+@media (max-width: 1400px) {
+  .property-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* 반응형 디자인 */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .portfolio-header {
+    height: 350px;
+    min-height: 350px;
+    padding: 30px 50px;
+  }
+
   .portfolio-category {
     font-size: 1.6rem;
+  }
+
+  .portfolio-title {
+    font-size: 10rem;
+  }
+
+  .property-grid {
+    gap: 30px;
+  }
+
+  .status-amount {
+    font-size: 6rem;
+  }
+  .portfolio-section {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-section-header {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .portfolio-container {
+    margin: 0 30px;
+    margin-top: 100px;
+  }
+
+  .portfolio-header {
+    max-height: 280px;
+    min-height: 280px;
+    padding: 20px 30px;
+    margin-bottom: 0px;
   }
 
   .portfolio-title {
     font-size: 8rem;
   }
 
-  .portfolio-status-content {
-    flex-direction: column;
-    gap: 30px;
+  .status-line,
+  .status-title {
+    margin-left: 0px;
   }
 
-  .portfolio-status-right {
-    text-align: left;
+  .status-title {
+    font-size: 3.5rem;
+  }
+
+  .portfolio-status-section {
+    background: var(--muted-color);
   }
 
   .status-amount {
-    font-size: 3.6rem;
+    font-size: 5rem;
   }
 
-  .property-grid {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
+  .portfolio-status-right {
+    margin-top: 10px;
+    position: static;
+    margin-bottom: 100px;
+  }
+
+  .portfolio-section,
+  .portfolio-section:first-child {
+    border: none;
+    padding: 0;
+    grid-template-columns: 1fr;
+    margin-bottom: 80px;
+  }
+
+  .portfolio-section:last-child {
+    margin-bottom: 0px;
+  }
+
+  .portfolio-content {
+    padding: 0;
+  }
+
+  .portfolio-section-header {
+    margin-bottom: 40px;
+  }
+
+  .portfolio-section-title {
+    font-size: 3.5rem;
+  }
+
+  .property-name {
+    font-size: 2.6rem;
+  }
+
+  .status-line,
+  .portfolio-section-line {
+    width: 30px;
+    height: 1px;
+    margin-bottom: 15px;
   }
 }
 
 @media (max-width: 768px) {
   .portfolio-header {
-    padding: 40px 30px;
-    height: 300px;
-  }
-
-  .portfolio-category {
-    font-size: 1.4rem;
+    max-height: 230px;
+    min-height: 230px;
+    padding: 20px 25px;
   }
 
   .portfolio-title {
-    font-size: 4rem;
+    font-size: 5rem;
   }
 
   .portfolio-container {
-    padding: 0 30px;
+    margin: 0 25px;
+    margin-top: 70px;
+  }
+
+  .status-line,
+  .status-title {
+    margin-left: 0px;
+  }
+
+  .status-line,
+  .portfolio-section-line {
+    width: 25px;
+    height: 1px;
+    margin-bottom: 10px;
+  }
+
+  .status-title {
+    font-size: 2.2rem;
   }
 
   .portfolio-status-section {
-    padding: 40px 0;
+    background: var(--muted-color);
+  }
+
+  .status-amount {
+    font-size: 4rem;
+  }
+
+  .portfolio-status-right {
+    margin-top: 20px;
+    position: static;
+    margin-bottom: 70px;
+  }
+
+  .portfolio-status-right-en {
+    margin-top: 40px;
+  }
+
+  .portfolio-section,
+  .portfolio-section:first-child {
+    border: none;
+    padding: 0;
+    grid-template-columns: 1fr;
+    margin-bottom: 80px;
+  }
+
+  .portfolio-section:last-child {
+    margin-bottom: 0px;
   }
 
   .portfolio-content {
-    padding: 60px 0;
+    padding: 0;
   }
 
-  .portfolio-section {
-    margin-bottom: 60px;
+  .portfolio-section-header {
+    margin-bottom: 25px;
   }
 
-  .section-title {
+  .portfolio-section-title {
+    font-size: 3.2rem;
+  }
+
+  .status-date {
+    font-size: 1.6rem;
+  }
+
+  .property-name {
     font-size: 2.4rem;
+    line-height: 1.3;
+  }
+
+  .property-name-en {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+
+  .property-category-en {
+    margin: 0 0 5px 0;
+  }
+
+  .property-details {
+    gap: 5px;
+  }
+
+  .property-header {
+    flex-shrink: 0;
+    margin-bottom: 25px;
   }
 
   .property-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+  }
+
+  .property-category,
+  .detail-label,
+  .detail-value {
+    font-size: 1.5rem;
+    line-height: 1.3;
   }
 
   .property-info {
-    padding: 20px;
-  }
-
-  .property-category {
-    font-size: 1.2rem;
-  }
-
-  .property-name {
-    font-size: 1.8rem;
-  }
-
-  .detail-label,
-  .detail-value {
-    font-size: 1.2rem;
+    padding: 25px;
   }
 }
 
 @media (max-width: 480px) {
   .portfolio-header {
-    padding: 30px 20px;
-    height: 250px;
-  }
-
-  .portfolio-category {
-    font-size: 1.2rem;
+    max-height: 200px;
+    min-height: 200px;
+    padding: 20px 25px;
   }
 
   .portfolio-title {
-    font-size: 3rem;
-  }
-
-  .portfolio-container {
-    padding: 0 20px;
-  }
-
-  .status-amount {
-    font-size: 2.8rem;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .property-image {
-    height: 200px;
-  }
-
-  .property-info {
-    padding: 15px;
-  }
-
-  .property-category {
-    font-size: 1rem;
-  }
-
-  .property-name {
-    font-size: 1.6rem;
-  }
-
-  .detail-label,
-  .detail-value {
-    font-size: 1.1rem;
+    font-size: 4rem;
   }
 }

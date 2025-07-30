@@ -10,6 +10,7 @@ const Professional = ({ language }) => {
   const part2Ref = useRef(null);
   const part3Ref = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
 
@@ -81,20 +82,23 @@ const Professional = ({ language }) => {
     };
   }, [language]);
 
-  // 모바일 감지
+  // 모바일 및 태블릿 감지
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+          const checkScreenSize = () => {
+        const newIsMobile = window.innerWidth <= 768;
+        const newIsTablet = window.innerWidth <= 1200;
+        setIsMobile(newIsMobile);
+        setIsTablet(newIsTablet);
+      };
 
     // 초기 체크
-    checkMobile();
+    checkScreenSize();
 
     // 리사이즈 시 체크
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener("resize", checkScreenSize);
 
     return () => {
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("resize", checkScreenSize);
     };
   }, []);
 
@@ -123,7 +127,7 @@ const Professional = ({ language }) => {
 
   const content = {
     EN: {
-      title: "Management",
+      title: "Professional",
       subtitle: `On the
       Path of Value`,
       management: {
@@ -481,7 +485,7 @@ const Professional = ({ language }) => {
           <div className="professional-content">
             {/* Management Section */}
             <div ref={managementRef} className="professional-section">
-              <h2 className="section-title">
+              <h2 className="professional-section-title">
                 {currentContent.management.title}
               </h2>
               <div className="members-grid">
@@ -516,17 +520,22 @@ const Professional = ({ language }) => {
             <div className="investment-group">
               {/* Investment Operations Part 1 */}
               <div ref={part1Ref} className="professional-section">
-                <h2 className="section-title">
-                  <div className="part-title-wrapper">
-                    <p
-                      className={
-                        language === "KO" ? "part-title-ko" : "part-title-en"
-                      }
-                    >
-                      {language === "KO" ? "투자운용" : "Investment Operations"}
-                    </p>
-                    <span>Part. 1</span>
-                  </div>
+                <h2 className="professional-section-title">
+                  {isTablet 
+                    ? (language === "KO" ? "투자운용 Part. 1" : "Investment Operations Part. 1")
+                    : (
+                      <div className="part-title-wrapper">
+                        <p
+                          className={
+                            language === "KO" ? "part-title-ko" : "part-title-en"
+                          }
+                        >
+                          {language === "KO" ? "투자운용" : "Investment Operations"}
+                        </p>
+                        <span>Part. 1</span>
+                      </div>
+                    )
+                  }
                 </h2>
                 <div className="members-grid">
                   {currentContent.investment.parts[0].members.map(
@@ -562,8 +571,10 @@ const Professional = ({ language }) => {
 
               {/* Investment Operations Part 2 */}
               <div ref={part2Ref} className="professional-section">
-                <h2 className="section-title">
-                  {currentContent.investment.parts[1].title}
+                <h2 className="professional-section-title">
+                  {isTablet 
+                    ? (language === "KO" ? "투자운용 Part. 2" : "Investment Operations Part. 2")
+                    : currentContent.investment.parts[1].title}
                 </h2>
                 <div className="members-grid">
                   {currentContent.investment.parts[1].members.map(
@@ -599,8 +610,10 @@ const Professional = ({ language }) => {
 
               {/* Investment Operations Part 3 */}
               <div ref={part3Ref} className="professional-section">
-                <h2 className="section-title">
-                  {currentContent.investment.parts[2].title}
+                <h2 className="professional-section-title">
+                  {isTablet 
+                    ? (language === "KO" ? "투자운용 Part. 3" : "Investment Operations Part. 3")
+                    : currentContent.investment.parts[2].title}
                 </h2>
                 <div className="members-grid">
                   {currentContent.investment.parts[2].members.map(

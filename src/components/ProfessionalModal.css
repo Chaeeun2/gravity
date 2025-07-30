@@ -93,12 +93,17 @@
 
 .modal-name {
   font-size: 4rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 10px 0;
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
+}
+
+.modal-name-en {
   font-weight: 600;
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
 }
 
 .modal-position {
@@ -107,6 +112,12 @@
   margin: 0;
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
+  font-weight: 500;
+}
+
+.modal-position {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
 }
 
 .modal-body {
@@ -132,6 +143,13 @@
   color: var(--text-primary);
   letter-spacing: var(--spacing-92);
   position: relative;
+  font-family: var(--font-pret);
+}
+
+.experience-title-en,
+.education-title-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
 }
 
 .experience-title::before,
@@ -167,6 +185,7 @@
   padding-left: 17px;
   letter-spacing: var(--spacing-92);
   font-weight: 500;
+  word-break: keep-all;
 }
 
 .experience-item::before,
@@ -181,19 +200,27 @@
   border-radius: 50%;
 }
 
+.experience-item-en,
+.education-item-en {
+  font-family: var(--font-neue);
+  letter-spacing: var(--spacing-00);
+  line-height: 1.5;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .modal-content {
-    padding: 30px 20px;
+    padding: 30px;
+    margin: 0 25px;
     width: 95%;
   }
 
   .modal-name {
-    font-size: 2rem;
+    font-size: 3rem;
   }
 
   .modal-position {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 
   .modal-section {
@@ -201,13 +228,39 @@
     gap: 15px;
   }
 
-  .modal-section .section-title {
-    width: auto;
+  .experience-item,
+  .education-item {
     font-size: 1.6rem;
   }
 
-  .experience-item,
-  .education-item {
-    font-size: 1.3rem;
+  .experience-title,
+  .education-title {
+    font-size: 2rem;
+  }
+
+  .experience-title::before,
+  .education-title::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    width: 20px;
+    height: 1px;
+  }
+
+  .experience-list,
+  .education-list {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+
+  .modal-body {
+    gap: 60px;
+  }
+
+  .modal-close {
+    top: 30px;
+    right: 30px;
+    width: 20px;
+    height: 20px;
   }
 }

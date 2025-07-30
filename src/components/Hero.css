@@ -95,40 +95,38 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 1024px) {
+@media (max-width: 1250px) {
   .hero-headline {
-    font-size: 3rem;
+    font-size: 10rem;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 2rem;
+    margin-top: 25px;
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1000px) {
+  .hero-headline {
+    font-size: 8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.8rem;
+    margin-top: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .hero-headline {
-    font-size: 2.5rem;
+    font-size: 6rem;
+    line-height: 1;
+    width: 300px;
   }
 
   .hero-subtitle {
-    font-size: 0.9rem;
-  }
-
-  .hero-content {
-    padding: 0 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-headline {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.8rem;
-  }
-
-  .headline-line {
-    width: 100%;
+    font-size: 1.6rem;
+    margin-top: 15px;
   }
 }

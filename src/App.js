@@ -13,6 +13,8 @@ import InvestmentSystem from './components/InvestmentSystem';
 import RiskCompliance from './components/RiskCompliance';
 import News from './components/News';
 import NewsDetail from './components/NewsDetail';
+import Disclosure from './components/Disclosure';
+import DisclosureDetail from './components/DisclosureDetail';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -42,7 +44,8 @@ function App() {
           <Route path="/risk-compliance" element={<RiskCompliance language={language} />} />
           <Route path="/news" element={<News language={language} />} />
           <Route path="/news/:id" element={<NewsDetail language={language} />} />
-          <Route path="/disclosure" element={<div>Disclosure Page</div>} />
+          <Route path="/disclosure" element={<Disclosure language={language} />} />
+          <Route path="/disclosure/:id" element={<DisclosureDetail language={language} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

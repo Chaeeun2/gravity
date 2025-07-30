@@ -133,7 +133,7 @@
   transform: translateY(0);
 }
 
-.section-title {
+.professional-section-title {
   width: calc(15% - 15px);
   font-size: 3rem;
   font-weight: 500;
@@ -146,7 +146,7 @@
   margin-top: 15px;
 }
 
-.section-title::before {
+.professional-section-title::before {
   content: "";
   position: absolute;
   top: -15px;
@@ -195,7 +195,6 @@
 
 .member-arrow {
   width: 10px;
-  height: 10px;
   fill: var(--text-primary);
   margin-top: 10px;
 }
@@ -246,12 +245,18 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 1024px) {
-  .professional-title {
-    font-size: 8rem;
+@media (max-width: 1200px) {
+  .professional-header {
+    height: 350px;
+    min-height: 350px;
+    padding: 30px 50px;
   }
 
-  .section-title {
+  .professional-title {
+    font-size: 10rem;
+  }
+
+  .professional-section-title {
     font-size: 3rem;
   }
 
@@ -259,82 +264,142 @@
     font-size: 2rem;
   }
 
+  .professional-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .professional-section-title {
+    width: 100%;
+    font-size: 3rem;
+    margin: 0 0 0px 0;
+    min-width: 100%;
+    margin-top: 15px;
+  }
+
+  .investment-group {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    margin-top: 60px;
+  }
+
+  .part-title-wrapper {
+    display: flex;
+    gap: 7px;
+  }
+
+  .member-name {
+    font-size: 2.6rem;
+  }
+
+  .member-arrow {
+    width: 9px;
+  }
+
   .members-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px;
+    width: 100%;
+  }
+
+  .member-card {
+    width: 100%;
+    border-right: 1px solid var(--line-color);
+    border-bottom: 1px solid var(--line-color);
+  }
+
+  .member-card:nth-child(odd) {
+    border-left: 1px solid var(--line-color);
+  }
+
+  .professional-section:nth-child(2) .members-grid,
+  .professional-section:nth-child(3) .members-grid {
+    border-top: 1px solid var(--line-color);
+  }
+}
+
+@media (max-width: 1000px) {
+  .professional-header {
+    max-height: 280px;
+    min-height: 280px;
+    padding: 20px 30px;
+    margin-bottom: 0px;
+  }
+
+  .professional-title {
+    font-size: 8rem;
+  }
+
+  .professional-container {
+    margin: 0 30px;
+    margin-top: 100px;
   }
 }
 
 @media (max-width: 768px) {
   .professional-header {
-    padding: 40px 30px;
-    height: 300px;
+    max-height: 230px;
+    min-height: 230px;
+    padding: 20px 25px;
   }
 
   .professional-title {
-    font-size: 4rem;
+    font-size: 5rem;
   }
 
-  .professional-content {
-    margin: 0 30px;
+  .professional-container {
+    margin: 0 25px;
+    margin-top: 70px;
   }
 
-  .section-title {
-    font-size: 2.5rem;
+  .professional-section-title {
+    font-size: 2.2rem;
   }
 
-  .part-title {
-    font-size: 1.8rem;
+  .part-title-wrapper {
+    display: flex;
+    gap: 3px;
   }
 
   .members-grid {
     grid-template-columns: 1fr;
-    gap: 15px;
   }
 
   .member-card {
-    padding: 15px;
+    padding: 20px;
+    border-bottom: 1px solid var(--line-color);
+    border-left: 1px solid var(--line-color);
+    border-right: 1px solid var(--line-color);
   }
 
   .member-name {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
   }
 
   .member-position {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+  }
+
+  .member-arrow {
+    width: 8px;
+  }
+
+  .professional-section {
+    gap: 25px;
   }
 }
 
 @media (max-width: 480px) {
   .professional-header {
-    padding: 30px 20px;
-    height: 250px;
+    max-height: 200px;
+    min-height: 200px;
+    padding: 20px 25px;
   }
 
   .professional-title {
-    font-size: 3rem;
-  }
-
-  .professional-content {
-    margin: 0 20px;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .part-title {
-    font-size: 1.5rem;
-  }
-
-  .member-card {
-    padding: 12px;
-  }
-
-  .member-name {
-    font-size: 1.4rem;
-  }
-
-  .member-position {
-    font-size: 1rem;
+    font-size: 4rem;
   }
 }

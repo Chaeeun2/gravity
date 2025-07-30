@@ -63,7 +63,7 @@
   background: none;
   border: none;
   font-size: 1.6rem;
-  color: var(--text-secondary);
+  color: var(--text-black);
   cursor: pointer;
   padding: 10px 0;
   font-family: var(--font-pret);
@@ -104,7 +104,7 @@
 
 .news-detail-article-date {
   font-size: 2rem;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
 }
@@ -138,6 +138,7 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .attachment-item {
@@ -178,48 +179,97 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .news-detail-header {
-    padding: 40px 30px;
-    height: 300px;
+    height: 350px;
+    min-height: 350px;
+    padding: 30px 50px;
+  }
+
+  .news-detail-title {
+    font-size: 10rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .news-detail-header {
+    max-height: 280px;
+    min-height: 280px;
+    padding: 20px 30px;
+    margin-bottom: 80px;
   }
 
   .news-detail-title {
     font-size: 8rem;
   }
 
-  .news-detail-main {
+  .news-detail-container {
     margin: 0 30px;
   }
 
   .news-detail-article-title {
-    font-size: 2.4rem;
+    font-size: 3.2rem;
+    margin: 0 0 10px 0;
   }
 
+  .news-detail-article-date,
   .news-detail-article-content {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .news-detail-header {
+    max-height: 230px;
+    min-height: 230px;
+    padding: 20px 25px;
+    margin-bottom: 70px;
+  }
+
+  .news-detail-title {
+    font-size: 5rem;
+  }
+
+  .news-detail-container {
+    margin: 0 25px;
+  }
+
+  .news-detail-article-title {
+    font-size: 2.6rem;
+    margin: 0 0 10px 0;
+  }
+
+  .news-detail-article-date,
+  .news-detail-article-content,
+  .attachment-name {
     font-size: 1.6rem;
+  }
+
+  .attachments-title {
+    font-size: 1.8rem;
+  }
+
+  .attachments-list {
+    gap: 10px;
+  }
+  .download-button {
+    padding-left: 5px;
+  }
+
+  .download-button svg {
+    width: 25px;
+    height: 25px;
   }
 }
 
 @media (max-width: 480px) {
   .news-detail-header {
-    padding: 40px 20px;
-    height: 250px;
+    max-height: 200px;
+    min-height: 200px;
+    padding: 20px 25px;
   }
 
   .news-detail-title {
-    font-size: 6rem;
-  }
-
-  .news-detail-main {
-    margin: 0 20px;
-  }
-
-  .news-detail-article-title {
-    font-size: 2rem;
-  }
-
-  .news-detail-article-content {
-    font-size: 1.4rem;
+    font-size: 4rem;
   }
 }

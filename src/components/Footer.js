@@ -46,7 +46,6 @@ const Footer = ({ language = 'KO' }) => {
                   <a href="#privacy">
                     {currentContent.privacy}
                   </a>
-                  <span className="separator"> | </span>
                   <a href="#credit">{currentContent.credit}</a>
                 </div>
               <div className="footer-copyright">

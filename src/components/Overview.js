@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Overview.css';
 import Footer from './Footer';
 
@@ -36,12 +36,32 @@ const Overview = ({ language }) => {
   const imageRef = useRef(null);
   const textRef = useRef(null);
   const contentRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1000);
 
-  // Intersection Observer 적용
+  // 윈도우 크기 변경 감지
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1000);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Intersection Observer 적용 - 항상 동일한 순서로 호출
   useIntersectionObserver(titleRef, { delay: 100, animationClass: 'animate-fade-in-up' });
-  useIntersectionObserver(subtitleRef, { delay: 300, animationClass: 'animate-fade-in-left' });
-  useIntersectionObserver(descriptionRef, { delay: 500, animationClass: 'animate-fade-in-up' });
-  useIntersectionObserver(imageRef, { delay: 700, animationClass: 'animate-fade-in-right' });
+  useIntersectionObserver(imageRef, { 
+    delay: isMobile ? 300 : 700, 
+    animationClass: isMobile ? 'animate-fade-in-up' : 'animate-fade-in-right' 
+  });
+  useIntersectionObserver(subtitleRef, { 
+    delay: isMobile ? 500 : 300, 
+    animationClass: isMobile ? 'animate-fade-in-up' : 'animate-fade-in-left' 
+  });
+  useIntersectionObserver(descriptionRef, { 
+    delay: isMobile ? 700 : 500, 
+    animationClass: 'animate-fade-in-up' 
+  });
 
   // 스크롤 애니메이션
   useEffect(() => {

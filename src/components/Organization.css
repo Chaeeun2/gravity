@@ -164,38 +164,79 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .organization-header {
+    height: 350px;
+    min-height: 350px;
+    padding: 30px 50px;
+  }
+
+  .organization-title {
+    font-size: 10rem;
+  }
+
+  .organization-image {
+    padding: 50px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .organization-header {
+    max-height: 280px;
+    min-height: 280px;
+    padding: 20px 30px;
+    margin-bottom: 0px;
+  }
+
   .organization-title {
     font-size: 8rem;
+  }
+
+  .organization-image {
+    border: none;
+    padding: 0px;
+  }
+
+  .organization-container {
+    margin: 0 30px;
+    margin-top: 100px;
   }
 }
 
 @media (max-width: 768px) {
   .organization-header {
-    padding: 40px 30px;
-    height: 300px;
+    max-height: 230px;
+    min-height: 230px;
+    padding: 20px 25px;
   }
 
   .organization-title {
-    font-size: 4rem;
+    font-size: 5rem;
   }
 
-  .organization-main {
-    padding: 80px 30px 100px 30px;
+  .organization-container {
+    margin: 0 25px;
+    margin-top: 100px;
+    min-height: 45vh;
+  }
+
+  .org-image-mobile {
+    max-width: 400px;
   }
 }
 
 @media (max-width: 480px) {
   .organization-header {
-    padding: 30px 20px;
-    height: 250px;
+    max-height: 200px;
+    min-height: 200px;
+    padding: 20px 25px;
+  }
+
+  .organization-container {
+    margin-top: 70px;
   }
 
   .organization-title {
-    font-size: 3rem;
-  }
-
-  .organization-main {
-    padding: 60px 20px 80px 20px;
+    font-size: 4rem;
   }
 }

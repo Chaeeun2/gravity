@@ -96,6 +96,7 @@
   align-items: center;
   gap: 0px;
   min-height: 100vh;
+  margin: 0 30px;
 }
 
 /* Process Steps */
@@ -135,18 +136,20 @@
 
 .step-item {
   font-size: 2rem;
-  color: var(--text-secondary);
+  color: var(--text-black);
   line-height: 1.8;
   padding-left: 20px;
   position: relative;
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
   font-weight: 500;
+  word-break: keep-all;
 }
 
 .step-item-en {
   font-family: var(--font-neue);
   letter-spacing: var(--spacing-00);
+  line-height: 1.4;
 }
 
 .step-item::before {
@@ -178,7 +181,7 @@
 
 .step-item-sub {
   font-size: 2rem;
-  color: var(--text-secondary);
+  color: var(--text-black);
   font-weight: 500;
   margin-left: 25px;
 }
@@ -415,125 +418,238 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .investment-system-header {
+    height: 350px;
+    min-height: 350px;
+    padding: 30px 50px;
+  }
+
+  .investment-system-title {
+    font-size: 10rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .investment-system-header {
+    max-height: 280px;
+    min-height: 280px;
+    padding: 20px 30px;
+    margin-bottom: 100px;
+  }
+
   .investment-system-title {
     font-size: 8rem;
   }
 
-  .step-title {
-    font-size: 2rem;
+  .arrow-with-side-box .side-box-container,
+  .arrow-with-side-box .fake-box-container {
+    padding-right: 30px;
+    gap: 10px;
+  }
+
+  .arrow-with-side-box .side-box-container .horizontal-arrow,
+  .arrow-with-side-box .fake-box-container .horizontal-arrow {
+    flex: 1 2;
+  }
+
+  .horizontal-arrow-2::before {
+    display: none;
   }
 
   .side-box {
-    right: -250px;
-    max-width: 200px;
+    min-width: 150px;
+    padding: 12px;
+  }
+
+  .side-box-title {
+    font-size: 1.8rem;
+  }
+
+  .side-box-2::before {
+    content: "승인 시";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -30px;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.8rem;
+    font-family: var(--font-pret);
+    letter-spacing: var(--spacing-92);
+  }
+
+  .side-box-2-en::before {
+    content: "if Pre-IC is approved";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -30px;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1.8rem;
+    font-family: var(--font-neue);
+    letter-spacing: var(--spacing-00);
+  }
+
+  .process-step,
+  .final-step {
+    padding: 25px;
+  }
+
+  .step-title {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+  }
+
+  .step-item {
+    font-size: 1.8rem;
+  }
+
+  .arrow-line-1 {
+    height: 50px;
+  }
+
+  .arrow-line-2 {
+    height: 120px;
+  }
+
+  .arrow-line-3 {
+    height: 50px;
+  }
+
+  .arrow-line-4 {
+    height: 120px;
+  }
+
+  .arrow-line-5 {
+    height: 50px;
+  }
+
+  .arrow-line-6 {
+    height: 50px;
+  }
+
+  .arrow-triangle,
+  .horizontal-arrow-triangle {
+    width: 12px;
+    height: 12px;
   }
 }
 
 @media (max-width: 768px) {
   .investment-system-header {
-    padding: 30px 30px;
-    height: 280px;
-    margin-bottom: 80px;
+    max-height: 230px;
+    min-height: 230px;
+    padding: 20px 25px;
+    margin-bottom: 70px;
   }
 
   .investment-system-title {
     font-size: 5rem;
   }
 
-  .investment-system-content {
-    padding: 80px 0 0 0;
+  .process-flow {
+    margin: 0 25px;
   }
 
-  .investment-system-container {
-    margin: 0 30px;
+  .arrow-with-side-box .side-box-container,
+  .arrow-with-side-box .fake-box-container {
+    padding-right: 30px;
+    gap: 0px;
   }
 
-  .process-step {
-    padding: 30px;
-    max-width: 100%;
-  }
-
-  .step-title {
-    font-size: 1.8rem;
-  }
-
-  .step-item {
-    font-size: 1.4rem;
+  .horizontal-arrow-2::before {
+    display: none;
   }
 
   .side-box {
-    position: static;
-    margin-top: 20px;
-    max-width: 100%;
+    min-width: 150px;
+    padding: 12px;
   }
 
-  .side-box-1,
-  .side-box-2 {
-    top: auto;
+  .side-box-title {
+    font-size: 1.6rem;
   }
 
-  .final-step {
-    padding: 30px;
+  .side-box-2::before {
+    content: "승인 시";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -30px;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.6rem;
+    font-family: var(--font-pret);
+    letter-spacing: var(--spacing-92);
   }
 
-  .final-step-title {
-    font-size: 1.8rem;
+  .side-box-2-en::before {
+    content: "if Pre-IC is approved";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -30px;
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1.6rem;
+    font-family: var(--font-neue);
+    letter-spacing: var(--spacing-00);
   }
 
-  .final-step-item {
-    font-size: 1.4rem;
+  .process-step {
+    padding: 25px;
+  }
+
+  .step-title {
+    font-size: 2rem;
+  }
+
+  .step-item {
+    font-size: 1.6rem;
+  }
+
+  .arrow-line-1 {
+    height: 40px;
+  }
+
+  .arrow-line-2 {
+    height: 100px;
+  }
+
+  .arrow-line-3 {
+    height: 40px;
+  }
+
+  .arrow-line-4 {
+    height: 100px;
+  }
+
+  .arrow-line-5 {
+    height: 40px;
+  }
+
+  .arrow-line-6 {
+    height: 40px;
+  }
+
+  .arrow-triangle,
+  .horizontal-arrow-triangle {
+    width: 10px;
+    height: 10px;
   }
 }
 
 @media (max-width: 480px) {
   .investment-system-header {
-    padding: 20px 20px;
-    height: 200px;
+    max-height: 200px;
+    min-height: 200px;
+    padding: 20px 25px;
     margin-bottom: 60px;
   }
 
   .investment-system-title {
-    font-size: 3.5rem;
-  }
-
-  .investment-system-content {
-    padding: 60px 0 0 0;
-  }
-
-  .investment-system-container {
-    margin: 0 20px;
-  }
-
-  .process-step {
-    padding: 20px;
-  }
-
-  .step-title {
-    font-size: 1.6rem;
-  }
-
-  .step-item {
-    font-size: 1.3rem;
-  }
-
-  .side-box {
-    padding: 15px 20px;
-  }
-
-  .side-box-title {
-    font-size: 1.5rem;
-  }
-
-  .final-step {
-    padding: 20px;
-  }
-
-  .final-step-title {
-    font-size: 1.6rem;
-  }
-
-  .final-step-item {
-    font-size: 1.3rem;
+    font-size: 4rem;
   }
 }
