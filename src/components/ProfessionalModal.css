@@ -217,7 +217,7 @@
   }
 
   .modal-name {
-    font-size: 3rem;
+    font-size: 2.6rem;
   }
 
   .modal-position {
@@ -236,7 +236,7 @@
 
   .experience-title,
   .education-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .experience-title::before,
