@@ -21,6 +21,17 @@ const Footer = ({ language = 'KO' }) => {
     }
   };
 
+  // PDF 다운로드 함수
+  const handleDownload = (url, filename) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const currentContent = content[language];
         return (
     <footer className={`overview-footer overview-footer-${language.toLowerCase()}`}>
@@ -43,11 +54,35 @@ const Footer = ({ language = 'KO' }) => {
           <div className="footer-right">
             <div className="footer-links">
                 <div className="footer-policies">
-                  <a href="#privacy">
+                  <a 
+                    href="#privacy"
+                    target="_blank"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDownload(
+                        'https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/%E1%84%80%E1%85%A2%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9%E1%84%8E%E1%85%A5%E1%84%85%E1%85%B5%20%E1%84%87%E1%85%A1%E1%86%BC%E1%84%8E%E1%85%B5%E1%86%B7%20%E1%84%86%E1%85%B5%E1%86%BE%20%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9%E1%84%8E%E1%85%A5%E1%84%85%E1%85%B5%E1%84%80%E1%85%B5%E1%84%80%E1%85%B5%E1%84%8B%E1%85%AE%E1%86%AB%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%80%E1%85%AA%E1%86%AB%E1%84%85%E1%85%B5%20%E1%84%87%E1%85%A1%E1%86%BC%E1%84%8E%E1%85%B5%E1%86%B7.pdf',
+                        language === 'KO' ? '개인정보처리방침.pdf' : 'Privacy_Policy.pdf'
+                      );
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {currentContent.privacy}
                   </a>
                   <span className="separator">ㅣ</span>
-                  <a href="#credit">{currentContent.credit}</a>
+                  <a 
+                    href="#credit"
+                    target="_blank"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDownload(
+                        'https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/%E1%84%89%E1%85%B5%E1%86%AB%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9%E1%84%92%E1%85%AA%E1%86%AF%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%8E%E1%85%A6%E1%84%8C%E1%85%A6.pdf',
+                        language === 'KO' ? '신용정보활용체제.pdf' : 'Credit_Info_System.pdf'
+                      );
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {currentContent.credit}
+                  </a>
                 </div>
               <div className="footer-copyright">
                 {currentContent.copyright}

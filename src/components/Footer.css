@@ -60,7 +60,7 @@
 
 .footer-policies {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   font-size: 1.6rem;
   color: var(--text-black);
 }
