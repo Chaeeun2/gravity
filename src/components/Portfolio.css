@@ -526,6 +526,10 @@
   .property-info {
     padding: 25px;
   }
+
+  .detail-label {
+    min-width: 60px;
+  }
 }
 
 @media (max-width: 480px) {

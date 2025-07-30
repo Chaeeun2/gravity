@@ -584,7 +584,7 @@
   }
 
   .side-box-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .side-box-2::before {
@@ -595,7 +595,7 @@
     top: -25px;
     color: var(--primary-color);
     font-weight: 600;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-family: var(--font-pret);
     letter-spacing: var(--spacing-92);
   }
@@ -608,7 +608,7 @@
     top: -25px;
     color: var(--primary-color);
     font-weight: 500;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-family: var(--font-neue);
     letter-spacing: var(--spacing-00);
     width: 100%;
@@ -619,11 +619,11 @@
   }
 
   .step-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .step-item {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .arrow-line-1 {

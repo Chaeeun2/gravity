@@ -302,6 +302,21 @@
   .news-item {
     padding: 20px 0;
   }
+
+  /* Search Results Info */
+
+  .search-results-info span {
+    font-size: 1.8rem;
+  }
+
+  /* No Results */
+  .no-results {
+    font-size: 1.8rem;
+  }
+
+  .search-results-info {
+    padding: 20px 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -378,6 +393,17 @@
 
   .pagination-number {
     font-size: 1.6rem;
+  }
+
+  /* Search Results Info */
+
+  .search-results-info span {
+    font-size: 1.5rem;
+  }
+
+  /* No Results */
+  .no-results {
+    font-size: 1.5rem;
   }
 }
 

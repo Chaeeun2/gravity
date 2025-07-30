@@ -221,7 +221,7 @@
   }
 
   .modal-position {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .modal-section {
@@ -231,7 +231,7 @@
 
   .experience-item,
   .education-item {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .experience-title,
@@ -250,7 +250,7 @@
 
   .experience-list,
   .education-list {
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 0px;
   }
 
