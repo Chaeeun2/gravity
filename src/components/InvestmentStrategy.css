@@ -469,6 +469,10 @@
     max-width: 400px;
   }
 
+  .strategy-title {
+    min-width: 0px;
+  }
+
   .investment-strategy-description {
     margin-bottom: 40px;
   }
