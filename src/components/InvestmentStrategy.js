@@ -240,12 +240,12 @@ const InvestmentStrategy = ({ language }) => {
             <p>{currentContent.description}</p>
           </div>
                 <img 
-                  src={`https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/strategy-${language.toLowerCase()}.jpg?format=webp&quality=85`}
+                  src={`https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/strategy-${language.toLowerCase()}.png?format=webp&quality=85`}
                   alt="Investment Strategy Chart" 
                   className={`chart-image chart-image-desktop chart-image-${language.toLowerCase()}`}
                 />
                 <img 
-                  src={`https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/strategy-${language.toLowerCase()}-mobile.jpg?format=webp&quality=85`}
+                  src={`https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/strategy-${language.toLowerCase()}-mobile.png?format=webp&quality=85`}
                   alt="Investment Strategy Chart" 
                   className={`chart-image chart-image-mobile chart-image-${language.toLowerCase()}`}
                 />

@@ -76,16 +76,16 @@ const Organization = ({ language }) => {
       subtitle: `On the
       Path of Value`,
       image: isMobile 
-        ? "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization-mo-en.jpg?format=webp&quality=85"
-        : "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization-en.jpg?format=webp&quality=85"
+        ? "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization-mo-en.png?format=webp&quality=85"
+        : "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization-en.png?format=webp&quality=85"
     },
     KO: {
       title: "Organization",
       subtitle: `On the
       Path of Value`,
       image: isMobile 
-        ? "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization-mo.jpg?format=webp&quality=85"
-        : "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization.jpg?format=webp&quality=85"
+        ? "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization-mo.png?format=webp&quality=85"
+        : "https://pub-71c3fd18357f4781993d048dfb1872c9.r2.dev/organization.png?format=webp&quality=85"
     }
   };
 

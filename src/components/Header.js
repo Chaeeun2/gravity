@@ -326,7 +326,10 @@ const Header = ({ language, onLanguageChange }) => {
                 <div className="mobile-language-selector">
                   <button 
                     className={`mobile-lang-btn ${language === 'KO' ? 'active' : ''}`}
-                    onClick={() => onLanguageChange('KO')}
+                    onClick={() => {
+                      onLanguageChange('KO');
+                      setIsMobileMenuOpen(false); // 모바일 메뉴 닫기
+                    }}
                   >
                     KO
                   </button>
@@ -340,6 +343,7 @@ const Header = ({ language, onLanguageChange }) => {
                       } else {
                         onLanguageChange('EN');
                       }
+                      setIsMobileMenuOpen(false); // 모바일 메뉴 닫기
                     }}
                   >
                     EN

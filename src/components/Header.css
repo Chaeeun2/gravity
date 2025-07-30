@@ -368,7 +368,7 @@ body:has(.header.menu-hovered) {
 }
 
 .mobile-menu-content {
-  padding: 70px 35px 35px 35px;
+  padding: 60px 35px 35px 35px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -420,14 +420,14 @@ body:has(.header.menu-hovered) {
 }
 
 .mobile-menu-group {
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 }
 
 .mobile-menu-title {
   font-size: 2rem;
   font-weight: 500;
   color: var(--text-white);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-family: var(--font-neue);
 }
 
@@ -438,7 +438,7 @@ body:has(.header.menu-hovered) {
 }
 
 .mobile-submenu li {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .mobile-submenu li a {
@@ -457,6 +457,12 @@ body:has(.header.menu-hovered) {
   justify-content: flex-end;
   gap: 15px;
   padding-top: 30px;
+}
+
+.mobile-menu.open .mobile-language-selector {
+  position: fixed;
+  bottom: 35px;
+  right: 35px;
 }
 
 .mobile-lang-btn {
@@ -493,6 +499,7 @@ body:has(.header.menu-hovered) {
     height: 70px !important;
     justify-content: space-between;
     padding: 0 30px;
+    width: 100%;
   }
 
   .navigation {
@@ -504,8 +511,7 @@ body:has(.header.menu-hovered) {
   }
 
   .logo {
-    width: auto;
-    height: 42px;
+    width: 110px;
   }
 }
 
@@ -517,8 +523,7 @@ body:has(.header.menu-hovered) {
   }
 
   .logo {
-    width: auto;
-    height: 37px;
+    width: 100px;
   }
 
   .nav-menu {

@@ -485,17 +485,6 @@ const InvestmentSystem = ({ language }) => {
                     />
                   </svg>
                 </div>
-                
-                {/* Side Box 2 */}
-                <div
-                  className={`side-box side-box-2 side-box-${language.toLowerCase()}`}
-                >
-                  <h4
-                    className={`side-box-title side-box-title-2 side-box-title-${language.toLowerCase()}`}
-                  >
-                    {currentContent.sideBoxes.box2.title}
-                  </h4>
-                </div>
               </div>
             </div>
 

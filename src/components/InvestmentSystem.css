@@ -479,7 +479,7 @@
     letter-spacing: var(--spacing-92);
   }
 
-  .side-box-2-en::before {
+  .side-box-2.side-box-en::before {
     content: "if Pre-IC is approved";
     position: absolute;
     left: 50%;
@@ -555,8 +555,19 @@
 
   .arrow-with-side-box .side-box-container,
   .arrow-with-side-box .fake-box-container {
-    padding-right: 30px;
+    padding-left: 10px;
+    padding-right: 25px;
     gap: 0px;
+  }
+
+  .arrow-with-side-box .side-box-container,
+  .arrow-with-side-box .fake-box-container {
+    min-width: 150px;
+    width: 100%;
+  }
+
+  .horizontal-arrow {
+    display: none;
   }
 
   .horizontal-arrow-2::before {
@@ -577,7 +588,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: -30px;
+    top: -25px;
     color: var(--primary-color);
     font-weight: 600;
     font-size: 1.6rem;
@@ -585,12 +596,12 @@
     letter-spacing: var(--spacing-92);
   }
 
-  .side-box-2-en::before {
+  .side-box-2.side-box-en::before {
     content: "if Pre-IC is approved";
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: -30px;
+    top: -25px;
     color: var(--primary-color);
     font-weight: 500;
     font-size: 1.6rem;
@@ -615,7 +626,7 @@
   }
 
   .arrow-line-2 {
-    height: 100px;
+    height: 140px;
   }
 
   .arrow-line-3 {
@@ -623,7 +634,7 @@
   }
 
   .arrow-line-4 {
-    height: 100px;
+    height: 120px;
   }
 
   .arrow-line-5 {

@@ -82,13 +82,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  fill: var(--text-black);
+  fill: var(--text-black) !important;
+  color: var(--text-black) !important;
   width: 25px;
   height: 25px;
 }
 
 .modal-header {
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 }
 
 .modal-name {
@@ -254,7 +255,7 @@
   }
 
   .modal-body {
-    gap: 60px;
+    gap: 50px;
   }
 
   .modal-close {
