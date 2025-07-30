@@ -502,6 +502,10 @@
     margin-bottom: 10px;
   }
 
+  .step-title-4 {
+    margin-bottom: 0;
+  }
+
   .step-item {
     font-size: 1.8rem;
   }
@@ -607,6 +611,7 @@
     font-size: 1.6rem;
     font-family: var(--font-neue);
     letter-spacing: var(--spacing-00);
+    width: 100%;
   }
 
   .process-step {

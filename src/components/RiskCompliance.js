@@ -72,9 +72,9 @@ const RiskCompliance = ({ language }) => {
   useIntersectionObserver(principle2Ref, { delay: 600 });
   useIntersectionObserver(principle3Ref, { delay: 700 });
   useIntersectionObserver(principle4Ref, { delay: 800 });
-  useIntersectionObserver(complianceTitleRef, { delay: 900 });
-  useIntersectionObserver(complianceSubtitleRef, { delay: 1000 });
-  useIntersectionObserver(complianceSubtitleLineRef, { delay: 1100 });
+  useIntersectionObserver(complianceTitleRef, { delay: 100 });
+  useIntersectionObserver(complianceSubtitleRef, { delay: 200 });
+  useIntersectionObserver(complianceSubtitleLineRef, { delay: 300 });
   useIntersectionObserver(circle1Ref, { delay: 100 });
   useIntersectionObserver(circle2Ref, { delay: 200 });
   useIntersectionObserver(circle3Ref, { delay: 300 });

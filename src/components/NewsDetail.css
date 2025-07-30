@@ -46,7 +46,7 @@
 .news-detail-main {
   display: flex;
   justify-content: center;
-  min-height: 40vh;
+  min-height: 45vh;
 }
 
 .news-detail-content {
@@ -86,9 +86,9 @@
 }
 
 .news-detail-header-info {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   border-bottom: 1px solid var(--line-color);
-  padding-bottom: 40px;
+  padding-bottom: 30px;
 }
 
 .news-detail-article-title {
@@ -176,6 +176,7 @@
 .download-button svg {
   width: 30px;
   height: 30px;
+  color: var(--text-black);
 }
 
 /* Responsive Design */
@@ -259,6 +260,11 @@
   .download-button svg {
     width: 25px;
     height: 25px;
+  }
+
+  .news-detail-header-info {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
   }
 }
 

@@ -59,10 +59,10 @@ const InvestmentSystem = ({ language }) => {
   useIntersectionObserver(step1Ref, { delay: 200 });
   useIntersectionObserver(arrow1Ref, { delay: 300 });
   useIntersectionObserver(step2Ref, { delay: 400 });
-  useIntersectionObserver(arrowWithSideBox1Ref, { delay: 500 });
-  useIntersectionObserver(horizontalArrow1Ref, { delay: 550 });
-  useIntersectionObserver(sideBox1Ref, { delay: 600 });
-  useIntersectionObserver(step3Ref, { delay: 700 });
+  useIntersectionObserver(arrowWithSideBox1Ref, { delay: 100 });
+  useIntersectionObserver(horizontalArrow1Ref, { delay: 150 });
+  useIntersectionObserver(sideBox1Ref, { delay: 100 });
+  useIntersectionObserver(step3Ref, { delay: 100 });
   useIntersectionObserver(arrow3Ref, { delay: 100 });
   useIntersectionObserver(step4Ref, { delay: 100 });
   useIntersectionObserver(arrowWithSideBox2Ref, { delay: 100 });
