@@ -414,11 +414,6 @@ body:has(.header.menu-hovered) {
   transition: color 0.3s ease;
 }
 
-.mobile-nav-item a:hover,
-.mobile-nav-item a.active {
-  color: var(--text-color);
-}
-
 .mobile-menu-group {
   margin-bottom: 35px;
 }
