@@ -494,6 +494,10 @@
     line-height: 1.3;
   }
 
+  .property-grid {
+    gap: 20px;
+  }
+
   .property-name-en {
     font-size: 2.2rem;
     line-height: 1.2;

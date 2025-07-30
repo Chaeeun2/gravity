@@ -23,9 +23,9 @@
   /* Spacing */
   --spacing-92: -0.02rem;
   --spacing-91: -0.01rem;
-  --spacing-00: 0rem;
+  --spacing-00: 0.02rem;
   --spacing-01: 0.01rem;
-  --spacing-02: 0.02rem;
+  --spacing-02: 0.03rem;
 
   /* Z-index */
   --z-dropdown: 1000;
