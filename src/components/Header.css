@@ -521,7 +521,7 @@ body:has(.header.menu-hovered) {
 @media (max-width: 768px) {
   .header-container {
     padding: 0 25px;
-    height: 60px;
+    height: 60px !important;
   }
 
   .logo {
