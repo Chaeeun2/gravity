@@ -516,13 +516,13 @@ const Professional = ({ language }) => {
               </div>
             </div>
 
-            {/* Investment Operations Group */}
+            {/* Investment Management Group */}
             <div className="investment-group">
-              {/* Investment Operations Part 1 */}
+              {/* Investment Management Part 1 */}
               <div ref={part1Ref} className="professional-section">
                 <h2 className="professional-section-title">
                   {isTablet 
-                    ? (language === "KO" ? "투자운용 Part. 1" : "Investment Operations Part. 1")
+                    ? (language === "KO" ? "투자운용 Part. 1" : "Investment Management Part. 1")
                     : (
                       <div className="part-title-wrapper">
                         <p
@@ -530,7 +530,7 @@ const Professional = ({ language }) => {
                             language === "KO" ? "part-title-ko" : "part-title-en"
                           }
                         >
-                          {language === "KO" ? "투자운용" : "Investment Operations"}
+                          {language === "KO" ? "투자운용" : "Investment Management"}
                         </p>
                         <span>Part. 1</span>
                       </div>
@@ -569,11 +569,11 @@ const Professional = ({ language }) => {
                 </div>
               </div>
 
-              {/* Investment Operations Part 2 */}
+              {/* Investment Management Part 2 */}
               <div ref={part2Ref} className="professional-section">
                 <h2 className="professional-section-title">
                   {isTablet 
-                    ? (language === "KO" ? "투자운용 Part. 2" : "Investment Operations Part. 2")
+                    ? (language === "KO" ? "투자운용 Part. 2" : "Investment Management Part. 2")
                     : currentContent.investment.parts[1].title}
                 </h2>
                 <div className="members-grid">
@@ -608,11 +608,11 @@ const Professional = ({ language }) => {
                 </div>
               </div>
 
-              {/* Investment Operations Part 3 */}
+              {/* Investment Management Part 3 */}
               <div ref={part3Ref} className="professional-section">
                 <h2 className="professional-section-title">
                   {isTablet 
-                    ? (language === "KO" ? "투자운용 Part. 3" : "Investment Operations Part. 3")
+                    ? (language === "KO" ? "투자운용 Part. 3" : "Investment Management Part. 3")
                     : currentContent.investment.parts[2].title}
                 </h2>
                 <div className="members-grid">
