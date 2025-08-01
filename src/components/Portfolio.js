@@ -53,7 +53,7 @@ const Portfolio = ({ language }) => {
     EN: {
       title: "Portfolio",
       operationalStatus: "Asset Under Management",
-      date: "Feb 2025",
+      date: "June 2025",
       totalAmount: "USD 1,700 M",
       office: "Office",
       logistics: "Logistics",
@@ -67,7 +67,7 @@ const Portfolio = ({ language }) => {
     KO: {
       title: "Portfolio",
       operationalStatus: "운용현황",
-      date: "Feb 2025",
+      date: "June 2025",
       totalAmount: "2조 2,952억원",
       office: "Office",
       logistics: "Logistics",
@@ -171,8 +171,8 @@ const Portfolio = ({ language }) => {
         gfa: "119,382 sqm",
         floor: "3F/B3",
         image: "/resource/Logistics_5.jpg",
-        category: "Gravity General Private Real Estate Master Investment Company No. 22",
-        categoryKo: "그래비티일반사모부동산모투자회사제22호"
+        category: "Anseong Matchum Logis",
+        categoryKo: "안성맞춤로지스"
       }
     ],
     residence: [
@@ -208,6 +208,17 @@ const Portfolio = ({ language }) => {
         image: "/resource/Residence_3.jpg",
         category: "Anam Residence Private Real Estate Investment Company",
         categoryKo: "안암레지던스사모부동산투자회사"
+      },
+      {
+        name: "셀립 건대",
+        nameEn: "Célib Kondae",
+        location: "서울특별시 광진구",
+        locationEn: "Gwangjin, Seoul",
+        gfa: "2,958 sqm",
+        floor: "B2F/8F",
+        image: "/resource/Residence_4.jpg",
+        category: "KU Residence Private Real Estate Investment Company",
+        categoryKo: "건대레지던스사모부동산투자회사"
       }
     ],
     hotel: [
@@ -232,7 +243,7 @@ const Portfolio = ({ language }) => {
         gfa: "45,230 sqm",
         floor: "24F/B8",
         image: "/resource/Others_1.jpg",
-        category: "Gravity General Private Real Estate Investment Trust Loan Type No. 1",
+        category: "Gravity General Private Real Estate Debt Investment Trust No.1",
         categoryKo: "그래비티일반사모부동산투자신탁대출형제1호"
       },
       {
@@ -243,7 +254,7 @@ const Portfolio = ({ language }) => {
         gfa: "13,414 sqm",
         floor: "1F/10F",
         image: "/resource/Others_2.jpg",
-        category: "Gravity General Private Real Estate Company No. 24",
+        category: "Gravity General Private Real Estate Investment Company No. 24",
         categoryKo: "그래비티일반사모부동산투자회사제24호"
       }
     ]

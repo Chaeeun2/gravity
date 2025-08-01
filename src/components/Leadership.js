@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Professional.css";
+import "./Leadership.css";
 import Footer from "./Footer";
-import ProfessionalModal from "./ProfessionalModal";
+import LeadershipModal from "./LeadershipModal";
 
-const Professional = ({ language }) => {
+const Leadership = ({ language }) => {
   const titleRef = useRef(null);
   const managementRef = useRef(null);
   const part1Ref = useRef(null);
@@ -327,7 +327,7 @@ const Professional = ({ language }) => {
           },
           {
             name: "이승건",
-            position: "준법감사인 ㅣ Compliance Officer",
+            position: "준법감시인 ㅣ Compliance Officer",
             experience: [
               "現 그래비티자산운용 준법감시인",
               "엘에프자산운용 준법감시인",
@@ -469,29 +469,29 @@ const Professional = ({ language }) => {
   };
 
   return (
-    <div className="professional-page">
+    <div className="leadership-page">
       {/* Header Section */}
-      <section className="professional-header">
-        <div className="professional-header-content">
-          <h1 ref={titleRef} className="professional-title">
-            {currentContent.title}
+      <section className="leadership-header">
+        <div className="leadership-header-content">
+          <h1 ref={titleRef} className="leadership-title">
+            Leadership
           </h1>
         </div>
       </section>
 
       {/* Main Content Section */}
-      <section className="professional-main">
-        <div className="professional-container">
-          <div className="professional-content">
+      <section className="leadership-main">
+        <div className="leadership-container">
+          <div className="leadership-content">
             {/* Management Section */}
-            <div ref={managementRef} className="professional-section">
-              <h2 className="professional-section-title">
+            <div ref={managementRef} className="leadership-section">
+              <h2 className="leadership-section-title">
                 {currentContent.management.title}
               </h2>
               <div className="members-grid">
-                {currentContent.management.members.map((member, index) => (
+                {currentContent.management.members.map((member, memberIndex) => (
                   <div
-                    key={index}
+                    key={memberIndex}
                     className={`member-card member-card-${language.toLowerCase()}`}
                     onClick={() => handleMemberClick(member)}
                     style={{ cursor: "pointer" }}
@@ -519,8 +519,8 @@ const Professional = ({ language }) => {
             {/* Investment Management Group */}
             <div className="investment-group">
               {/* Investment Management Part 1 */}
-              <div ref={part1Ref} className="professional-section">
-                <h2 className="professional-section-title">
+              <div ref={part1Ref} className="leadership-section">
+                <h2 className="leadership-section-title">
                   {isTablet 
                     ? (language === "KO" ? "투자운용 Part. 1" : "Investment Management Part. 1")
                     : (
@@ -570,8 +570,8 @@ const Professional = ({ language }) => {
               </div>
 
               {/* Investment Management Part 2 */}
-              <div ref={part2Ref} className="professional-section">
-                <h2 className="professional-section-title">
+              <div ref={part2Ref} className="leadership-section">
+                <h2 className="leadership-section-title">
                   {isTablet 
                     ? (language === "KO" ? "투자운용 Part. 2" : "Investment Management Part. 2")
                     : currentContent.investment.parts[1].title}
@@ -609,8 +609,8 @@ const Professional = ({ language }) => {
               </div>
 
               {/* Investment Management Part 3 */}
-              <div ref={part3Ref} className="professional-section">
-                <h2 className="professional-section-title">
+              <div ref={part3Ref} className="leadership-section">
+                <h2 className="leadership-section-title">
                   {isTablet 
                     ? (language === "KO" ? "투자운용 Part. 3" : "Investment Management Part. 3")
                     : currentContent.investment.parts[2].title}
@@ -653,7 +653,7 @@ const Professional = ({ language }) => {
 
       <Footer language={language} />
 
-      <ProfessionalModal
+      <LeadershipModal
         isOpen={modalOpen}
         onClose={handleCloseModal}
         member={selectedMember}
@@ -663,4 +663,4 @@ const Professional = ({ language }) => {
   );
 };
 
-export default Professional;
+export default Leadership;

@@ -110,7 +110,7 @@ const Header = ({ language, onLanguageChange }) => {
       submenu: [
         { name: 'Overview', page: 'overview' },
         { name: 'Organization', page: 'organization' },
-        { name: 'Professional', page: 'professional' },
+        { name: 'Leadership', page: 'leadership' },
         { name: 'Contact us', page: 'contact' }
       ]
     },
@@ -123,7 +123,7 @@ const Header = ({ language, onLanguageChange }) => {
       name: 'BUSINESS STRATEGY',
       submenu: [
         { name: 'Investment Strategy', page: 'investment-strategy' },
-        { name: 'Investment System', page: 'investment-system' },
+        { name: 'Investment Process', page: 'investment-process' },
         { name: 'Risk & Compliance', page: 'risk-compliance' }
       ]
     },

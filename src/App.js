@@ -5,11 +5,11 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Overview from './components/Overview';
 import Organization from './components/Organization';
-import Professional from './components/Professional';
+import Leadership from './components/Leadership';
 import Contact from './components/Contact';
 import Portfolio from './components/Portfolio';
 import InvestmentStrategy from './components/InvestmentStrategy';
-import InvestmentSystem from './components/InvestmentSystem';
+import InvestmentProcess from './components/InvestmentProcess';
 import RiskCompliance from './components/RiskCompliance';
 import News from './components/News';
 import NewsDetail from './components/NewsDetail';
@@ -36,11 +36,11 @@ function App() {
           <Route path="/" element={<Hero language={language} />} />
           <Route path="/overview" element={<Overview language={language} />} />
           <Route path="/organization" element={<Organization language={language} />} />
-          <Route path="/professional" element={<Professional language={language} />} />
+          <Route path="/leadership" element={<Leadership language={language} />} />
           <Route path="/contact" element={<Contact language={language} />} />
           <Route path="/portfolio" element={<Portfolio language={language} />} />
                   <Route path="/investment-strategy" element={<InvestmentStrategy language={language} />} />
-        <Route path="/investment-system" element={<InvestmentSystem language={language} />} />
+        <Route path="/investment-process" element={<InvestmentProcess language={language} />} />
           <Route path="/risk-compliance" element={<RiskCompliance language={language} />} />
           <Route path="/news" element={<News language={language} />} />
           <Route path="/news/:id" element={<NewsDetail language={language} />} />

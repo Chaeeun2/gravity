@@ -152,8 +152,8 @@ const RiskCompliance = ({ language }) => {
         ],
         outcome: "건전한 자산운용 및 투자자의 이익 보호",
         process: [
-          "Compliance 정책·기준 수립",
-          "교육 상담·자문 안내ㆍ설명",
+          "Compliance 정책ㆍ기준 수립",
+          "교육 상담ㆍ자문 안내ㆍ설명",
           "모니터링",
           "보고",
           "사후조치"
