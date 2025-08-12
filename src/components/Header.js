@@ -10,6 +10,7 @@ const Header = ({ language, onLanguageChange }) => {
   const headerRef = useRef(null);
   const navMenuRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  const menuLeaveTimeoutRef = useRef(null); // 메뉴 닫기 타이머 참조
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,7 +20,13 @@ const Header = ({ language, onLanguageChange }) => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      // 타이머 정리
+      if (menuLeaveTimeoutRef.current) {
+        clearTimeout(menuLeaveTimeoutRef.current);
+      }
+    };
   }, []);
 
   // 모바일 메뉴 열려있을 때 스크롤 방지
@@ -55,6 +62,12 @@ const Header = ({ language, onLanguageChange }) => {
   };
 
   const handleMenuEnter = () => {
+    // 기존 타이머가 있다면 취소
+    if (menuLeaveTimeoutRef.current) {
+      clearTimeout(menuLeaveTimeoutRef.current);
+      menuLeaveTimeoutRef.current = null;
+    }
+    
     setIsMenuHovered(true);
     setTimeout(() => {
       const calculatedHeight = calculateHeaderHeight();
@@ -63,8 +76,12 @@ const Header = ({ language, onLanguageChange }) => {
   };
 
   const handleMenuLeave = () => {
-    setIsMenuHovered(false);
-    setHeaderHeight(90);
+    // 0.2초 지연 후 메뉴 닫기
+    menuLeaveTimeoutRef.current = setTimeout(() => {
+      setIsMenuHovered(false);
+      setHeaderHeight(90);
+      menuLeaveTimeoutRef.current = null;
+    }, 200);
   };
 
   const handlePageChange = (page) => {
@@ -184,8 +201,11 @@ const Header = ({ language, onLanguageChange }) => {
               {menuItems.map((item, index) => {
                 // EN 모드에서 NEWS 메뉴 숨기기
                 if (language === 'EN' && item.name === 'NEWS') {
+                  console.log('EN 모드에서 NEWS 메뉴 숨김:', item.name);
                   return null;
                 }
+                
+                console.log('메뉴 렌더링:', item.name, '언어:', language);
                 
                 return (
                   <li key={index} className="nav-item">
@@ -211,7 +231,11 @@ const Header = ({ language, onLanguageChange }) => {
                       {item.name}
                     </a>
                     {item.submenu && (
-                      <ul className="submenu-dropdown">
+                      <ul 
+                        className="submenu-dropdown"
+                        onMouseEnter={handleMenuEnter}
+                        onMouseLeave={handleMenuLeave}
+                      >
                         {item.submenu.map((subItem, subIndex) => (
                           <li key={subIndex}>
                             <a 
@@ -244,10 +268,11 @@ const Header = ({ language, onLanguageChange }) => {
               <button 
                 className={`lang-btn ${language === 'EN' ? 'active' : ''}`}
                 onClick={() => {
-                  // News 페이지, NewsDetail 페이지, 공시 페이지, 공시 상세 페이지에서 EN 버튼을 누르면 홈으로 이동
+                  // News 페이지, NewsDetail 페이지, 공시 페이지, 공시 상세 페이지에서 EN 버튼을 누르면 홈으로 이동하면서 언어도 영어로 유지
                   if (location.pathname === '/news' || location.pathname.startsWith('/news/') || 
                       location.pathname === '/disclosure' || location.pathname.startsWith('/disclosure/')) {
-                    handlePageChange('');
+                    onLanguageChange('EN'); // 먼저 언어를 영어로 변경
+                    handlePageChange(''); // 그 다음 홈으로 이동
                   } else {
                     onLanguageChange('EN');
                   }

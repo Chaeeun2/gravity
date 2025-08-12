@@ -22,7 +22,7 @@ const LeadershipModal = ({ isOpen, onClose, member, language }) => {
 
   const content = {
     EN: {
-          majorExperience: "Industry Experience",
+          majorExperience: "Career",
       education: "Education",
     },
     KO: {
@@ -41,8 +41,12 @@ const LeadershipModal = ({ isOpen, onClose, member, language }) => {
         </button>
         
         <div className={`modal-header modal-header-${language.toLowerCase()}`}>
-          <h2 className={`modal-name modal-name-${language.toLowerCase()}`}>{member.name}</h2>
-          <p className={`modal-position modal-position-${language.toLowerCase()}`}>{member.position}</p>
+          <h2 className={`modal-name modal-name-${language.toLowerCase()}`}>
+            {language === 'KO' ? member.nameKo : member.nameEn}
+          </h2>
+          <p className={`modal-position modal-position-${language.toLowerCase()}`}>
+            {language === 'KO' ? member.positionKo : member.positionEn}
+          </p>
         </div>
         
         <div className={`modal-body modal-body-${language.toLowerCase()}`}>

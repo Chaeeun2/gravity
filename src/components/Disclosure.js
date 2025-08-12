@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '../admin/lib/firebase';
 import './News.css';
 import Footer from './Footer';
 
@@ -31,6 +33,8 @@ const useIntersectionObserver = (ref, options = {}) => {
 };
 
 const Disclosure = ({ language }) => {
+  const [disclosureList, setDisclosureList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('제목');
@@ -43,13 +47,11 @@ const Disclosure = ({ language }) => {
   const titleRef = useRef(null);
   const searchBarRef = useRef(null);
   const disclosureListRef = useRef(null);
-  const paginationRef = useRef(null);
 
   // Apply intersection observer
   useIntersectionObserver(titleRef, { delay: 100 });
   useIntersectionObserver(searchBarRef, { delay: 200 });
   useIntersectionObserver(disclosureListRef, { delay: 300 });
-  useIntersectionObserver(paginationRef, { delay: 400 });
 
   // Handle window resize for mobile detection
   useEffect(() => {
@@ -61,93 +63,60 @@ const Disclosure = ({ language }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Firebase에서 공시 데이터 로드
+  useEffect(() => {
+    const loadDisclosures = async () => {
+      try {
+        setLoading(true);
+        const q = query(collection(db, 'disclosure'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const disclosures = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setDisclosureList(disclosures);
+      } catch (error) {
+        console.error('공시 데이터 로딩 오류:', error);
+        setDisclosureList([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (db) {
+      loadDisclosures();
+    }
+  }, []);
+
   // Format date based on screen size
-  const formatDate = (dateString) => {
+  const formatDate = (timestamp) => {
+    if (!timestamp) return '';
+    
+    let date;
+    if (timestamp?.toDate) {
+      date = timestamp.toDate(); // Firestore Timestamp
+    } else {
+      date = new Date(timestamp);
+    }
+
     if (isMobile) {
       // Mobile: MM/DD format
-      const date = new Date(dateString);
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
       return `${month}/${day}`;
     } else {
       // Desktop: Full date format
-      return dateString;
+      return date.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
     }
   };
 
-  const content = {
-    title: "공시",
-    filterLabel: "제목",
-    searchLabel: "검색어",
-    disclosureItems: [
-      { 
-        id: 10, 
-        title: "2024년 1분기 실적 공시", 
-        date: "2024-04-15",
-        content: "2024년 1분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다. 문의사항이 있으시면 언제든지 연락주시기 바랍니다."
-      },
-      { 
-        id: 9, 
-        title: "주주총회 소집 공고", 
-        date: "2024-04-12",
-        content: "2024년 정기주주총회 소집 공고입니다. 일시, 장소 및 안건은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 8, 
-        title: "대표이사 변경 공시", 
-        date: "2024-04-10",
-        content: "대표이사 변경에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 7, 
-        title: "2023년 사업보고서", 
-        date: "2024-03-28",
-        content: "2023년 사업보고서입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 6, 
-        title: "분기별 실적 공시", 
-        date: "2024-03-15",
-        content: "2023년 4분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 5, 
-        title: "투자신탁 계약 변경 공시", 
-        date: "2024-03-10",
-        content: "투자신탁 계약 변경에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 4, 
-        title: "자기주식 취득 공시", 
-        date: "2024-02-28",
-        content: "자기주식 취득에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 3, 
-        title: "분기별 실적 공시", 
-        date: "2024-02-15",
-        content: "2023년 3분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 2, 
-        title: "투자신탁 계약 해지 공시", 
-        date: "2024-02-10",
-        content: "투자신탁 계약 해지에 관한 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      },
-      { 
-        id: 1, 
-        title: "분기별 실적 공시", 
-        date: "2024-01-15",
-        content: "2023년 2분기 실적 공시입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다."
-      }
-    ]
-  };
-
-  const currentContent = content;
-
   // 페이지네이션 로직
   const itemsPerPage = 10;
-  const displayItems = isSearching ? filteredDisclosures : currentContent.disclosureItems;
+  const displayItems = isSearching ? filteredDisclosures : disclosureList;
   const totalPages = Math.ceil(displayItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -164,7 +133,7 @@ const Disclosure = ({ language }) => {
       return;
     }
 
-    const filtered = currentContent.disclosureItems.filter(item => {
+    const filtered = disclosureList.filter(item => {
       if (filterType === '제목') {
         return item.title.toLowerCase().includes(searchTerm.toLowerCase());
       } else if (filterType === '내용') {
@@ -230,7 +199,7 @@ const Disclosure = ({ language }) => {
       <section className="news-header">
         <div className="news-header-content">
           <h1 ref={titleRef} className="news-title">
-            {currentContent.title}
+            공시
           </h1>
         </div>
       </section>
@@ -257,7 +226,7 @@ const Disclosure = ({ language }) => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  placeholder={currentContent.searchLabel}
+                  placeholder="검색어"
                   className="search-input"
                 />
                 <button onClick={handleSearch} className="search-button">
@@ -278,7 +247,9 @@ const Disclosure = ({ language }) => {
 
             {/* News List */}
             <div ref={disclosureListRef} className="news-list">
-              {currentItems.length > 0 ? (
+              {loading ? (
+                <div className="loading-message"></div>
+              ) : currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
                   <div 
                     key={item.id} 
@@ -286,9 +257,9 @@ const Disclosure = ({ language }) => {
                     onClick={() => handleDisclosureClick(item)}
                     style={{ cursor: 'pointer' }}
                   >
-                    <div className="news-number">{startIndex + index + 1}</div>
+                    <div className="news-number">{displayItems.length - (startIndex + index)}</div>
                     <div className="news-title-text">{item.title}</div>
-                    <div className="news-date">{formatDate(item.date)}</div>
+                    <div className="news-date">{formatDate(item.createdAt)}</div>
                   </div>
                 ))
               ) : (
@@ -300,7 +271,7 @@ const Disclosure = ({ language }) => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div ref={paginationRef} className="pagination">
+              <div className="pagination">
                 <button 
                   className="pagination-arrow"
                   onClick={() => handlePageChange(Math.max(1, currentPage - 1))}

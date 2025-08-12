@@ -4,11 +4,11 @@
 
 /* 애니메이션 키프레임 */
 @keyframes fadeInUp {
-  from {
+  0% {
     opacity: 0;
     transform: translateY(30px);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
@@ -49,7 +49,7 @@
 
 /* 애니메이션 클래스 */
 .animate-fade-in-up {
-  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: fadeInUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .animate-fade-in-left {
@@ -69,6 +69,17 @@
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease-out;
+}
+
+/* 애니메이션 전 초기 상태 */
+.leadership-title {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.leadership-section {
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 .animate-on-scroll.animate {
@@ -104,7 +115,6 @@
   margin: 0;
   letter-spacing: var(--spacing-02);
   font-family: var(--font-neue);
-  opacity: 0;
   transform: translateY(30px);
 }
 
@@ -129,8 +139,8 @@
 .leadership-section {
   display: flex;
   gap: 30px;
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 .leadership-section-title {

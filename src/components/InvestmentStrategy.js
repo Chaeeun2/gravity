@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './InvestmentStrategy.css';
 import Footer from './Footer';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '../admin/lib/firebase';
 
 // Intersection Observer를 사용한 애니메이션 훅
 const useIntersectionObserver = (ref, options = {}) => {
@@ -30,6 +32,48 @@ const useIntersectionObserver = (ref, options = {}) => {
 };
 
 const InvestmentStrategy = ({ language }) => {
+  const [strategies, setStrategies] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Firebase에서 투자전략과 투자상품 데이터 로드
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        
+        // 투자전략 데이터 로드
+        const strategiesQuery = query(collection(db, 'investmentStrategies'), orderBy('order', 'asc'));
+        const strategiesSnapshot = await getDocs(strategiesQuery);
+        const strategiesData = strategiesSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setStrategies(strategiesData);
+
+        // 투자상품 데이터 로드
+        const productsQuery = query(collection(db, 'investmentProducts'), orderBy('order', 'asc'));
+        const productsSnapshot = await getDocs(productsQuery);
+        const productsData = productsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProducts(productsData);
+      } catch (error) {
+        console.error('투자 데이터 로드 실패:', error);
+        // 에러 발생 시 기본 데이터 사용
+        setStrategies([]);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (db) {
+      loadData();
+    }
+  }, []);
+
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const chartRef = useRef(null);
@@ -152,12 +196,12 @@ const InvestmentStrategy = ({ language }) => {
           description: "Investment in income-generating commercial real estate assets, aiming to deliver target returns through steady operating income over the fund life and capital appreciation upon exit (office, logistics center, retail, hotel, rental housing, etc.)"
         },
         development: {
-          title: "Real Estate Debt Fund",
-          description: "Investment in real estate investment vehicles or corporations in the form of real estate-backed debt or loans, generating stable interest income."
-        },
-        loan: {
           title: "Real Estate Development Fund",
           description: "Investment in real estate development projects, targeting development profits through various exit strategy including pre-sale and sales upon stabilization."
+        },
+        loan: {
+          title: "Real Estate Debt Fund",
+          description: "Investment in real estate investment vehicles or corporations in the form of real estate-backed debt or loans, generating stable interest income."
         },
         securities: {
           title: "Real Estate Securities Fund",
@@ -216,6 +260,32 @@ const InvestmentStrategy = ({ language }) => {
 
   const currentContent = content[language];
 
+  // Firebase 데이터가 있으면 사용, 없으면 기본 데이터 사용
+  const displayStrategies = strategies.length > 0 ? strategies.map(strategy => ({
+    ...strategy,
+    titleSuffix: language === 'KO' ? '전략' : 'Strategy'
+  })) : [
+    { type: 'core', title: 'Core', titleSuffix: language === 'KO' ? '전략' : 'Strategy', description: currentContent.strategies.core.description, descriptionEn: currentContent.strategies.core.descriptionEn },
+    { type: 'corePlus', title: 'Core Plus', titleSuffix: language === 'KO' ? '전략' : 'Strategy', description: currentContent.strategies.corePlus.description, descriptionEn: currentContent.strategies.corePlus.descriptionEn },
+    { type: 'valueAdd', title: 'Value Add', titleSuffix: language === 'KO' ? '전략' : 'Strategy', description: currentContent.strategies.valueAdd.description, descriptionEn: currentContent.strategies.valueAdd.descriptionEn },
+    { type: 'opportunistic', title: 'Opportunistic', titleSuffix: language === 'KO' ? '전략' : 'Strategy', description: currentContent.strategies.opportunistic.description, descriptionEn: currentContent.strategies.opportunistic.descriptionEn }
+  ];
+
+  const displayProducts = products.length > 0 ? products : [
+    { type: 'leasehold', title: currentContent.products.leasehold.title, titleEn: currentContent.products.leasehold.titleEn, description: currentContent.products.leasehold.description, descriptionEn: currentContent.products.leasehold.descriptionEn },
+    { type: 'development', title: currentContent.products.development.title, titleEn: currentContent.products.development.titleEn, description: currentContent.products.development.description, descriptionEn: currentContent.products.development.descriptionEn },
+    { type: 'loan', title: currentContent.products.loan.title, titleEn: currentContent.products.loan.titleEn, description: currentContent.products.loan.description, descriptionEn: currentContent.products.loan.descriptionEn },
+    { type: 'securities', title: currentContent.products.securities.title, titleEn: currentContent.products.securities.titleEn, description: currentContent.products.securities.description, descriptionEn: currentContent.products.securities.descriptionEn }
+  ];
+
+  if (loading) {
+    return (
+      <div className="investment-strategy-page">
+        <div className="loading-message"></div>
+      </div>
+    );
+  }
+
   return (
     <div className={`investment-strategy-page investment-strategy-page-${language.toLowerCase()}`}>
       {/* Header Section */}
@@ -255,50 +325,25 @@ const InvestmentStrategy = ({ language }) => {
           {/* Strategy Descriptions */}
           <div ref={strategiesRef} className={`investment-strategies investment-strategies-${language.toLowerCase()}`}>
             <div className={`strategy-grid strategy-grid-${language.toLowerCase()}`}>
-              <div ref={coreStrategyRef} className={`strategy-item strategy-item-core strategy-item-core-${language.toLowerCase()}`}>
-                <div className={`strategy-title-container strategy-title-container-core strategy-title-container-core-${language.toLowerCase()}`}>
-                  <div className="strategy-title-line"></div>
-                  <h3 ref={coreTitleRef} className={`strategy-title strategy-title-core strategy-title-${language.toLowerCase()}`}>
-                    {currentContent.strategies.core.title} <span className={`strategy-title-suffix strategy-title-suffix-${language.toLowerCase()}`}>{currentContent.strategies.core.titleSuffix}</span>
-                  </h3>
-                </div>
-                <p ref={coreDescriptionRef} className={`strategy-description strategy-description-core strategy-description-${language.toLowerCase()}`}>
-                  {currentContent.strategies.core.description}
-                </p>
-              </div>
-              <div ref={corePlusStrategyRef} className={`strategy-item strategy-item-core-plus strategy-item-core-plus-${language.toLowerCase()}`}>
-                <div className={`strategy-title-container strategy-title-container-core-plus strategy-title-container-core-plus-${language.toLowerCase()}`}>
-                  <div className="strategy-title-line"></div>
-                  <h3 ref={corePlusTitleRef} className={`strategy-title strategy-title-core-plus strategy-title-${language.toLowerCase()}`}>
-                    {currentContent.strategies.corePlus.title} <span className={`strategy-title-suffix strategy-title-suffix-${language.toLowerCase()}`}>{currentContent.strategies.corePlus.titleSuffix}</span>
-                  </h3>
-                </div>
-                <p ref={corePlusDescriptionRef} className={`strategy-description strategy-description-core-plus strategy-description-${language.toLowerCase()}`}>
-                  {currentContent.strategies.corePlus.description}
-                </p>
-              </div>
-              <div ref={valueAddStrategyRef} className={`strategy-item strategy-item-value-add strategy-item-value-add-${language.toLowerCase()}`}>
-                <div className={`strategy-title-container strategy-title-container-value-add strategy-title-container-value-add-${language.toLowerCase()}`}>
-                  <div className="strategy-title-line"></div>
-                  <h3 ref={valueAddTitleRef} className={`strategy-title strategy-title-value-add strategy-title-${language.toLowerCase()}`}>
-                    {currentContent.strategies.valueAdd.title} <span className={`strategy-title-suffix strategy-title-suffix-${language.toLowerCase()}`}>{currentContent.strategies.valueAdd.titleSuffix}</span>
-                  </h3>
-                </div>
-                <p ref={valueAddDescriptionRef} className={`strategy-description strategy-description-value-add strategy-description-${language.toLowerCase()}`}>
-                  {currentContent.strategies.valueAdd.description}
-                </p>
-              </div>
-              <div ref={opportunisticStrategyRef} className={`strategy-item strategy-item-opportunistic strategy-item-opportunistic-${language.toLowerCase()}`}>
-                <div className={`strategy-title-container strategy-title-container-opportunistic strategy-title-container-opportunistic-${language.toLowerCase()}`}>
-                  <div className="strategy-title-line"></div>
-                  <h3 ref={opportunisticTitleRef} className={`strategy-title strategy-title-opportunistic strategy-title-${language.toLowerCase()}`}>
-                    {currentContent.strategies.opportunistic.title} <span className={`strategy-title-suffix strategy-title-suffix-${language.toLowerCase()}`}>{currentContent.strategies.opportunistic.titleSuffix}</span>
-                  </h3>
-                </div>
-                <p ref={opportunisticDescriptionRef} className={`strategy-description strategy-description-opportunistic strategy-description-${language.toLowerCase()}`}>
-                  {currentContent.strategies.opportunistic.description}
-                </p>
-              </div>
+              {displayStrategies.map((strategy, index) => {
+                const refs = [coreStrategyRef, corePlusStrategyRef, valueAddStrategyRef, opportunisticStrategyRef];
+                const titleRefs = [coreTitleRef, corePlusTitleRef, valueAddTitleRef, opportunisticTitleRef];
+                const descRefs = [coreDescriptionRef, corePlusDescriptionRef, valueAddDescriptionRef, opportunisticDescriptionRef];
+                
+                return (
+                  <div key={strategy.id || index} ref={refs[index]} className={`strategy-item strategy-item-${strategy.type} strategy-item-${strategy.type}-${language.toLowerCase()}`}>
+                    <div className={`strategy-title-container strategy-title-container-${strategy.type} strategy-title-container-${strategy.type}-${language.toLowerCase()}`}>
+                      <div className="strategy-title-line"></div>
+                      <h3 ref={titleRefs[index]} className={`strategy-title strategy-title-${strategy.type} strategy-title-${language.toLowerCase()}`}>
+                        {strategy.title} <span className={`strategy-title-suffix strategy-title-suffix-${language.toLowerCase()}`}>{strategy.titleSuffix}</span>
+                      </h3>
+                    </div>
+                    <p ref={descRefs[index]} className={`strategy-description strategy-description-${strategy.type} strategy-description-${language.toLowerCase()}`}>
+                      {language === 'KO' ? strategy.description : strategy.descriptionEn}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -308,42 +353,23 @@ const InvestmentStrategy = ({ language }) => {
               {currentContent.products.title}
             </h2>
             <div className={`products-grid products-grid-${language.toLowerCase()}`}>
-              <div ref={leaseholdProductRef} className={`product-item product-item-leasehold product-item-leasehold-${language.toLowerCase()}`}>
-                <h3 ref={leaseholdTitleRef} className={`product-title product-title-${language.toLowerCase()}`}>
-                  {currentContent.products.leasehold.title}
-                              </h3>
-                              <div className="product-title-line"></div>
-                <p ref={leaseholdDescriptionRef} className={`product-description product-description-${language.toLowerCase()}`}>
-                  {currentContent.products.leasehold.description}
-                </p>
-              </div>
-              <div ref={developmentProductRef} className={`product-item product-item-development product-item-development-${language.toLowerCase()}`}>
-                <h3 ref={developmentTitleRef} className={`product-title product-title-${language.toLowerCase()}`}>
-                  {currentContent.products.development.title}
-                              </h3>
-                              <div className="product-title-line"></div>
-                <p ref={developmentDescriptionRef} className={`product-description product-description-${language.toLowerCase()}`}>
-                  {currentContent.products.development.description}
-                </p>
-              </div>
-              <div ref={loanProductRef} className={`product-item product-item-loan product-item-loan-${language.toLowerCase()}`}>
-                <h3 ref={loanTitleRef} className={`product-title product-title-${language.toLowerCase()}`}>
-                  {currentContent.products.loan.title}
-                              </h3>
-                              <div className="product-title-line"></div>
-                <p ref={loanDescriptionRef} className={`product-description product-description-${language.toLowerCase()}`}>
-                  {currentContent.products.loan.description}
-                </p>
-              </div>
-              <div ref={securitiesProductRef} className={`product-item product-item-securities product-item-securities-${language.toLowerCase()}`}>
-                <h3 ref={securitiesTitleRef} className={`product-title product-title-${language.toLowerCase()}`}>
-                  {currentContent.products.securities.title}
-                              </h3>
-                              <div className="product-title-line"></div>
-                <p ref={securitiesDescriptionRef} className={`product-description product-description-${language.toLowerCase()}`}>
-                  {currentContent.products.securities.description}
-                </p>
-              </div>
+              {displayProducts.map((product, index) => {
+                const refs = [leaseholdProductRef, developmentProductRef, loanProductRef, securitiesProductRef];
+                const titleRefs = [leaseholdTitleRef, developmentTitleRef, loanTitleRef, securitiesTitleRef];
+                const descRefs = [leaseholdDescriptionRef, developmentDescriptionRef, loanDescriptionRef, securitiesDescriptionRef];
+                
+                return (
+                  <div key={product.id || index} ref={refs[index]} className={`product-item product-item-${product.type} product-item-${product.type}-${language.toLowerCase()}`}>
+                    <h3 ref={titleRefs[index]} className={`product-title product-title-${language.toLowerCase()}`}>
+                      {language === 'KO' ? product.title : product.titleEn}
+                    </h3>
+                    <div className="product-title-line"></div>
+                    <p ref={descRefs[index]} className={`product-description product-description-${language.toLowerCase()}`}>
+                      {language === 'KO' ? product.description : product.descriptionEn}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

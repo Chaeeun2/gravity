@@ -1,53 +1,261 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Portfolio.css';
 import Footer from './Footer';
+import { collection, getDocs, getDoc, doc } from '@firebase/firestore';
+import { db } from '../admin/lib/firebase';
 
-// Intersection Observer를 사용한 애니메이션 훅
-const useIntersectionObserver = (ref, options = {}) => {
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        const delay = options.delay || 0;
-        setTimeout(() => {
-          entry.target.classList.add('animate-fade-in-up');
-        }, delay);
-      }
-    }, {
-      threshold: 0.1,
-      ...options
-    });
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [ref, options]);
-};
 
 const Portfolio = ({ language }) => {
+  // 월 이름을 영문으로 변환하는 함수
+  const getMonthName = (month) => {
+    const months = {
+      '01': 'January',
+      '02': 'February',
+      '03': 'March',
+      '04': 'April',
+      '05': 'May',
+      '06': 'June',
+      '07': 'July',
+      '08': 'August',
+      '09': 'September',
+      '10': 'October',
+      '11': 'November',
+      '12': 'December'
+    };
+    return months[month] || month;
+  };
   const titleRef = useRef(null);
   const statusRef = useRef(null);
   const amountRef = useRef(null);
-  const officeRef = useRef(null);
-  const logisticsRef = useRef(null);
-  const residenceRef = useRef(null);
-  const hotelRef = useRef(null);
-  const othersRef = useRef(null);
+  const categoryRefs = useRef({});
+  
+  const [portfolioData, setPortfolioData] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [operationalStatus, setOperationalStatus] = useState('');
+  const [updateDate, setUpdateDate] = useState({
+    year: '',
+    month: ''
+  });
+
+  // Firebase에서 카테고리 데이터 로드
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesDoc = await getDoc(doc(db, 'portfolio', 'categories'));
+        if (categoriesDoc.exists()) {
+          const categoriesData = categoriesDoc.data().categories || [];
+          // order 필드로 정렬
+          const sortedCategories = categoriesData.sort((a, b) => {
+            const orderA = a.order !== undefined ? a.order : 999;
+            const orderB = b.order !== undefined ? b.order : 999;
+            return orderA - orderB;
+          });
+          setCategories(sortedCategories);
+        }
+      } catch (error) {
+        console.error('카테고리 로딩 오류:', error);
+        // 기본 카테고리 사용
+        setCategories([
+          { id: 'office', label: 'Office' },
+          { id: 'logistics', label: 'Logistics' },
+          { id: 'residence', label: 'Residence' },
+          { id: 'hotel', label: 'Hotel' },
+          { id: 'others', label: 'Others' }
+        ]);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
+  // Firebase에서 포트폴리오 데이터 로드
+  useEffect(() => {
+    const loadPortfolioData = async () => {
+      try {
+        setLoading(true);
+        if (!db) {
+          console.log('Firebase가 초기화되지 않았습니다.');
+          setLoading(false);
+          return;
+        }
+
+        const querySnapshot = await getDocs(collection(db, 'portfolio'));
+        const data = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        // 카테고리별로 데이터 분류
+        const categorizedData = {};
+        categories.forEach(category => {
+          categorizedData[category.id] = [];
+        });
+
+        console.log('Firebase에서 로드된 원본 데이터:', data);
+        
+        data.forEach(item => {
+          // operational-status, total-amount, categories 등 특별한 문서는 제외
+          if (item.id === 'operational-status' || item.id === 'total-amount' || item.id === 'categories') {
+            console.log(`특별 문서 제외: ${item.id}`);
+            return;
+          }
+          
+          // 포트폴리오 항목이 아닌 경우 제외 (titleKo나 category가 없는 경우)
+          if (!item.titleKo || !item.category) {
+            console.log(`포트폴리오 항목이 아닌 문서 제외: ${item.id}`, { titleKo: item.titleKo, category: item.category });
+            return;
+          }
+          
+          const category = item.category || 'others';
+          console.log(`아이템 ${item.id}: category=${category}, titleKo=${item.titleKo}, titleEn=${item.titleEn}`);
+          if (categorizedData[category]) {
+            categorizedData[category].push(item);
+          } else {
+            categorizedData.others.push(item);
+          }
+        });
+
+        // 각 카테고리별로 order 필드로 정렬
+        Object.keys(categorizedData).forEach(category => {
+          categorizedData[category].sort((a, b) => {
+            const orderA = a.order !== undefined ? a.order : 999;
+            const orderB = b.order !== undefined ? b.order : 999;
+            return orderA - orderB;
+          });
+          console.log(`${category} 카테고리 데이터:`, categorizedData[category]);
+        });
+
+        setPortfolioData(categorizedData);
+      } catch (error) {
+        console.error('포트폴리오 데이터 로딩 오류:', error);
+        // 에러 발생 시 기본 데이터 사용
+        setPortfolioData({
+          office: [],
+          logistics: [],
+          residence: [],
+          hotel: [],
+          others: []
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // 운용현황 데이터 로드
+    const loadOperationalStatus = async () => {
+      try {
+        if (!db) {
+          console.log('Firebase가 초기화되지 않았습니다.');
+          return;
+        }
+
+        const docRef = doc(db, 'portfolio', 'operational-status');
+        const docSnap = await getDoc(docRef);
+        
+        console.log('운용현황 문서 존재 여부:', docSnap.exists());
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          console.log('운용현황 데이터:', data);
+          // 언어에 따라 해당하는 필드 사용
+          const statusValue = language === 'KO' ? data.ko : data.en;
+          setOperationalStatus(statusValue || '');
+          // 날짜 데이터도 로드
+          if (data.updateDate) {
+            setUpdateDate({
+              year: data.updateDate.year || '',
+              month: data.updateDate.month || ''
+            });
+          }
+        } else {
+          console.log('운용현황 문서가 존재하지 않습니다.');
+        }
+      } catch (error) {
+        console.error('운용현황 데이터 로딩 오류:', error);
+      }
+    };
+
+    if (categories.length > 0) {
+      loadPortfolioData();
+      loadOperationalStatus();
+    }
+  }, [language, categories]);
 
   // Intersection Observer 적용
-  useIntersectionObserver(titleRef, { delay: 100 });
-  useIntersectionObserver(statusRef, { delay: 300 });
-  useIntersectionObserver(amountRef, { delay: 500 });
-  useIntersectionObserver(officeRef, { delay: 700 });
-  useIntersectionObserver(logisticsRef, { delay: 100 });
-  useIntersectionObserver(residenceRef, { delay: 100 });
-  useIntersectionObserver(hotelRef, { delay: 100 });
-  useIntersectionObserver(othersRef, { delay: 100 });
+  useEffect(() => {
+    const observers = [];
+    
+    // 기본 요소들에 대한 Observer
+    const elements = [
+      { ref: titleRef },
+      { ref: statusRef },
+      { ref: amountRef }
+    ];
+    
+    elements.forEach(({ ref }) => {
+      if (ref.current) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
+              entry.target.classList.add('animate-fade-in-up');
+            }
+          }
+        }, { threshold: 0.3, rootMargin: '0px 0px -100px 0px' });
+        
+        observer.observe(ref.current);
+        observers.push(observer);
+      }
+    });
+    
+    // 카테고리별 ref에 Intersection Observer 적용
+    categories.forEach((category) => {
+      if (categoryRefs.current[category.id]) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
+              entry.target.classList.add('animate-fade-in-up');
+            }
+          }
+        }, { threshold: 0.3, rootMargin: '0px 0px -100px 0px' });
+        
+        observer.observe(categoryRefs.current[category.id]);
+        observers.push(observer);
+      }
+    });
+    
+    // Cleanup 함수
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, [categories]);
+
+  // Fallback: 페이지 로드 후 일정 시간이 지나면 강제로 애니메이션 실행
+  useEffect(() => {
+    if (categories.length > 0 && !loading) {
+      const fallbackTimer = setTimeout(() => {
+        // 기본 요소들 애니메이션
+        if (titleRef.current && !titleRef.current.classList.contains('animate-fade-in-up')) {
+          titleRef.current.classList.add('animate-fade-in-up');
+        }
+        if (statusRef.current && !statusRef.current.classList.contains('animate-fade-in-up')) {
+          statusRef.current.classList.add('animate-fade-in-up');
+        }
+        if (amountRef.current && !amountRef.current.classList.contains('animate-fade-in-up')) {
+          amountRef.current.classList.add('animate-fade-in-up');
+        }
+        
+        // 카테고리별 애니메이션
+        categories.forEach((category) => {
+          if (categoryRefs.current[category.id] && !categoryRefs.current[category.id].classList.contains('animate-fade-in-up')) {
+            categoryRefs.current[category.id].classList.add('animate-fade-in-up');
+          }
+        });
+      }, 0); // 2초 후 실행
+      
+      return () => clearTimeout(fallbackTimer);
+    }
+  }, [categories, loading]);
 
   const content = {
     EN: {
@@ -82,184 +290,6 @@ const Portfolio = ({ language }) => {
 
   const currentContent = content[language];
 
-  const portfolioData = {
-    office: [
-      {
-        name: "분당 티맥스R&D센터",
-        nameEn: "Bundang T-Max R&D Center",
-        location: "경기도 분당구",
-        locationEn: "Bundang, Gyeonggi-do",
-        gfa: "33,011 sqm",
-        floor: "5F/B4",
-        image: "/resource/Office_1.jpg",
-        category: "Gravity General Private Real Estate Investment Company No. 4",
-        categoryKo: "그래비티일반사모부동산투자회사제4호"
-      },
-      {
-        name: "상암 한샘빌딩",
-        nameEn: "Sangam Hanssem Building",
-        location: "서울특별시 마포구",
-        locationEn: "Mapo, Seoul",
-        gfa: "66,648 sqm",
-        floor: "22F/B5",
-        image: "/resource/Office_2.jpg",
-        category: "Gravity General Private Real Estate Investment Company No. 8",
-        categoryKo: "그래비티일반사모부동산투자회사제8호"
-      },
-      {
-        name: "강남파이낸스플라자",
-        nameEn: "Gangnam Finance Plaza",
-        location: "서울특별시 강남구",
-        locationEn: "Gangnam, Seoul",
-        gfa: "24,179 sqm",
-        floor: "20F/B6",
-        image: "/resource/Office_3.jpg",
-        category: "Gravity General Private Real Estate Investment Trust No. 11",
-        categoryKo: "그래비티일반사모부동산투자신탁제11호"
-      }
-    ],
-    logistics: [
-      {
-        name: "여주 은봉리 물류센터",
-        nameEn: "Yeoju Eunbong-ri Logistics Center",
-        location: "경기도 여주시",
-        locationEn: "Yeoju, Gyeonggi-do",
-        gfa: "42,975 sqm",
-        floor: "4F/B2",
-        image: "/resource/Logistics_1.jpg",
-        category: "Gravity No. 1 Yeoju Logistics PFV Co., Ltd",
-        categoryKo: "그래비티1호여주물류피에프브이"
-      },
-      {
-        name: "북천안 물류센터 선매입",
-        nameEn: "North Cheonan Logistics Center Forward Purchase",
-        location: "충청남도 천안시",
-        locationEn: "Cheonan, Chungcheongnam-do",
-        gfa: "142,598 sqm",
-        floor: "4F/B1",
-        image: "/resource/Logistics_2.jpg",
-        category: "Gravity General Private Real Estate Investment Company No. 5",
-        categoryKo: "그래비티일반사모부동산투자회사제5호"
-      },
-      {
-        name: "부천 내동 물류센터 선매입",
-        nameEn: "Bucheon Naedong Logistics Center Forward Purchase",
-        location: "경기도 부천시",
-        locationEn: "Bucheon, Gyeonggi-do",
-        gfa: "82,645 sqm",
-        floor: "12F/B2",
-        image: "/resource/Logistics_3.jpg",
-        category: "Gravity General Private Real Estate Investment Company No. 7",
-        categoryKo: "그래비티일반사모부동산투자회사제7호"
-      },
-      {
-        name: "인천 트라이포트 로지스틱스센터",
-        nameEn: "Incheon Triport Logistics Center",
-        location: "인천광역시 서구",
-        locationEn: "Seo-gu, Incheon",
-        gfa: "80,677 sqm",
-        floor: "B1/7F",
-        image: "/resource/Logistics_4.jpg",
-        category: "Incheon South Cheongna Logistics Private Real Estate Investment Company",
-        categoryKo: "인천남청라로지스일반사모부동산투자회사"
-      },
-      {
-        name: "안성 장계리 물류센터",
-        nameEn: "Anseong Janggye-ri Logistics Center",
-        location: "경기도 안성시",
-        locationEn: "Anseong, Gyeonggi-do",
-        gfa: "119,382 sqm",
-        floor: "3F/B3",
-        image: "/resource/Logistics_5.jpg",
-        category: "Anseong Matchum Logis",
-        categoryKo: "안성맞춤로지스"
-      }
-    ],
-    residence: [
-      {
-        name: "지웰홈스라이프강동",
-        nameEn: "GWELL Homes. LIFE Gangdong",
-        location: "서울특별시 강동구",
-        locationEn: "Gangdong, Seoul",
-        gfa: "3,257 sqm",
-        floor: "15F/B1",
-        image: "/resource/Residence_1.jpg",
-        category: "Gravity Gangdong Residence Private Real Estate Investment Company",
-        categoryKo: "그래비티강동레지던스사모부동산투자회사"
-      },
-      {
-        name: "에피소드 컨비니 가산",
-        nameEn: "Episode CONVENI Gasan",
-        location: "서울특별시 금천구",
-        locationEn: "Geumcheon, Seoul",
-        gfa: "84,699 sqm",
-        floor: "14F/B1",
-        image: "/resource/Residence_2.jpg",
-        category: "Doksan Residence Private Real Estate Investment Company",
-        categoryKo: "독산레지던스사모부동산투자회사"
-      },
-      {
-        name: "홈즈스튜디오 안암",
-        nameEn: "Homes Studio Anam",
-        location: "서울특별시 성북구",
-        locationEn: "Seongbuk, Seoul",
-        gfa: "26,354 sqm",
-        floor: "6F/B2",
-        image: "/resource/Residence_3.jpg",
-        category: "Anam Residence Private Real Estate Investment Company",
-        categoryKo: "안암레지던스사모부동산투자회사"
-      },
-      {
-        name: "셀립 건대",
-        nameEn: "Célib Kondae",
-        location: "서울특별시 광진구",
-        locationEn: "Gwangjin, Seoul",
-        gfa: "2,958 sqm",
-        floor: "B2F/8F",
-        image: "/resource/Residence_4.jpg",
-        category: "KU Residence Private Real Estate Investment Company",
-        categoryKo: "건대레지던스사모부동산투자회사"
-      }
-    ],
-    hotel: [
-      {
-        name: "보코서울명동 호텔",
-        nameEn: "VOCO Seoul Myeongdong Hotel",
-        location: "서울특별시 중구",
-        locationEn: "Jung-gu, Seoul",
-        gfa: "33,167 sqm",
-        floor: "19F/B2",
-        image: "/resource/Hotel_1.jpg",
-        category: "Seoul South Gate Hotel Private Real Estate Investment Company",
-        categoryKo: "서울남대문호텔사모부동산투자회사"
-      }
-    ],
-    others: [
-      {
-        name: "유안타증권빌딩 개발사업 PF 선순위 대출채권",
-        nameEn: "Yuanta Securities Building Site Development PF Senoir Loan",
-        location: "서울특별시 중구",
-        locationEn: "Jung-gu, Seoul",
-        gfa: "45,230 sqm",
-        floor: "24F/B8",
-        image: "/resource/Others_1.jpg",
-        category: "Gravity General Private Real Estate Debt Investment Trust No.1",
-        categoryKo: "그래비티일반사모부동산투자신탁대출형제1호"
-      },
-      {
-        name: "아산 탕정 브라운스톤 갤럭시 오피스텔",
-        nameEn: "Asan Tangjeong Brownstone Galaxy Officetel",
-        location: "충청남도 아산시",
-        locationEn: "Asan, Chungcheongnam-do",
-        gfa: "13,414 sqm",
-        floor: "1F/10F",
-        image: "/resource/Others_2.jpg",
-        category: "Gravity General Private Real Estate Investment Company No. 24",
-        categoryKo: "그래비티일반사모부동산투자회사제24호"
-      }
-    ]
-  };
-
   return (
     <div className="portfolio-page">
       {/* Header Section */}
@@ -280,8 +310,15 @@ const Portfolio = ({ language }) => {
               <h2 className={`status-title status-title-${language.toLowerCase()}`}>{currentContent.operationalStatus}</h2>
             </div>
             <div ref={amountRef} className={`portfolio-status-right portfolio-status-right-${language.toLowerCase()}`}>
-              <p className={`status-date status-date-${language.toLowerCase()}`}>{currentContent.date}</p>
-              <p className={`status-amount status-amount-${language.toLowerCase()}`}>{currentContent.totalAmount}</p>
+              <p className={`status-date status-date-${language.toLowerCase()}`}>
+                {updateDate.year && updateDate.month 
+                  ? `${getMonthName(updateDate.month)} ${updateDate.year}`
+                  : currentContent.date
+                }
+              </p>
+              <p className={`status-amount status-amount-${language.toLowerCase()}`}>
+                {operationalStatus || currentContent.totalAmount}
+              </p>
             </div>
           </div>
         </div>
@@ -290,190 +327,61 @@ const Portfolio = ({ language }) => {
       {/* Portfolio Content */}
       <section className={`portfolio-content portfolio-content-${language.toLowerCase()}`}>
         <div className="portfolio-container">
-          {/* Office Section */}
-          <div ref={officeRef} className={`portfolio-section portfolio-section-${language.toLowerCase()}`}>
-            <div className={`portfolio-section-header portfolio-section-header-${language.toLowerCase()}`}>
-              <div className="portfolio-section-line"></div>
-              <h2 className={`portfolio-section-title portfolio-section-title-${language.toLowerCase()}`}>{currentContent.office}</h2>
-            </div>
-            <div className={`property-grid property-grid-${language.toLowerCase()}`}>
-              {portfolioData.office.map((property, index) => (
-                <div key={index} className={`property-card property-card-${language.toLowerCase()}`}>
-                  <div className="property-image">
-                    <img src={property.image} alt={language === 'KO' ? property.name : property.nameEn} />
-                  </div>
-                  <div className={`property-info property-info-${language.toLowerCase()}`}>
-                    <div className={`property-header property-header-${language.toLowerCase()}`}>
-                      <p className={`property-category property-category-${language.toLowerCase()}`}>{language === 'KO' ? property.categoryKo : property.category}</p>
-                      <h3 className={`property-name property-name-${language.toLowerCase()}`}>{language === 'KO' ? property.name : property.nameEn}</h3>
-                    </div>
-                    <div className={`property-details property-details-${language.toLowerCase()}`}>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.location}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{language === 'KO' ? property.location : property.locationEn}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.gfa}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.gfa}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.floor}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.floor}</span>
-                      </div>
-                    </div>
-                  </div>
+          {/* 동적으로 카테고리별 섹션 생성 */}
+          {categories.map((category) => {
+            const categoryData = portfolioData[category.id] || [];
+            if (categoryData.length === 0) return null; // 데이터가 없으면 섹션 생성하지 않음
+            
+            return (
+              <div 
+                key={category.id}
+                ref={(el) => { categoryRefs.current[category.id] = el; }}
+                className={`portfolio-section portfolio-section-${language.toLowerCase()}`}
+              >
+                <div className={`portfolio-section-header portfolio-section-header-${language.toLowerCase()}`}>
+                  <div className="portfolio-section-line"></div>
+                  <h2 className={`portfolio-section-title portfolio-section-title-${language.toLowerCase()}`}>
+                    {category.label}
+                  </h2>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Logistics Section */}
-          <div ref={logisticsRef} className={`portfolio-section portfolio-section-${language.toLowerCase()}`}>
-            <div className={`portfolio-section-header portfolio-section-header-${language.toLowerCase()}`}>
-              <div className="portfolio-section-line"></div>
-              <h2 className={`portfolio-section-title portfolio-section-title-${language.toLowerCase()}`}>{currentContent.logistics}</h2>
-            </div>
-            <div className={`property-grid property-grid-${language.toLowerCase()}`}>
-              {portfolioData.logistics.map((property, index) => (
-                <div key={index} className={`property-card property-card-${language.toLowerCase()}`}>
-                  <div className="property-image">
-                    <img src={property.image} alt={language === 'KO' ? property.name : property.nameEn} />
-                  </div>
-                  <div className={`property-info property-info-${language.toLowerCase()}`}>
-                    <div className={`property-header property-header-${language.toLowerCase()}`}>
-                      <p className={`property-category property-category-${language.toLowerCase()}`}>{language === 'KO' ? property.categoryKo : property.category}</p>
-                      <h3 className={`property-name property-name-${language.toLowerCase()}`}>{language === 'KO' ? property.name : property.nameEn}</h3>
-                    </div>
-                    <div className={`property-details property-details-${language.toLowerCase()}`}>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.location}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{language === 'KO' ? property.location : property.locationEn}</span>
+                <div className={`property-grid property-grid-${language.toLowerCase()}`}>
+                  {categoryData.map((property, index) => (
+                    <div key={index} className={`property-card property-card-${language.toLowerCase()}`}>
+                      <div className="property-image">
+                        <img src={property.image} alt={language === 'KO' ? property.titleKo : property.titleEn} />
                       </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.gfa}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.gfa}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.floor}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.floor}</span>
+                      <div className={`property-info property-info-${language.toLowerCase()}`}>
+                        <div className={`property-header property-header-${language.toLowerCase()}`}>
+                          <p className={`property-category property-category-${language.toLowerCase()}`}>
+                            {language === 'KO' ? property.categoryKo : property.categoryEn}
+                          </p>
+                          <h3 className={`property-name property-name-${language.toLowerCase()}`}>
+                            {language === 'KO' ? property.titleKo : property.titleEn}
+                          </h3>
+                        </div>
+                        <div className={`property-details property-details-${language.toLowerCase()}`}>
+                          <div className={`detail-item detail-item-${language.toLowerCase()}`}>
+                            <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.location}</span>
+                            <span className={`detail-value detail-value-${language.toLowerCase()}`}>
+                              {language === 'KO' ? property.locationKo : property.locationEn}
+                            </span>
+                          </div>
+                          <div className={`detail-item detail-item-${language.toLowerCase()}`}>
+                            <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.gfa}</span>
+                            <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.gfa}</span>
+                          </div>
+                          <div className={`detail-item detail-item-${language.toLowerCase()}`}>
+                            <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.floor}</span>
+                            <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.floors}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Residence Section */}
-          <div ref={residenceRef} className={`portfolio-section portfolio-section-${language.toLowerCase()}`}>
-            <div className={`portfolio-section-header portfolio-section-header-${language.toLowerCase()}`}>
-              <div className="portfolio-section-line"></div>
-              <h2 className={`portfolio-section-title portfolio-section-title-${language.toLowerCase()}`}>{currentContent.residence}</h2>
-            </div>
-            <div className={`property-grid property-grid-${language.toLowerCase()}`}>
-              {portfolioData.residence.map((property, index) => (
-                <div key={index} className={`property-card property-card-${language.toLowerCase()}`}>
-                  <div className="property-image">
-                    <img src={property.image} alt={language === 'KO' ? property.name : property.nameEn} />
-                  </div>
-                  <div className={`property-info property-info-${language.toLowerCase()}`}>
-                    <div className={`property-header property-header-${language.toLowerCase()}`}>
-                      <p className={`property-category property-category-${language.toLowerCase()}`}>{language === 'KO' ? property.categoryKo : property.category}</p>
-                      <h3 className={`property-name property-name-${language.toLowerCase()}`}>{language === 'KO' ? property.name : property.nameEn}</h3>
-                    </div>
-                    <div className={`property-details property-details-${language.toLowerCase()}`}>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.location}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{language === 'KO' ? property.location : property.locationEn}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.gfa}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.gfa}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.floor}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.floor}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Hotel Section */}
-          <div ref={hotelRef} className={`portfolio-section portfolio-section-${language.toLowerCase()}`}>
-            <div className={`portfolio-section-header portfolio-section-header-${language.toLowerCase()}`}>
-              <div className="portfolio-section-line"></div>
-              <h2 className={`portfolio-section-title portfolio-section-title-${language.toLowerCase()}`}>{currentContent.hotel}</h2>
-            </div>
-            <div className={`property-grid property-grid-${language.toLowerCase()}`}>
-              {portfolioData.hotel.map((property, index) => (
-                <div key={index} className={`property-card property-card-${language.toLowerCase()}`}>
-                  <div className="property-image">
-                    <img src={property.image} alt={language === 'KO' ? property.name : property.nameEn} />
-                  </div>
-                  <div className={`property-info property-info-${language.toLowerCase()}`}>
-                    <div className={`property-header property-header-${language.toLowerCase()}`}>
-                      <p className={`property-category property-category-${language.toLowerCase()}`}>{language === 'KO' ? property.categoryKo : property.category}</p>
-                      <h3 className={`property-name property-name-${language.toLowerCase()}`}>{language === 'KO' ? property.name : property.nameEn}</h3>
-                    </div>
-                    <div className={`property-details property-details-${language.toLowerCase()}`}>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.location}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{language === 'KO' ? property.location : property.locationEn}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.gfa}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.gfa}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.floor}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.floor}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Others Section */}
-          <div ref={othersRef} className={`portfolio-section portfolio-section-${language.toLowerCase()}`}>
-            <div className={`portfolio-section-header portfolio-section-header-${language.toLowerCase()}`}>
-              <div className="portfolio-section-line"></div>
-              <h2 className={`portfolio-section-title portfolio-section-title-${language.toLowerCase()}`}>{currentContent.others}</h2>
-            </div>
-            <div className={`property-grid property-grid-${language.toLowerCase()}`}>
-              {portfolioData.others.map((property, index) => (
-                <div key={index} className={`property-card property-card-${language.toLowerCase()}`}>
-                  <div className="property-image">
-                    <img src={property.image} alt={language === 'KO' ? property.name : property.nameEn} />
-                  </div>
-                  <div className={`property-info property-info-${language.toLowerCase()}`}>
-                    <div className={`property-header property-header-${language.toLowerCase()}`}>
-                      <p className={`property-category property-category-${language.toLowerCase()}`}>{language === 'KO' ? property.categoryKo : property.category}</p>
-                      <h3 className={`property-name property-name-${language.toLowerCase()}`}>{language === 'KO' ? property.name : property.nameEn}</h3>
-                    </div>
-                    <div className={`property-details property-details-${language.toLowerCase()}`}>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.location}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{language === 'KO' ? property.location : property.locationEn}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.gfa}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.gfa}</span>
-                      </div>
-                      <div className={`detail-item detail-item-${language.toLowerCase()}`}>
-                        <span className={`detail-label detail-label-${language.toLowerCase()}`}>{currentContent.floor}</span>
-                        <span className={`detail-value detail-value-${language.toLowerCase()}`}>{property.floor}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -482,4 +390,4 @@ const Portfolio = ({ language }) => {
   );
 };
 
-export default Portfolio; 
+export default Portfolio;

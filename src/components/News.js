@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './News.css';
 import Footer from './Footer';
+import { dataService } from '../admin/services/dataService';
 
 const useIntersectionObserver = (ref, options = {}) => {
   useEffect(() => {
@@ -37,6 +38,8 @@ const News = ({ language }) => {
   const [filteredNews, setFilteredNews] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [newsData, setNewsData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   
   // Refs for animations
@@ -45,11 +48,49 @@ const News = ({ language }) => {
   const newsListRef = useRef(null);
   const paginationRef = useRef(null);
 
+  // 뉴스 데이터 로드
+  useEffect(() => {
+    loadNewsData();
+  }, []);
+
+  // newsData 상태 변경 감지
+  useEffect(() => {
+    console.log('newsData 상태 변경:', newsData);
+  }, [newsData]);
+
+  // loading 상태 변경 감지
+  useEffect(() => {
+    console.log('loading 상태 변경:', loading);
+  }, [loading]);
+
   // Apply intersection observer
   useIntersectionObserver(titleRef, { delay: 100 });
   useIntersectionObserver(searchBarRef, { delay: 200 });
   useIntersectionObserver(newsListRef, { delay: 300 });
   useIntersectionObserver(paginationRef, { delay: 400 });
+
+  // 뉴스 데이터 로드 함수
+  const loadNewsData = async () => {
+    try {
+      setLoading(true);
+      console.log('뉴스 데이터 로딩 시작...');
+      const result = await dataService.getAllDocuments('news', 'createdAt', 'desc');
+      console.log('뉴스 데이터 로딩 결과:', result);
+      if (result.success) {
+        setNewsData(result.data);
+        console.log('뉴스 데이터 설정됨:', result.data);
+      } else {
+        setNewsData([]);
+        console.log('뉴스 데이터 로딩 실패');
+      }
+    } catch (error) {
+      console.error('뉴스 데이터 로딩 오류:', error);
+      setNewsData([]);
+    } finally {
+      setLoading(false);
+      console.log('뉴스 데이터 로딩 완료, loading:', false);
+    }
+  };
 
   // Handle window resize for mobile detection
   useEffect(() => {
@@ -62,85 +103,32 @@ const News = ({ language }) => {
   }, []);
 
   // Format date based on screen size
-  const formatDate = (dateString) => {
+  const formatDate = (timestamp) => {
+    let date;
+    if (timestamp?.toDate) {
+      date = timestamp.toDate(); // Firestore Timestamp
+    } else {
+      date = new Date(timestamp);
+    }
+    
     if (isMobile) {
       // Mobile: MM/DD format
-      const date = new Date(dateString);
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
       return `${month}/${day}`;
     } else {
       // Desktop: Full date format
-      return dateString;
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
   };
 
   const content = {
     title: "소식",
     filterLabel: "제목",
-    searchLabel: "검색어",
-    newsItems: [
-      { 
-        id: 10, 
-        title: "voco 서울명동호텔 편의점 입찰공고", 
-        date: "2024-04-10",
-        content: "voco 서울명동호텔 편의점 입찰공고입니다. 자세한 내용은 첨부파일을 참고해주시기 바랍니다. 입찰 관련 문의사항이 있으시면 언제든지 연락주시기 바랍니다."
-      },
-      { 
-        id: 9, 
-        title: "Gravity Asset Management 홈페이지 7월 오픈 예정", 
-        date: "2024-04-10",
-        content: "Gravity Asset Management 홈페이지가 7월에 오픈될 예정입니다. 새로운 홈페이지에서는 더욱 편리한 서비스를 제공할 예정이니 많은 관심 부탁드립니다."
-      },
-      { 
-        id: 8, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      },
-      { 
-        id: 7, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      },
-      { 
-        id: 6, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      },
-      { 
-        id: 5, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      },
-      { 
-        id: 4, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      },
-      { 
-        id: 3, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      },
-      { 
-        id: 2, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      },
-      { 
-        id: 1, 
-        title: "제목이 들어갑니다.", 
-        date: "2024-04-10",
-        content: "본문 내용이 들어갑니다. 자세한 내용은 추후 업데이트될 예정입니다."
-      }
-    ]
+    searchLabel: "검색어"
   };
 
   const currentContent = content;
@@ -157,7 +145,7 @@ const News = ({ language }) => {
       return;
     }
 
-    const filtered = content.newsItems.filter(item => {
+    const filtered = newsData.filter(item => {
       const searchLower = searchTerm.toLowerCase();
       
       switch (filterType) {
@@ -189,11 +177,17 @@ const News = ({ language }) => {
 
   // 페이지네이션 로직
   const itemsPerPage = 10;
-  const displayItems = isSearching ? filteredNews : currentContent.newsItems;
+  const displayItems = isSearching ? filteredNews : newsData;
   const totalPages = Math.ceil(displayItems.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentItems = displayItems.slice(startIndex, endIndex);
+
+  // 디버깅을 위한 로그
+  console.log('displayItems:', displayItems);
+  console.log('currentItems:', currentItems);
+  console.log('loading:', loading);
+  console.log('newsData length:', newsData.length);
 
   // 페이지 번호 배열 생성
   const getPageNumbers = () => {
@@ -277,7 +271,9 @@ const News = ({ language }) => {
 
             {/* News List */}
             <div ref={newsListRef} className="news-list">
-              {currentItems.length > 0 ? (
+              {loading ? (
+                <div className="loading">로딩 중...</div>
+              ) : currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
                   <div 
                     key={item.id} 
@@ -285,9 +281,9 @@ const News = ({ language }) => {
                     onClick={() => handleNewsClick(item)}
                     style={{ cursor: 'pointer' }}
                   >
-                    <div className="news-number">{startIndex + index + 1}</div>
+                    <div className="news-number">{displayItems.length - (startIndex + index)}</div>
                     <div className="news-title-text">{item.title}</div>
-                    <div className="news-date">{formatDate(item.date)}</div>
+                    <div className="news-date">{formatDate(item.createdAt)}</div>
                   </div>
                 ))
               ) : (

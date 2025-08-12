@@ -26,6 +26,32 @@
   width: 100%;
   max-width: 1800px;
   margin: 0 auto;
+  position: relative;
+}
+
+.back-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: none;
+  border: none;
+  color: var(--text-white);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.back-button svg {
+  width: 24px;
+  height: 24px;
 }
 
 .news-detail-title {
@@ -40,6 +66,12 @@
   font-family: var(--font-pret);
   opacity: 0;
   transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.news-detail-title.animate-fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Main Content Section */
@@ -58,6 +90,7 @@
 .news-detail-article {
   opacity: 0;
   transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .news-detail-article.animate-fade-in-up {
@@ -91,7 +124,7 @@
 
 .news-detail-article-content {
   font-size: 2rem;
-  line-height: 1.8;
+  line-height: 0.9;
   color: var(--text-black);
   font-family: var(--font-pret);
   letter-spacing: var(--spacing-92);
@@ -100,12 +133,40 @@
   margin-bottom: 150px;
 }
 
+.news-detail-article-content ul,
+ol {
+  padding-left: 20px;
+}
+
+/* 뉴스 이미지 */
+.news-detail-images {
+  margin: 30px 0;
+}
+
+.news-detail-image {
+  margin-bottom: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.news-detail-image.animate-fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.news-detail-image img {
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Attachments */
 .news-detail-attachments {
   border-top: 1px solid var(--line-color);
   padding-top: 40px;
 }
-
 .attachments-title {
   font-size: 2rem;
   font-weight: 600;
@@ -143,6 +204,13 @@
   font-weight: 500;
   color: var(--text-black);
   font-family: var(--font-pret);
+}
+
+.attachment-size {
+  font-size: 1.4rem;
+  color: var(--text-muted);
+  font-family: var(--font-pret);
+  margin-left: 10px;
 }
 
 .download-button {
