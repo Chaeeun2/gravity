@@ -30,7 +30,7 @@ const useIntersectionObserver = (ref, options = {}) => {
         observer.unobserve(ref.current);
       }
     };
-  }, [ref, options]);
+  }, [ref, options.delay, options.animationClass, options.threshold]);
 };
 
 const RiskCompliance = ({ language }) => {

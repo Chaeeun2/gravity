@@ -123,7 +123,7 @@ const Overview = ({ language }) => {
     return () => {
       elements.forEach(el => observer.unobserve(el));
     };
-  }, []);
+  }, [isMobile]); // isMobile 의존성 추가
 
   // 높이 계산 및 이미지 높이 설정
   useEffect(() => {

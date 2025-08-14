@@ -1,38 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../admin/lib/firebase';
+
 import { imageService } from '../admin/services/imageService';
 import Footer from './Footer';
 import './NewsDetail.css';
 import { dataService } from '../admin/services/dataService';
 
-const useIntersectionObserver = (ref, options = {}) => {
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            element.classList.add('animate-fade-in-up');
-          }, options.delay || 0);
-        }
-      },
-      {
-        threshold: 0.1,
-        ...options
-      }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      observer.unobserve(element);
-    };
-  }, [ref, options.delay]);
-};
 
 const NewsDetail = ({ language }) => {
   const { id } = useParams();

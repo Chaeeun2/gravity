@@ -32,7 +32,7 @@ const InvestmentStrategyManager = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [showStrategyModal, setShowStrategyModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
-  const [initializing, setInitializing] = useState(false);
+
   const [activeTab, setActiveTab] = useState('strategies');
 
   const sensors = useSensors(
@@ -64,21 +64,7 @@ const InvestmentStrategyManager = () => {
     }
   };
 
-  const handleInitializeData = async () => {
-    if (window.confirm('초기 데이터를 설정하시겠습니까? 기존 데이터가 덮어써질 수 있습니다.')) {
-      try {
-        setInitializing(true);
-        await initializeInvestmentData();
-        await loadData();
-        alert('초기 데이터 설정이 완료되었습니다.');
-      } catch (error) {
-        console.error('초기 데이터 설정 실패:', error);
-        alert('초기 데이터 설정에 실패했습니다.');
-      } finally {
-        setInitializing(false);
-      }
-    }
-  };
+
 
   const handleStrategyEdit = (strategy) => {
     setEditingStrategy({ ...strategy });

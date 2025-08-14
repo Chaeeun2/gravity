@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { dataService } from '../services/dataService';
 import AdminLayout from '../components/AdminLayout';
 import PortfolioModal from '../components/PortfolioModal';
@@ -427,7 +427,7 @@ const PortfolioManager = () => {
         await dataService.updatePortfolioItem(editingPortfolio.id, portfolioData);
         alert('포트폴리오가 수정되었습니다.');
       } else {
-        const result = await dataService.addPortfolioItem(portfolioData);
+        await dataService.addPortfolioItem(portfolioData);
         alert('포트폴리오가 추가되었습니다.');
       }
       await loadPortfolioData();

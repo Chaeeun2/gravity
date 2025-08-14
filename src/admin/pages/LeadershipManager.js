@@ -49,14 +49,14 @@ const LeadershipManager = () => {
     if (formData.experienceKo.length === 1 && formData.experienceKo[0] === '') {
       setExperienceInputs({
         ko: [...formData.experienceKo],
-        en: [...formData.experienceEn]
+        en: [...formData.experienceKo]
       });
       setEducationInputs({
         ko: [...formData.educationKo],
-        en: [...formData.educationEn]
+        en: [...formData.educationKo]
       });
     }
-  }, []); // 빈 의존성 배열로 초기 로드 시에만 실행
+  }, [formData.experienceKo, formData.educationKo]); // 의존성 배열 수정
 
   useEffect(() => {
     loadLeadershipData();
