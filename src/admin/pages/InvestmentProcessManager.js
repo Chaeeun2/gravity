@@ -1,57 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { dataService } from '../services/dataService';
 import AdminLayout from '../components/AdminLayout';
 
 const InvestmentProcessManager = () => {
-  const [processData, setProcessData] = useState({
-    title: '',
-    description: '',
-    content: ''
-  });
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    loadProcessData();
-  }, []);
-
-  const loadProcessData = async () => {
-    try {
-      setLoading(true);
-      const data = await dataService.investmentProcess.getAll();
-      if (data.length > 0) {
-        setProcessData(data[0]);
-      }
-    } catch (error) {
-      console.error('Investment Process 데이터 로딩 오류:', error);
-    } finally {
+    // 간단한 로딩 시뮬레이션
+    const timer = setTimeout(() => {
       setLoading(false);
-    }
-  };
+    }, 1000);
 
-  const handleSave = async () => {
-    try {
-      setSaving(true);
-      if (processData.id) {
-        await dataService.investmentProcess.update(processData.id, processData);
-      } else {
-        await dataService.investmentProcess.add(processData);
-      }
-      alert('저장되었습니다.');
-    } catch (error) {
-      console.error('저장 오류:', error);
-      alert('저장에 실패했습니다.');
-    } finally {
-      setSaving(false);
-    }
-  };
+    return () => clearTimeout(timer);
+  }, []);
 
   if (loading) {
     return (
       <AdminLayout>
         <div className="admin-content">
           <h2 className="admin-page-title">Investment Process 관리</h2>
-                <div className="admin-content-wrapper">
+          <div className="admin-content-wrapper">
             <div className="admin-content">
               <div className="admin-content-header">
                 <h3>Investment Process 관리</h3>
