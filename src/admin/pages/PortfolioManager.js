@@ -289,10 +289,7 @@ const PortfolioManager = () => {
     setCategoryModalOpen(true);
   };
 
-  const handleEditCategory = (category) => {
-    setEditingCategory(category);
-    setCategoryModalOpen(true);
-  };
+
 
   const handleDeleteCategory = async (categoryId) => {
     // 해당 카테고리에 포트폴리오가 있는지 확인
@@ -457,16 +454,7 @@ const PortfolioManager = () => {
     }
   };
 
-  // 총 운용금액 저장
-  const handleTotalAmountSave = async () => {
-    try {
-      await dataService.setDocument('portfolio', 'total-amount', totalAmount);
-      alert('총 운용금액이 저장되었습니다.');
-    } catch (error) {
-      console.error('총 운용금액 저장 오류:', error);
-      alert('총 운용금액 저장에 실패했습니다.');
-    }
-  };
+
 
   if (loading) {
     return (

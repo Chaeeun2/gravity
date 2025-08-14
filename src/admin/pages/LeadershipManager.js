@@ -189,7 +189,6 @@ const LeadershipManager = () => {
 
   // 경력 줄 추가
   const addExperienceLine = () => {
-    const newIndex = formData.experienceKo.length;
     setFormData(prev => ({
       ...prev,
       experienceKo: [...prev.experienceKo, ''],
@@ -205,7 +204,6 @@ const LeadershipManager = () => {
 
   // 학력 줄 추가
   const addEducationLine = () => {
-    const newIndex = formData.educationKo.length;
     setFormData(prev => ({
       ...prev,
       educationKo: [...prev.educationKo, ''],
@@ -213,7 +211,7 @@ const LeadershipManager = () => {
     }));
     
     // 개별 입력 필드 상태도 함께 업데이트
-    setEducationInputs(prev => ({
+    setExperienceInputs(prev => ({
       ko: [...prev.ko, ''],
       en: [...prev.en, '']
     }));
@@ -253,15 +251,7 @@ const LeadershipManager = () => {
     }
   };
 
-  // 경력 변경 처리
-  const handleExperienceChange = useCallback((language, index, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [`experience${language === 'ko' ? 'Ko' : 'En'}`]: prev[`experience${language === 'ko' ? 'Ko' : 'En'}`].map((line, i) => 
-        i === index ? value : line
-      )
-    }));
-  }, []);
+
 
   // 개별 경력 입력 필드 변경 처리
   const handleExperienceInputChange = useCallback((language, index, value) => {
@@ -276,16 +266,6 @@ const LeadershipManager = () => {
         en: prev.en.map((line, i) => i === index ? value : line)
       }));
     }
-  }, []);
-
-  // 학력 변경 처리
-  const handleEducationChange = useCallback((language, index, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [`education${language === 'ko' ? 'Ko' : 'En'}`]: prev[`education${language === 'ko' ? 'Ko' : 'En'}`].map((line, i) => 
-        i === index ? value : line
-      )
-    }));
   }, []);
 
   // 개별 학력 입력 필드 변경 처리

@@ -179,12 +179,6 @@
   border-top: none;
 }
 
-.leadership-section:nth-child(1) .member-card,
-.leadership-section:nth-child(2) .member-card,
-.leadership-section:nth-child(3) .member-card {
-  border-top: 1px solid var(--line-color);
-}
-
 /* Member Card */
 .member-card {
   width: 33.3%;
@@ -197,81 +191,151 @@
   cursor: pointer;
 }
 
-.leadership-section:nth-child(1):has(.member-card:nth-child(3n):last-child)
-  + .leadership-section:nth-child(2)
+@media (min-width: 1201px) {
+  .leadership-section:nth-child(1) .member-card,
+  .leadership-section:nth-child(2) .member-card,
+  .leadership-section:nth-child(3) .member-card {
+    border-top: 1px solid var(--line-color);
+  }
+
+  .leadership-section:nth-child(1):has(.member-card:nth-child(3n):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(1):has(.member-card:nth-child(3n):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(2),
+  .leadership-section:nth-child(1):has(.member-card:nth-child(3n):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(3),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(3n):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(3n):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(2),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(3n):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(3) {
+    border-top: none;
+  }
+
+  .leadership-section:nth-child(1):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(1):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(2),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(2) {
+    border-top: none;
+  }
+
+  .leadership-section:nth-child(1):has(.member-card:nth-child(1):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(1):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(1) {
+    border-top: none;
+  }
+
+  .leadership-section:has(.member-card:nth-child(4):last-child)
+    .member-card:nth-child(1),
+  .leadership-section:has(.member-card:nth-child(4):last-child)
+    .member-card:nth-child(4) {
+    border-bottom: none;
+  }
+
+  .leadership-section:has(.member-card:nth-child(5):last-child)
+    .member-card:nth-child(1),
+  .leadership-section:has(.member-card:nth-child(5):last-child)
+    .member-card:nth-child(2),
+  .leadership-section:has(.member-card:nth-child(5):last-child)
+    .member-card:nth-child(4),
+  .leadership-section:has(.member-card:nth-child(5):last-child)
+    .member-card:nth-child(5) {
+    border-bottom: none;
+  }
+
+  .leadership-section:has(.member-card:nth-child(6):last-child)
+    .member-card:nth-child(1),
+  .leadership-section:has(.member-card:nth-child(6):last-child)
+    .member-card:nth-child(2),
+  .leadership-section:has(.member-card:nth-child(6):last-child)
+    .member-card:nth-child(3) {
+    border-bottom: none;
+  }
+
   .member-card:nth-child(1),
-.leadership-section:nth-child(1):has(.member-card:nth-child(3n):last-child)
-  + .leadership-section:nth-child(2)
-  .member-card:nth-child(2),
-.leadership-section:nth-child(1):has(.member-card:nth-child(3n):last-child)
-  + .leadership-section:nth-child(2)
-  .member-card:nth-child(3),
-.leadership-section:nth-child(2):has(.member-card:nth-child(3n):last-child)
-  + .leadership-section:nth-child(3)
-  .member-card:nth-child(1),
-.leadership-section:nth-child(2):has(.member-card:nth-child(3n):last-child)
-  + .leadership-section:nth-child(3)
-  .member-card:nth-child(2),
-.leadership-section:nth-child(2):has(.member-card:nth-child(3n):last-child)
-  + .leadership-section:nth-child(3)
-  .member-card:nth-child(3) {
-  border-top: none;
+  .member-card:nth-child(4n) {
+    border-left: 1px solid var(--line-color);
+  }
 }
 
-.leadership-section:nth-child(1):has(.member-card:nth-child(2):last-child)
-  + .leadership-section:nth-child(2)
-  .member-card:nth-child(1),
-.leadership-section:nth-child(1):has(.member-card:nth-child(2):last-child)
-  + .leadership-section:nth-child(2)
-  .member-card:nth-child(2),
-.leadership-section:nth-child(2):has(.member-card:nth-child(2):last-child)
-  + .leadership-section:nth-child(3)
-  .member-card:nth-child(1),
-.leadership-section:nth-child(2):has(.member-card:nth-child(2):last-child)
-  + .leadership-section:nth-child(3)
-  .member-card:nth-child(2) {
-  border-top: none;
-}
+@media (max-width: 1200px) and (min-width: 769px) {
+  .leadership-section:nth-child(1) .member-card,
+  .leadership-section:nth-child(2) .member-card,
+  .leadership-section:nth-child(3) .member-card {
+    border-top: 1px solid var(--line-color);
+  }
 
-.leadership-section:nth-child(1):has(.member-card:nth-child(1):last-child)
-  + .leadership-section:nth-child(2)
-  .member-card:nth-child(1),
-.leadership-section:nth-child(2):has(.member-card:nth-child(1):last-child)
-  + .leadership-section:nth-child(3)
-  .member-card:nth-child(1) {
-  border-top: none;
-}
+  .leadership-section:nth-child(1):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(1):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(2),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(2):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(2) {
+    border-top: none;
+  }
 
-.leadership-section:has(.member-card:nth-child(4):last-child)
-  .member-card:nth-child(1),
-.leadership-section:has(.member-card:nth-child(4):last-child)
-  .member-card:nth-child(4) {
-  border-bottom: none;
-}
+  .leadership-section:nth-child(1):has(.member-card:nth-child(1):last-child)
+    + .leadership-section:nth-child(2)
+    .member-card:nth-child(1),
+  .leadership-section:nth-child(2):has(.member-card:nth-child(1):last-child)
+    + .leadership-section:nth-child(3)
+    .member-card:nth-child(1) {
+    border-top: none;
+  }
 
-.leadership-section:has(.member-card:nth-child(5):last-child)
-  .member-card:nth-child(1),
-.leadership-section:has(.member-card:nth-child(5):last-child)
-  .member-card:nth-child(2),
-.leadership-section:has(.member-card:nth-child(5):last-child)
-  .member-card:nth-child(4),
-.leadership-section:has(.member-card:nth-child(5):last-child)
-  .member-card:nth-child(5) {
-  border-bottom: none;
-}
+  .leadership-section:has(.member-card:nth-child(3):last-child)
+    .member-card:nth-child(1) {
+    border-bottom: none;
+  }
 
-.leadership-section:has(.member-card:nth-child(6):last-child)
-  .member-card:nth-child(1),
-.leadership-section:has(.member-card:nth-child(6):last-child)
-  .member-card:nth-child(2),
-.leadership-section:has(.member-card:nth-child(6):last-child)
-  .member-card:nth-child(3) {
-  border-bottom: none;
-}
+  .leadership-section:has(.member-card:nth-child(4):last-child)
+    .member-card:nth-child(1),
+  .leadership-section:has(.member-card:nth-child(4):last-child)
+    .member-card:nth-child(2) {
+    border-bottom: none;
+  }
 
-.member-card:nth-child(1),
-.member-card:nth-child(4n) {
-  border-left: 1px solid var(--line-color);
+  .leadership-section:has(.member-card:nth-child(5):last-child)
+    .member-card:nth-child(1),
+  .leadership-section:has(.member-card:nth-child(5):last-child)
+    .member-card:nth-child(3) {
+    border-bottom: none;
+  }
+
+  .leadership-section:has(.member-card:nth-child(6):last-child)
+    .member-card:nth-child(1),
+  .leadership-section:has(.member-card:nth-child(6):last-child)
+    .member-card:nth-child(2),
+  .leadership-section:has(.member-card:nth-child(6):last-child)
+    .member-card:nth-child(3),
+  .leadership-section:has(.member-card:nth-child(6):last-child)
+    .member-card:nth-child(4) {
+    border-bottom: none;
+  }
 }
 
 .member-card:hover {
@@ -398,11 +462,6 @@
   .member-card:nth-child(odd) {
     border-left: 1px solid var(--line-color);
   }
-
-  .leadership-section:nth-child(2) .members-grid,
-  .leadership-section:nth-child(3) .members-grid {
-    border-top: 1px solid var(--line-color);
-  }
 }
 
 @media (max-width: 1000px) {
@@ -457,6 +516,10 @@
     border-bottom: 1px solid var(--line-color);
     border-left: 1px solid var(--line-color);
     border-right: 1px solid var(--line-color);
+  }
+
+  .member-card:first-child {
+    border-top: 1px solid var(--line-color);
   }
 
   .member-name {

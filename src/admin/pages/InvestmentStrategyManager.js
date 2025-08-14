@@ -6,8 +6,7 @@ import {
   getInvestmentStrategies, 
   getInvestmentProducts, 
   updateInvestmentStrategy, 
-  updateInvestmentProduct,
-  initializeInvestmentData 
+  updateInvestmentProduct
 } from '../services/dataService';
 import {
   DndContext,
