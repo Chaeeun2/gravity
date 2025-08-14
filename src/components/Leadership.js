@@ -24,7 +24,6 @@ const Leadership = ({ language }) => {
       try {
         setLoading(true);
         if (!db) {
-          console.log('Firebase가 초기화되지 않았습니다.');
           setLoading(false);
           return;
         }
@@ -260,7 +259,6 @@ const Leadership = ({ language }) => {
   };
 
   const handleMemberClick = (member) => {
-    console.log('Clicked member:', member); // 디버깅용 로그
     setSelectedMember(member);
     setModalOpen(true);
   };

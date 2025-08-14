@@ -186,16 +186,12 @@ const PortfolioManager = () => {
   const loadPortfolioData = async () => {
     try {
       setLoading(true);
-      console.log('포트폴리오 데이터 로딩 시작...');
+  
       const result = await dataService.getPortfolioData();
-      console.log('dataService 결과:', result);
       
       if (result.success) {
-        console.log('정렬된 포트폴리오 데이터:', result.data);
-        console.log('각 항목의 카테고리:', result.data.map(item => ({ id: item.id, category: item.category })));
         setPortfolioData(result.data);
       } else {
-        console.log('포트폴리오 데이터 로딩 실패:', result);
         setPortfolioData([]);
       }
     } catch (error) {
@@ -379,7 +375,6 @@ const PortfolioManager = () => {
       // Firebase에 순서 저장
       try {
         await dataService.setDocument('portfolio', 'categories', { categories: updatedCategories });
-        console.log('카테고리 순서가 성공적으로 저장되었습니다.');
       } catch (error) {
         console.error('카테고리 순서 저장 오류:', error);
         // 에러 발생 시 원래 데이터로 복원
@@ -411,7 +406,6 @@ const PortfolioManager = () => {
         for (let i = 0; i < updatedData.length; i++) {
           await dataService.updatePortfolioItem(updatedData[i].id, { order: i });
         }
-        console.log('순서가 성공적으로 저장되었습니다.');
         // 데이터를 다시 로드하여 최신 상태 확인
         await loadPortfolioData();
       } catch (error) {
@@ -429,14 +423,11 @@ const PortfolioManager = () => {
 
   const handleModalSave = async (portfolioData) => {
     try {
-      console.log('저장할 포트폴리오 데이터:', portfolioData);
-      
       if (editingPortfolio) {
         await dataService.updatePortfolioItem(editingPortfolio.id, portfolioData);
         alert('포트폴리오가 수정되었습니다.');
       } else {
         const result = await dataService.addPortfolioItem(portfolioData);
-        console.log('포트폴리오 추가 결과:', result);
         alert('포트폴리오가 추가되었습니다.');
       }
       await loadPortfolioData();
@@ -449,18 +440,8 @@ const PortfolioManager = () => {
 
   // 필터링된 데이터
   const filteredData = portfolioData.filter(item => {
-    console.log('필터링 체크:', { 
-      itemId: item.id, 
-      itemCategory: item.category, 
-      selectedCategory: selectedCategory,
-      matches: item.category === selectedCategory 
-    });
     return item.category === selectedCategory;
   });
-
-  console.log('전체 포트폴리오 데이터:', portfolioData);
-  console.log('선택된 카테고리:', selectedCategory);
-  console.log('필터링된 데이터:', filteredData);
 
   // 운용현황 저장
   const handleOperationalStatusSave = async () => {

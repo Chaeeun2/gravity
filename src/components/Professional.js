@@ -458,7 +458,6 @@ const Professional = ({ language }) => {
   const currentContent = content[language];
 
   const handleMemberClick = (member) => {
-    console.log('Clicked member:', member); // 디버깅용 로그
     setSelectedMember(member);
     setModalOpen(true);
   };

@@ -128,7 +128,7 @@ const DisclosureDetail = ({ language }) => {
     }
 
     try {
-      console.log('첨부파일 다운로드 시작:', file.name, 'URL:', fileUrl);
+      
       
       // fetch로 파일을 가져와서 Blob으로 다운로드 (강제 다운로드)
       const response = await fetch(fileUrl);
@@ -155,13 +155,13 @@ const DisclosureDetail = ({ language }) => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
       
-      console.log('첨부파일 다운로드 완료:', file.name);
+      
     } catch (error) {
       console.error('첨부파일 다운로드 처리 오류:', error);
       
       // fallback: 직접 링크로 다운로드 시도
       try {
-        console.log('fallback 다운로드 시도:', file.name);
+
         const link = document.createElement('a');
         link.href = fileUrl;
         link.download = imageService.getOriginalFileName(file.name);

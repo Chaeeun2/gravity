@@ -517,28 +517,25 @@ export const dataService = {
     try {
       const result = await this.getAllDocuments(COLLECTIONS.PORTFOLIO);
       if (result.success) {
-        console.log('Portfolio 컬렉션의 모든 문서:', result.data.map(item => ({ id: item.id, titleKo: item.titleKo, category: item.category })));
+
         
         // 실제 포트폴리오 항목만 필터링 (categories, operational-status, total-amount 제외)
         const portfolioItems = result.data.filter(item => {
           // 시스템 문서들 제외
           if (item.id === 'categories' || item.id === 'operational-status' || item.id === 'total-amount') {
-            console.log('시스템 문서 제외:', item.id);
             return false;
           }
           
           // 필수 필드가 없는 항목 제외
           if (!item.titleKo || !item.category) {
-            console.log('필수 필드 없는 항목 제외:', item.id, { titleKo: item.titleKo, category: item.category });
             return false;
           }
           
           // 포트폴리오 항목으로 인정
-          console.log('포트폴리오 항목으로 인정:', item.id);
           return true;
         });
         
-        console.log('필터링된 포트폴리오 항목:', portfolioItems.map(item => ({ id: item.id, titleKo: item.titleKo, category: item.category })));
+
         
         // order 필드가 없는 경우 createdAt으로 정렬
         const sortedData = portfolioItems.sort((a, b) => {
@@ -671,7 +668,7 @@ export const updateInvestmentStrategy = async (id, data) => {
       ...data,
       updatedAt: serverTimestamp()
     });
-    console.log('투자 전략 업데이트 성공:', id);
+
   } catch (error) {
     console.error('투자 전략 업데이트 실패:', error);
     throw error;
@@ -686,7 +683,7 @@ export const createInvestmentStrategy = async (data) => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
-    console.log('투자 전략 생성 성공:', docRef.id);
+
     return docRef.id;
   } catch (error) {
     console.error('투자 전략 생성 실패:', error);
@@ -731,7 +728,7 @@ export const updateInvestmentProduct = async (id, data) => {
       ...data,
       updatedAt: serverTimestamp()
     });
-    console.log('투자 상품 업데이트 성공:', id);
+
   } catch (error) {
     console.error('투자 상품 업데이트 실패:', error);
     throw error;
@@ -746,7 +743,7 @@ export const createInvestmentProduct = async (data) => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
-    console.log('투자 상품 생성 성공:', docRef.id);
+
     return docRef.id;
   } catch (error) {
     console.error('투자 상품 생성 실패:', error);
@@ -839,7 +836,7 @@ export const initializeInvestmentData = async () => {
       await createInvestmentProduct(product);
     }
 
-    console.log('투자 데이터 초기화 완료');
+
   } catch (error) {
     console.error('투자 데이터 초기화 실패:', error);
     throw error;

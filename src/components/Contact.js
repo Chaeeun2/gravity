@@ -22,7 +22,6 @@ const Contact = ({ language }) => {
       try {
         setLoading(true);
         if (!db) {
-          console.log('Firebase가 초기화되지 않았습니다.');
           setLoading(false);
           return;
         }
@@ -30,10 +29,8 @@ const Contact = ({ language }) => {
         const querySnapshot = await getDocs(collection(db, 'contact'));
         if (!querySnapshot.empty) {
           const data = querySnapshot.docs[0].data();
-          console.log('Firebase에서 로드된 데이터:', data);
           setContactData(data);
         } else {
-          console.log('Firebase에 contact 데이터가 없습니다.');
           setContactData(null);
         }
       } catch (error) {
@@ -156,11 +153,7 @@ const Contact = ({ language }) => {
   // 현재 언어에 맞는 콘텐츠 선택
   const content = currentContent[language] || currentContent.KO;
 
-  // 디버깅용 콘솔 출력
-  console.log('현재 contactData:', contactData);
-  console.log('현재 currentContent:', currentContent);
-  console.log('현재 언어:', language);
-  console.log('선택된 content:', content);
+
 
   // 로딩 중일 때는 기본 콘텐츠로 표시
   if (loading) {

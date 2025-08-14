@@ -226,7 +226,7 @@ const InvestmentStrategyManager = () => {
           <div className="admin-content-wrapper">
             <div className="admin-content">
             </div>
-          </div>
+          </div> 
         </div>
       </AdminLayout>
     );
@@ -320,17 +320,17 @@ const InvestmentStrategyManager = () => {
             <div className="admin-modal-header">
               <h3>투자 전략 수정</h3>
               <div className="admin-button-group">
+                                <button 
+                  className="admin-button admin-button-secondary"
+                  onClick={() => setShowStrategyModal(false)}
+                >
+                  취소
+                </button>
                 <button 
                   className="admin-button"
                   onClick={handleStrategySave}
                 >
                   저장
-                </button>
-                <button 
-                  className="admin-button admin-button-secondary"
-                  onClick={() => setShowStrategyModal(false)}
-                >
-                  취소
                 </button>
               </div>
             </div>
@@ -374,17 +374,17 @@ const InvestmentStrategyManager = () => {
             <div className="admin-modal-header">
               <h3>투자 상품 수정</h3>
               <div className="admin-button-group">
+                                <button 
+                  className="admin-button admin-button-secondary"
+                  onClick={() => setShowProductModal(false)}
+                >
+                  취소
+                </button>
                 <button 
                   className="admin-button"
                   onClick={handleProductSave}
                 >
                   저장
-                </button>
-                <button 
-                  className="admin-button admin-button-secondary"
-                  onClick={() => setShowProductModal(false)}
-                >
-                  취소
                 </button>
               </div>
             </div>

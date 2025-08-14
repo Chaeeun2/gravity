@@ -19,10 +19,7 @@ const Footer = ({ language = 'KO' }) => {
           
           if (contactSnap.exists()) {
             const data = contactSnap.data();
-            console.log('Footer에서 로드된 Contact 데이터:', data);
             setContactData(data);
-          } else {
-            console.log('Contact 문서가 존재하지 않습니다.');
           }
         }
       } catch (error) {
@@ -62,7 +59,7 @@ const Footer = ({ language = 'KO' }) => {
     }
 
     try {
-      console.log('다운로드 시작:', filename);
+
       
       // fetch로 파일을 가져와서 Blob으로 다운로드 (강제 다운로드)
       const response = await fetch(pdfUrl);
@@ -89,13 +86,13 @@ const Footer = ({ language = 'KO' }) => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
       
-      console.log('다운로드 완료:', filename);
+
     } catch (error) {
       console.error('다운로드 처리 오류:', error);
       
       // fallback: 직접 링크로 다운로드 시도
       try {
-        console.log('fallback 다운로드 시도:', filename);
+
         const link = document.createElement('a');
         link.href = pdfUrl;
         link.download = filename;

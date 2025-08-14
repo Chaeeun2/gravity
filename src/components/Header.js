@@ -200,12 +200,9 @@ const Header = ({ language, onLanguageChange }) => {
             >
               {menuItems.map((item, index) => {
                 // EN 모드에서 NEWS 메뉴 숨기기
-                if (language === 'EN' && item.name === 'NEWS') {
-                  console.log('EN 모드에서 NEWS 메뉴 숨김:', item.name);
-                  return null;
-                }
-                
-                console.log('메뉴 렌더링:', item.name, '언어:', language);
+                        if (language === 'EN' && item.name === 'NEWS') {
+          return null;
+        }
                 
                 return (
                   <li key={index} className="nav-item">

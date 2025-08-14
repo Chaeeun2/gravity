@@ -90,7 +90,7 @@ const ContactManager = () => {
       });
       
       if (result.success) {
-        console.log('PDF 업로드 성공:', { field, fileName: file.name, downloadURL: result.fileUrl });
+
         
         // 데이터에 URL 저장
         setContactData(prev => {
@@ -98,7 +98,7 @@ const ContactManager = () => {
             ...prev,
             [field]: result.fileUrl
           };
-          console.log('새로운 contactData:', newData);
+  
           return newData;
         });
         

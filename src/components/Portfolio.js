@@ -28,6 +28,8 @@ const Portfolio = ({ language }) => {
   const titleRef = useRef(null);
   const statusRef = useRef(null);
   const amountRef = useRef(null);
+  const dateRef = useRef(null);
+  const operationalAmountRef = useRef(null);
   const categoryRefs = useRef({});
   
   const [portfolioData, setPortfolioData] = useState({});
@@ -43,6 +45,18 @@ const Portfolio = ({ language }) => {
   useEffect(() => {
     const loadCategories = async () => {
       try {
+        if (!db) {
+          // 기본 카테고리 사용
+          setCategories([
+            { id: 'office', label: 'Office' },
+            { id: 'logistics', label: 'Logistics' },
+            { id: 'residence', label: 'Residence' },
+            { id: 'hotel', label: 'Hotel' },
+            { id: 'others', label: 'Others' }
+          ]);
+          return;
+        }
+
         const categoriesDoc = await getDoc(doc(db, 'portfolio', 'categories'));
         if (categoriesDoc.exists()) {
           const categoriesData = categoriesDoc.data().categories || [];
@@ -53,6 +67,15 @@ const Portfolio = ({ language }) => {
             return orderA - orderB;
           });
           setCategories(sortedCategories);
+        } else {
+          // 기본 카테고리 사용
+          setCategories([
+            { id: 'office', label: 'Office' },
+            { id: 'logistics', label: 'Logistics' },
+            { id: 'residence', label: 'Residence' },
+            { id: 'hotel', label: 'Hotel' },
+            { id: 'others', label: 'Others' }
+          ]);
         }
       } catch (error) {
         console.error('카테고리 로딩 오류:', error);
@@ -70,22 +93,35 @@ const Portfolio = ({ language }) => {
     loadCategories();
   }, []);
 
-  // Firebase에서 포트폴리오 데이터 로드
+  // Firebase에서 포트폴리오 데이터와 운용현황을 함께 로드
   useEffect(() => {
-    const loadPortfolioData = async () => {
+    const loadAllData = async () => {
       try {
         setLoading(true);
         if (!db) {
-          console.log('Firebase가 초기화되지 않았습니다.');
           setLoading(false);
           return;
         }
 
+        // 포트폴리오 컬렉션의 모든 문서를 한 번에 가져오기
         const querySnapshot = await getDocs(collection(db, 'portfolio'));
         const data = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
+
+        // 운용현황 데이터 추출
+        const operationalStatusDoc = data.find(item => item.id === 'operational-status');
+        if (operationalStatusDoc) {
+          const statusValue = language === 'KO' ? operationalStatusDoc.ko : operationalStatusDoc.en;
+          setOperationalStatus(statusValue || '');
+          if (operationalStatusDoc.updateDate) {
+            setUpdateDate({
+              year: operationalStatusDoc.updateDate.year || '',
+              month: operationalStatusDoc.updateDate.month || ''
+            });
+          }
+        }
 
         // 카테고리별로 데이터 분류
         const categorizedData = {};
@@ -93,23 +129,18 @@ const Portfolio = ({ language }) => {
           categorizedData[category.id] = [];
         });
 
-        console.log('Firebase에서 로드된 원본 데이터:', data);
-        
         data.forEach(item => {
           // operational-status, total-amount, categories 등 특별한 문서는 제외
           if (item.id === 'operational-status' || item.id === 'total-amount' || item.id === 'categories') {
-            console.log(`특별 문서 제외: ${item.id}`);
             return;
           }
           
           // 포트폴리오 항목이 아닌 경우 제외 (titleKo나 category가 없는 경우)
           if (!item.titleKo || !item.category) {
-            console.log(`포트폴리오 항목이 아닌 문서 제외: ${item.id}`, { titleKo: item.titleKo, category: item.category });
             return;
           }
           
           const category = item.category || 'others';
-          console.log(`아이템 ${item.id}: category=${category}, titleKo=${item.titleKo}, titleEn=${item.titleEn}`);
           if (categorizedData[category]) {
             categorizedData[category].push(item);
           } else {
@@ -124,12 +155,11 @@ const Portfolio = ({ language }) => {
             const orderB = b.order !== undefined ? b.order : 999;
             return orderA - orderB;
           });
-          console.log(`${category} 카테고리 데이터:`, categorizedData[category]);
         });
 
         setPortfolioData(categorizedData);
       } catch (error) {
-        console.error('포트폴리오 데이터 로딩 오류:', error);
+        console.error('데이터 로딩 오류:', error);
         // 에러 발생 시 기본 데이터 사용
         setPortfolioData({
           office: [],
@@ -143,42 +173,8 @@ const Portfolio = ({ language }) => {
       }
     };
 
-    // 운용현황 데이터 로드
-    const loadOperationalStatus = async () => {
-      try {
-        if (!db) {
-          console.log('Firebase가 초기화되지 않았습니다.');
-          return;
-        }
-
-        const docRef = doc(db, 'portfolio', 'operational-status');
-        const docSnap = await getDoc(docRef);
-        
-        console.log('운용현황 문서 존재 여부:', docSnap.exists());
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          console.log('운용현황 데이터:', data);
-          // 언어에 따라 해당하는 필드 사용
-          const statusValue = language === 'KO' ? data.ko : data.en;
-          setOperationalStatus(statusValue || '');
-          // 날짜 데이터도 로드
-          if (data.updateDate) {
-            setUpdateDate({
-              year: data.updateDate.year || '',
-              month: data.updateDate.month || ''
-            });
-          }
-        } else {
-          console.log('운용현황 문서가 존재하지 않습니다.');
-        }
-      } catch (error) {
-        console.error('운용현황 데이터 로딩 오류:', error);
-      }
-    };
-
     if (categories.length > 0) {
-      loadPortfolioData();
-      loadOperationalStatus();
+      loadAllData();
     }
   }, [language, categories]);
 
@@ -190,7 +186,9 @@ const Portfolio = ({ language }) => {
     const elements = [
       { ref: titleRef },
       { ref: statusRef },
-      { ref: amountRef }
+      { ref: amountRef },
+      { ref: dateRef },
+      { ref: operationalAmountRef }
     ];
     
     elements.forEach(({ ref }) => {
@@ -244,6 +242,12 @@ const Portfolio = ({ language }) => {
         if (amountRef.current && !amountRef.current.classList.contains('animate-fade-in-up')) {
           amountRef.current.classList.add('animate-fade-in-up');
         }
+        if (dateRef.current && !dateRef.current.classList.contains('animate-fade-in-up')) {
+          dateRef.current.classList.add('animate-fade-in-up');
+        }
+        if (operationalAmountRef.current && !operationalAmountRef.current.classList.contains('animate-fade-in-up')) {
+          operationalAmountRef.current.classList.add('animate-fade-in-up');
+        }
         
         // 카테고리별 애니메이션
         categories.forEach((category) => {
@@ -261,8 +265,6 @@ const Portfolio = ({ language }) => {
     EN: {
       title: "Portfolio",
       operationalStatus: "Asset Under Management",
-      date: "June 2025",
-      totalAmount: "USD 1,700 M",
       office: "Office",
       logistics: "Logistics",
       residence: "Residence",
@@ -275,8 +277,6 @@ const Portfolio = ({ language }) => {
     KO: {
       title: "Portfolio",
       operationalStatus: "운용현황",
-      date: "June 2025",
-      totalAmount: "2조 2,952억원",
       office: "Office",
       logistics: "Logistics",
       residence: "Residence",
@@ -310,14 +310,14 @@ const Portfolio = ({ language }) => {
               <h2 className={`status-title status-title-${language.toLowerCase()}`}>{currentContent.operationalStatus}</h2>
             </div>
             <div ref={amountRef} className={`portfolio-status-right portfolio-status-right-${language.toLowerCase()}`}>
-              <p className={`status-date status-date-${language.toLowerCase()}`}>
+              <p ref={dateRef} className={`status-date status-date-${language.toLowerCase()}`}>
                 {updateDate.year && updateDate.month 
                   ? `${getMonthName(updateDate.month)} ${updateDate.year}`
-                  : currentContent.date
+                  : ''
                 }
               </p>
-              <p className={`status-amount status-amount-${language.toLowerCase()}`}>
-                {operationalStatus || currentContent.totalAmount}
+              <p ref={operationalAmountRef} className={`status-amount status-amount-${language.toLowerCase()}`}>
+                {operationalStatus || ''}
               </p>
             </div>
           </div>

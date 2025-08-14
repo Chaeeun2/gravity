@@ -88,7 +88,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
     try {
       // 실제 이미지 업로드
       for (const file of files) {
-        console.log('이미지 업로드 시작:', file.name);
+  
         const result = await imageService.uploadImage(file, { source: 'news' });
         if (result.success) {
           setImages(prev => [...prev, {
@@ -97,7 +97,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
             size: file.size,
             imageId: result.imageId
           }]);
-          console.log('이미지 업로드 성공:', result.imageUrl);
+          
         }
       }
     } catch (error) {
@@ -147,7 +147,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
       for (const file of uploadedFiles) {
         const result = await imageService.uploadFile(file, { source: 'news' });
         if (result.success) {
-          console.log('파일 업로드 결과:', result); // 디버깅용
+  
           setFiles(prev => [...prev, {
             name: file.name,
             size: formatFileSize(file.size),
@@ -232,7 +232,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
     // 최종 데이터에서 undefined 값 제거
     const cleanNewsData = filterUndefined(newsData);
     
-    console.log('저장할 뉴스 데이터:', cleanNewsData);
+    
 
     await onSave(cleanNewsData);
   };

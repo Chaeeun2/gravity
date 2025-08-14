@@ -9,14 +9,7 @@ const R2_SECRET_ACCESS_KEY = process.env.REACT_APP_R2_SECRET_ACCESS_KEY;
 const R2_BUCKET_NAME = process.env.REACT_APP_R2_BUCKET_NAME;
 const R2_PUBLIC_URL = process.env.REACT_APP_R2_PUBLIC_URL || `https://pub-${R2_ACCOUNT_ID}.r2.dev`;
 
-// 환경변수 디버깅
-console.log('R2 설정 확인:', {
-  R2_ACCOUNT_ID: R2_ACCOUNT_ID ? '설정됨' : '설정되지 않음',
-  R2_ACCESS_KEY_ID: R2_ACCESS_KEY_ID ? '설정됨' : '설정되지 않음',
-  R2_SECRET_ACCESS_KEY: R2_SECRET_ACCESS_KEY ? '설정됨' : '설정되지 않음',
-  R2_BUCKET_NAME: R2_BUCKET_NAME ? '설정됨' : '설정되지 않음',
-  R2_PUBLIC_URL: R2_PUBLIC_URL
-});
+
 
 // S3 클라이언트 설정 (R2 호환)
 const r2Client = new S3Client({
@@ -105,7 +98,7 @@ export const imageService = {
       const fileName = this.generateFileName(file, metadata.prefix || '');
       const key = `images/${fileName}`;
 
-      console.log('업로드 시도:', { fileName, key, bucket: R2_BUCKET_NAME });
+
 
       // 브라우저 환경에서 File을 ArrayBuffer로 변환
       const arrayBuffer = await file.arrayBuffer();
@@ -137,9 +130,9 @@ export const imageService = {
         }
       });
 
-      console.log('업로드 명령 실행 중...');
+      
       await r2Client.send(uploadCommand);
-      console.log('업로드 성공!');
+      
 
       // 공개 URL 생성
       const publicUrl = `${R2_PUBLIC_URL}/${key}`;
@@ -178,7 +171,7 @@ export const imageService = {
       const fileName = this.generateFileName(file, metadata.prefix || '');
       const key = `files/${fileName}`;
 
-      console.log('파일 업로드 시도:', { fileName, key, bucket: R2_BUCKET_NAME });
+      
 
       // 브라우저 환경에서 File을 ArrayBuffer로 변환
       const arrayBuffer = await file.arrayBuffer();

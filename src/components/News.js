@@ -53,15 +53,7 @@ const News = ({ language }) => {
     loadNewsData();
   }, []);
 
-  // newsData 상태 변경 감지
-  useEffect(() => {
-    console.log('newsData 상태 변경:', newsData);
-  }, [newsData]);
 
-  // loading 상태 변경 감지
-  useEffect(() => {
-    console.log('loading 상태 변경:', loading);
-  }, [loading]);
 
   // Apply intersection observer
   useIntersectionObserver(titleRef, { delay: 100 });
@@ -73,22 +65,17 @@ const News = ({ language }) => {
   const loadNewsData = async () => {
     try {
       setLoading(true);
-      console.log('뉴스 데이터 로딩 시작...');
       const result = await dataService.getAllDocuments('news', 'createdAt', 'desc');
-      console.log('뉴스 데이터 로딩 결과:', result);
       if (result.success) {
         setNewsData(result.data);
-        console.log('뉴스 데이터 설정됨:', result.data);
       } else {
         setNewsData([]);
-        console.log('뉴스 데이터 로딩 실패');
       }
     } catch (error) {
       console.error('뉴스 데이터 로딩 오류:', error);
       setNewsData([]);
     } finally {
       setLoading(false);
-      console.log('뉴스 데이터 로딩 완료, loading:', false);
     }
   };
 
@@ -183,11 +170,7 @@ const News = ({ language }) => {
   const endIndex = startIndex + itemsPerPage;
   const currentItems = displayItems.slice(startIndex, endIndex);
 
-  // 디버깅을 위한 로그
-  console.log('displayItems:', displayItems);
-  console.log('currentItems:', currentItems);
-  console.log('loading:', loading);
-  console.log('newsData length:', newsData.length);
+
 
   // 페이지 번호 배열 생성
   const getPageNumbers = () => {

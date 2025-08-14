@@ -66,7 +66,6 @@ const Overview = ({ language }) => {
     try {
       setLoading(true);
       if (!db) {
-        console.log('Firebase가 초기화되지 않았습니다.');
         setLoading(false);
         return;
       }

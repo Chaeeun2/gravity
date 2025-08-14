@@ -33,7 +33,7 @@ export const loginAdmin = async (email, password) => {
       const token = await getIdToken(user, true);
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       
-      console.log('🔐 사용자 커스텀 클레임:', decodedToken);
+      
       
       // 커스텀 클레임이 있으면 확인, 없으면 환경변수로만 확인
       if (decodedToken.admin === false) {
@@ -45,7 +45,7 @@ export const loginAdmin = async (email, password) => {
       // 커스텀 클레임이 없어도 환경변수에 있으면 로그인 허용
     }
     
-    console.log('✅ 관리자 로그인 성공:', user.email);
+    
     return { user, isAdmin: true };
     
   } catch (error) {
@@ -67,7 +67,7 @@ export const loginAdmin = async (email, password) => {
 export const logoutAdmin = async () => {
   try {
     await signOut(auth);
-    console.log('👋 관리자 로그아웃 완료');
+
   } catch (error) {
     console.error('❌ 로그아웃 실패:', error);
     throw error;
@@ -109,7 +109,7 @@ export const getCurrentUser = () => {
             return;
           }
         } catch (tokenError) {
-          console.log('⚠️ 커스텀 클레임 확인 실패, 환경변수로만 확인:', tokenError.message);
+  
         }
         
         resolve({ user, isAdmin: true });
@@ -140,10 +140,9 @@ export const checkAdminPermission = async () => {
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       
       return decodedToken.admin !== false; // false가 아니면 true
-    } catch (tokenError) {
-      console.log('⚠️ 커스텀 클레임 확인 실패, 환경변수로만 확인:', tokenError.message);
-      return true; // 커스텀 클레임이 없어도 환경변수에 있으면 허용
-    }
+            } catch (tokenError) {
+          return true; // 커스텀 클레임이 없어도 환경변수에 있으면 허용
+        }
   } catch (error) {
     console.error('❌ 관리자 권한 확인 실패:', error);
     return false;

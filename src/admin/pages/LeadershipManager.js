@@ -378,13 +378,13 @@ const LeadershipManager = () => {
   const handleDragEnd = async (event) => {
     const { active, over } = event;
     
-    console.log('드래그 종료:', { active, over }); // 디버깅 로그
+
 
     if (active.id !== over.id) {
       const oldIndex = filteredLeadershipData.findIndex(item => item.id === active.id);
       const newIndex = filteredLeadershipData.findIndex(item => item.id === over.id);
 
-      console.log('인덱스:', { oldIndex, newIndex }); // 디버깅 로그
+
 
       if (oldIndex !== -1 && newIndex !== -1) {
         // 전체 leadershipData에서 해당 카테고리의 아이템들을 찾아서 순서 변경
@@ -396,9 +396,7 @@ const LeadershipManager = () => {
         
         if (oldCategoryIndex !== -1 && newCategoryIndex !== -1) {
           const newCategoryOrder = arrayMove(categoryItems, oldCategoryIndex, newCategoryIndex);
-          console.log('새로운 카테고리 순서:', newCategoryOrder); // 디버깅 로그
-          console.log('변경 전 순서:', categoryItems.map(item => ({ id: item.id, name: item.nameKo, order: item.order }))); // 디버깅 로그
-          console.log('변경 후 순서:', newCategoryOrder.map(item => ({ id: item.id, name: item.nameKo, order: item.order }))); // 디버깅 로그
+
           
           // 순서 변경된 데이터를 Firebase에 저장
           try {
@@ -407,13 +405,13 @@ const LeadershipManager = () => {
                 ...newCategoryOrder[i],
                 order: i
               };
-              console.log(`업데이트 ${i}:`, updateData); // 디버깅 로그
+
               await dataService.leadership.update(newCategoryOrder[i].id, updateData);
             }
             
             // 전체 데이터를 다시 로드하여 순서 반영
             await loadLeadershipData();
-            console.log('순서 변경 완료'); // 디버깅 로그
+
           } catch (error) {
             console.error('순서 변경 저장 오류:', error);
             alert('순서 변경에 실패했습니다.');

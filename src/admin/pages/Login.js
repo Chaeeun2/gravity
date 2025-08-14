@@ -28,7 +28,7 @@ const Login = () => {
       // 인증 상태 즉시 업데이트
       await updateAuthState(result.user, result.isAdmin);
       
-      console.log('로그인 성공, /admin/overview로 이동');
+      
       navigate('/admin/overview');
     } catch (error) {
       console.error('로그인 오류:', error);

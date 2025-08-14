@@ -557,3 +557,17 @@
     font-size: 5rem;
   }
 }
+
+.status-date,
+.status-amount {
+  opacity: 0;
+}
+
+/* 운용현황 애니메이션 지연 스타일 */
+.status-date.animate-fade-in-up {
+  animation-delay: 0.6s;
+}
+
+.status-amount.animate-fade-in-up {
+  animation-delay: 0.6s;
+}

@@ -88,7 +88,7 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
     try {
       // 실제 이미지 업로드
       for (const file of files) {
-        console.log('이미지 업로드 시작:', file.name);
+
         const result = await imageService.uploadImage(file, { source: 'disclosure' });
         if (result.success) {
           setImages(prev => [...prev, {
@@ -118,7 +118,7 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
     try {
       // 실제 파일 업로드
       for (const file of files) {
-        console.log('파일 업로드 시작:', file.name);
+
         const result = await imageService.uploadFile(file, { source: 'disclosure' });
         if (result.success) {
           setFiles(prev => [...prev, {
@@ -192,7 +192,7 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
     // 최종 데이터에서 undefined 값 제거
     const cleanDisclosureData = filterUndefined(disclosureData);
     
-    console.log('저장할 공시 데이터:', cleanDisclosureData);
+    
 
     await onSave(cleanDisclosureData);
   };
