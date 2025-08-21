@@ -29,8 +29,31 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
 
   useEffect(() => {
     if (portfolio) {
+      // 기존 이미지 데이터 검증 (표시용)
+      let displayImage = portfolio.image || '';
+      let validImage = portfolio.image || '';
+      
+      // 표시용 이미지는 Base64도 허용 (미리보기용)
+      if (displayImage && typeof displayImage === 'string') {
+        if (displayImage.length > 1000000) {
+          console.warn('이미지 데이터가 너무 깁니다:', displayImage.length, 'characters');
+          displayImage = '';
+        }
+      }
+      
+      // 저장용 이미지는 URL만 허용
+      if (validImage && typeof validImage === 'string') {
+        if (!validImage.startsWith('http') && !validImage.startsWith('blob:')) {
+          console.warn('저장용 이미지 데이터가 유효한 URL 형식이 아닙니다:', validImage);
+          validImage = ''; // 저장 시에는 제거
+        } else if (validImage.length > 1000000) {
+          console.warn('저장용 이미지 URL이 너무 깁니다:', validImage.length, 'characters');
+          validImage = '';
+        }
+      }
+      
       setFormData({
-        image: portfolio.image || '',
+        image: validImage, // 저장용 (URL만)
         category: portfolio.category || 'office',
         categoryKo: portfolio.categoryKo || '',
         categoryEn: portfolio.categoryEn || '',
@@ -41,7 +64,7 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
         gfa: portfolio.gfa || '',
         floors: portfolio.floors || ''
       });
-      setImagePreview(portfolio.image || '');
+      setImagePreview(displayImage); // 표시용 (Base64도 허용)
     } else {
       setFormData({
         image: '',
@@ -59,6 +82,15 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
       setImageFile(null);
     }
   }, [portfolio]);
+
+  // 컴포넌트 언마운트 시 Object URL 정리
+  useEffect(() => {
+    return () => {
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -86,14 +118,16 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
         return;
       }
 
+      // 이전 Object URL 정리 (메모리 누수 방지)
+      if (imagePreview && imagePreview.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+
       setImageFile(file);
       
-      // 미리보기 생성
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      // 메모리 효율적인 미리보기 생성 (Base64 대신 Object URL 사용)
+      const objectUrl = URL.createObjectURL(file);
+      setImagePreview(objectUrl);
     }
   };
 
@@ -113,12 +147,51 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
     try {
       setSaving(true);
       
-      // 이미지 파일이 있으면 업로드 처리 (실제 구현에서는 이미지 서비스 사용)
+      // 이미지 데이터 검증 및 정리
       let finalImageUrl = formData.image;
+      
+      // 새로 선택된 이미지 파일이 있는 경우
       if (imageFile) {
-        // 여기서 이미지 업로드 서비스 호출
-        // finalImageUrl = await imageService.upload(imageFile);
-        finalImageUrl = imagePreview; // 임시로 미리보기 URL 사용
+        try {
+          // 이미지 서비스를 사용하여 Cloudflare R2에 업로드
+          const uploadResult = await imageService.uploadImage(imageFile, {
+            prefix: 'portfolio',
+            metadata: {
+              category: formData.category || '',
+              title: (formData.titleKo || formData.titleEn || '').substring(0, 100), // 길이 제한
+              uploadedBy: 'admin-panel',
+              timestamp: new Date().toISOString()
+            }
+          });
+          
+          if (uploadResult.success) {
+            // Cloudflare에서 반환된 URL 사용
+            finalImageUrl = uploadResult.publicUrl || uploadResult.imageUrl || uploadResult.url;
+          } else {
+            throw new Error('이미지 업로드에 실패했습니다.');
+          }
+        } catch (uploadError) {
+          console.error('이미지 업로드 오류:', uploadError);
+          alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+          return;
+        }
+      }
+      
+      // 이미지 데이터 최종 검증
+      if (finalImageUrl && typeof finalImageUrl === 'string') {
+        // URL 형식 검증
+        if (!finalImageUrl.startsWith('http') && !finalImageUrl.startsWith('blob:')) {
+          console.error('잘못된 이미지 데이터 형식:', finalImageUrl);
+          alert('이미지 데이터가 올바르지 않습니다. 다시 시도해주세요.');
+          return;
+        }
+        
+        // 길이 검증 (Firestore 1MB 제한 대비 안전 마진)
+        if (finalImageUrl.length > 1000000) {
+          console.error('이미지 데이터가 너무 깁니다:', finalImageUrl.length, 'characters');
+          alert('이미지 데이터가 너무 깁니다. 다시 시도해주세요.');
+          return;
+        }
       }
 
       const portfolioData = {
@@ -235,7 +308,17 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
                 </small>
                 {imagePreview && (
                   <div className="admin-image-preview">
-                    <img src={imagePreview} alt="미리보기" />
+                    <img 
+                      src={imagePreview} 
+                      alt="미리보기" 
+                      style={{ 
+                        maxWidth: '80%', 
+                        objectFit: 'contain',
+                        borderRadius: '4px',
+                        display: 'block',
+                        margin: '0 auto'
+                      }}
+                    />
                   </div>
                 )}
               </div>

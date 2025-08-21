@@ -119,11 +119,15 @@ export const imageService = {
           // 추가 메타데이터도 안전하게 처리 - 브라우저 호환
           ...(metadata && Object.keys(metadata).reduce((acc, key) => {
             const value = metadata[key];
-            if (typeof value === 'string') {
-              // 문자열 값은 ASCII 문자만 포함하는지 확인
-              acc[key] = /^[\x00-\x7F]*$/.test(value) ? value : btoa(encodeURIComponent(value));
-            } else {
-              acc[key] = value;
+            // undefined, null, 빈 문자열 제외
+            if (value !== undefined && value !== null && value !== '') {
+              if (typeof value === 'string') {
+                // 문자열 값은 ASCII 문자만 포함하는지 확인
+                acc[key] = /^[\x00-\x7F]*$/.test(value) ? value : btoa(encodeURIComponent(value));
+              } else {
+                // 숫자, 불린 등은 문자열로 변환
+                acc[key] = String(value);
+              }
             }
             return acc;
           }, {}))
@@ -193,11 +197,15 @@ export const imageService = {
           // 추가 메타데이터도 안전하게 처리 - 브라우저 호환
           ...(metadata && Object.keys(metadata).reduce((acc, key) => {
             const value = metadata[key];
-            if (typeof value === 'string') {
-              // 문자열 값은 ASCII 문자만 포함하는지 확인
-              acc[key] = /^[\x00-\x7F]*$/.test(value) ? value : btoa(encodeURIComponent(value));
-            } else {
-              acc[key] = value;
+            // undefined, null, 빈 문자열 제외
+            if (value !== undefined && value !== null && value !== '') {
+              if (typeof value === 'string') {
+                // 문자열 값은 ASCII 문자만 포함하는지 확인
+                acc[key] = /^[\x00-\x7F]*$/.test(value) ? value : btoa(encodeURIComponent(value));
+              } else {
+                // 숫자, 불린 등은 문자열로 변환
+                acc[key] = String(value);
+              }
             }
             return acc;
           }, {}))
