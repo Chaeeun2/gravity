@@ -132,7 +132,7 @@ body:has(.header.menu-hovered) {
   text-decoration-color: rgba(255, 255, 255, 1);
 }
 
-.nav-menu:hover .submenu-dropdown {
+.header.menu-hovered .submenu-dropdown {
   opacity: 1;
   visibility: visible;
 }
@@ -164,7 +164,7 @@ body:has(.header.menu-hovered) {
   top: 100%;
   list-style: none;
   min-width: 100%;
-  margin-top: 25px;
+  margin-top: 20px;
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s ease;
@@ -183,7 +183,7 @@ body:has(.header.menu-hovered) {
   transition: all 0.2s ease;
   font-weight: 500;
   text-decoration: none;
-  padding: 10px 0;
+  padding: 8px 0;
   font-family: "neue-haas-grotesk-display", sans-serif, Pretendard;
   letter-spacing: var(--spacing-02);
 }

@@ -7,6 +7,7 @@ const Header = ({ language, onLanguageChange }) => {
   const [isMenuHovered, setIsMenuHovered] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(90);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasVisibleSubmenu, setHasVisibleSubmenu] = useState(false); // 서브메뉴 가시성 상태
   const headerRef = useRef(null);
   const navMenuRef = useRef(null);
   const mobileMenuRef = useRef(null);
@@ -58,7 +59,16 @@ const Header = ({ language, onLanguageChange }) => {
       }
     });
     
-    return baseHeight + maxSubmenuHeight + 20;
+    return baseHeight + maxSubmenuHeight + 10;
+  };
+
+  // 서브메뉴가 실제로 보이는지 확인하는 함수
+  const checkSubmenuVisibility = () => {
+    if (!navMenuRef.current) return false;
+    
+    // 메뉴가 호버 상태이고 서브메뉴가 있는 메뉴 아이템이 있는지 확인
+    const hasSubmenuItems = menuItems.some(item => item.submenu && item.submenu.length > 0);
+    return isMenuHovered && hasSubmenuItems;
   };
 
   const handleMenuEnter = () => {
@@ -72,21 +82,35 @@ const Header = ({ language, onLanguageChange }) => {
     setTimeout(() => {
       const calculatedHeight = calculateHeaderHeight();
       setHeaderHeight(calculatedHeight);
+      // 서브메뉴 가시성 확인
+      setTimeout(() => {
+        setHasVisibleSubmenu(checkSubmenuVisibility());
+      }, 100);
     }, 0);
   };
 
-  const handleMenuLeave = () => {
-    // 0.2초 지연 후 메뉴 닫기
+  // 네비게이션에서 완전히 벗어났을 때 호출되는 함수
+  const handleCompleteMenuLeave = () => {
+    // 항상 300ms 지연 후 메뉴 닫기
     menuLeaveTimeoutRef.current = setTimeout(() => {
       setIsMenuHovered(false);
       setHeaderHeight(90);
+      setHasVisibleSubmenu(false);
       menuLeaveTimeoutRef.current = null;
-    }, 200);
+    }, 300);
   };
 
   const handlePageChange = (page) => {
     navigate(`/${page}`);
     setIsMobileMenuOpen(false); // 모바일 메뉴 닫기
+    // 페이지 변경 시 메뉴 즉시 닫기
+    setIsMenuHovered(false);
+    setHeaderHeight(90);
+    setHasVisibleSubmenu(false);
+    if (menuLeaveTimeoutRef.current) {
+      clearTimeout(menuLeaveTimeoutRef.current);
+      menuLeaveTimeoutRef.current = null;
+    }
   };
 
   const toggleMobileMenu = () => {
@@ -191,12 +215,20 @@ const Header = ({ language, onLanguageChange }) => {
             <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
           </button>
           
-          <nav className="navigation">
+          <nav 
+            className="navigation"
+            onMouseEnter={() => {
+              if (menuLeaveTimeoutRef.current) {
+                clearTimeout(menuLeaveTimeoutRef.current);
+                menuLeaveTimeoutRef.current = null;
+              }
+            }}
+            onMouseLeave={handleCompleteMenuLeave}
+          >
             <ul 
               ref={navMenuRef}
               className="nav-menu"
               onMouseEnter={handleMenuEnter}
-              onMouseLeave={handleMenuLeave}
             >
               {menuItems.map((item, index) => {
                 // EN 모드에서 NEWS 메뉴 숨기기
@@ -230,8 +262,6 @@ const Header = ({ language, onLanguageChange }) => {
                     {item.submenu && (
                       <ul 
                         className="submenu-dropdown"
-                        onMouseEnter={handleMenuEnter}
-                        onMouseLeave={handleMenuLeave}
                       >
                         {item.submenu.map((subItem, subIndex) => (
                           <li key={subIndex}>

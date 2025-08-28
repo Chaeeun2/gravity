@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { imageService } from '../services/imageService';
+import { dataService } from '../services/dataService';
 
 const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] }) => {
   // 카테고리 옵션을 props로 받아서 사용
@@ -11,21 +12,47 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
     { id: 'others', label: 'Others' }
   ];
 
-  const [formData, setFormData] = useState({
-    image: '',
-    category: 'office', // 기본값을 office로 설정
-    categoryKo: '',
-    categoryEn: '',
-    titleKo: '',
-    titleEn: '',
-    locationKo: '',
-    locationEn: '',
-    gfa: '',
-    floors: ''
-  });
+  // 초기 formData 생성 함수
+  const createInitialFormData = (portfolioData = null) => {
+    const baseData = {
+      image: '',
+      category: 'office',
+      categoryKo: '',
+      categoryEn: '',
+      titleKo: '',
+      titleEn: '',
+      locationKo: '',
+      locationEn: '',
+      gfaKo: '',
+      gfaEn: '',
+      floorsKo: '',
+      floorsEn: ''
+    };
+
+    // 포트폴리오 데이터가 있으면 해당 데이터로 초기화
+    if (portfolioData) {
+      Object.keys(portfolioData).forEach(key => {
+        if (key in baseData) {
+          baseData[key] = portfolioData[key] || '';
+        } else {
+          // 동적 라벨 필드도 포함
+          baseData[key] = portfolioData[key] || '';
+        }
+      });
+    }
+
+    return baseData;
+  };
+
+  const [formData, setFormData] = useState(() => createInitialFormData());
   const [saving, setSaving] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
+  const [portfolioLabels, setPortfolioLabels] = useState([
+    { id: 'location', label: 'Location' },
+    { id: 'gfa', label: 'GFA' },
+    { id: 'floor', label: 'Floor' }
+  ]);
 
   useEffect(() => {
     if (portfolio) {
@@ -41,47 +68,44 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
         }
       }
       
-      // 저장용 이미지는 URL만 허용
+      // 저장용 이미지는 기존 이미지를 그대로 유지 (Base64도 허용)
+      // 수정 시에는 기존 이미지를 보존하는 것이 중요
       if (validImage && typeof validImage === 'string') {
-        if (!validImage.startsWith('http') && !validImage.startsWith('blob:')) {
-          console.warn('저장용 이미지 데이터가 유효한 URL 형식이 아닙니다:', validImage);
-          validImage = ''; // 저장 시에는 제거
-        } else if (validImage.length > 1000000) {
-          console.warn('저장용 이미지 URL이 너무 깁니다:', validImage.length, 'characters');
+        if (validImage.length > 1000000) {
+          console.warn('저장용 이미지 데이터가 너무 깁니다:', validImage.length, 'characters');
           validImage = '';
         }
       }
       
-      setFormData({
-        image: validImage, // 저장용 (URL만)
-        category: portfolio.category || 'office',
-        categoryKo: portfolio.categoryKo || '',
-        categoryEn: portfolio.categoryEn || '',
-        titleKo: portfolio.titleKo || '',
-        titleEn: portfolio.titleEn || '',
-        locationKo: portfolio.locationKo || '',
-        locationEn: portfolio.locationEn || '',
-        gfa: portfolio.gfa || '',
-        floors: portfolio.floors || ''
-      });
+      const portfolioFormData = createInitialFormData(portfolio);
+      portfolioFormData.image = validImage; // 기존 이미지 보존
+      setFormData(portfolioFormData);
       setImagePreview(displayImage); // 표시용 (Base64도 허용)
     } else {
-      setFormData({
-        image: '',
-        category: 'office',
-        categoryKo: '',
-        categoryEn: '',
-        titleKo: '',
-        titleEn: '',
-        locationKo: '',
-        locationEn: '',
-        gfa: '',
-        floors: ''
-      });
+      setFormData(createInitialFormData());
       setImagePreview('');
       setImageFile(null);
     }
   }, [portfolio]);
+
+  // 포트폴리오 라벨 로드
+  useEffect(() => {
+    const loadPortfolioLabels = async () => {
+      try {
+        const result = await dataService.getDocument('portfolio', 'labels');
+        if (result.success && result.data && result.data.labels) {
+          setPortfolioLabels(result.data.labels);
+        }
+      } catch (error) {
+        console.error('포트폴리오 라벨 로드 오류:', error);
+        // 기본 라벨 사용
+      }
+    };
+
+    if (isOpen) {
+      loadPortfolioLabels();
+    }
+  }, [isOpen]);
 
   // 컴포넌트 언마운트 시 Object URL 정리
   useEffect(() => {
@@ -177,15 +201,8 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
         }
       }
       
-      // 이미지 데이터 최종 검증
+      // 이미지 데이터 최종 검증 (Base64도 허용)
       if (finalImageUrl && typeof finalImageUrl === 'string') {
-        // URL 형식 검증
-        if (!finalImageUrl.startsWith('http') && !finalImageUrl.startsWith('blob:')) {
-          console.error('잘못된 이미지 데이터 형식:', finalImageUrl);
-          alert('이미지 데이터가 올바르지 않습니다. 다시 시도해주세요.');
-          return;
-        }
-        
         // 길이 검증 (Firestore 1MB 제한 대비 안전 마진)
         if (finalImageUrl.length > 1000000) {
           console.error('이미지 데이터가 너무 깁니다:', finalImageUrl.length, 'characters');
@@ -217,18 +234,8 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
   const handleClose = async () => {
     if (saving) return;
     
-    // 작성 중인 내용이 있는지 확인
-    const hasContent = 
-      formData.image || 
-      imageFile || 
-      formData.categoryKo || 
-      formData.categoryEn || 
-      formData.titleKo || 
-      formData.titleEn || 
-      formData.locationKo || 
-      formData.locationEn || 
-      formData.gfa || 
-      formData.floors;
+    // 작성 중인 내용이 있는지 확인 (동적 필드 포함)
+    const hasContent = Object.values(formData).some(value => value && value.toString().trim() !== '') || imageFile;
     
     if (hasContent) {
       if (window.confirm('작성 중인 내용이 있습니다. 닫으시겠습니까?')) {
@@ -242,18 +249,7 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
         }
         
         // 모든 내용 초기화
-        setFormData({
-          image: '',
-          category: 'office',
-          categoryKo: '',
-          categoryEn: '',
-          titleKo: '',
-          titleEn: '',
-          locationKo: '',
-          locationEn: '',
-          gfa: '',
-          floors: ''
-        });
+        setFormData(createInitialFormData());
         setImageFile(null);
         setImagePreview('');
         
@@ -396,59 +392,61 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
               </div>
             </div>
 
-            {/* 위치 */}
-            <div className="admin-form-section">
-              <h4>위치</h4>
-              <div className="admin-form-row">
-                <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label>국문</label>
-                  <input
-                    type="text"
-                    value={formData.locationKo}
-                    onChange={(e) => handleInputChange('locationKo', e.target.value)}
-                    placeholder="위치(국문)을 입력하세요"
-                    className="admin-input"
-                  />
-                </div>
-                <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label>영문</label>
-                  <input
-                    type="text"
-                    value={formData.locationEn}
-                    onChange={(e) => handleInputChange('locationEn', e.target.value)}
-                    placeholder="위치(영문)을 입력하세요"
-                    className="admin-input"
-                  />
-                </div>
-              </div>
-            </div>
+            {/* 동적 라벨 섹션들 - 순서대로 렌더링 */}
+            {portfolioLabels.map((labelItem) => {
+              // 각 라벨에 대한 필드명 결정
+              let koField, enField, koPlaceholder, enPlaceholder;
+              
+              if (labelItem.id === 'location') {
+                koField = 'locationKo';
+                enField = 'locationEn';
+                koPlaceholder = `${labelItem.label}(국문)을 입력하세요`;
+                enPlaceholder = `${labelItem.label}(영문)을 입력하세요`;
+              } else if (labelItem.id === 'gfa') {
+                koField = 'gfaKo';
+                enField = 'gfaEn';
+                koPlaceholder = `${labelItem.label}(국문)을 입력하세요`;
+                enPlaceholder = `${labelItem.label}(영문)을 입력하세요`;
+              } else if (labelItem.id === 'floor') {
+                koField = 'floorsKo';
+                enField = 'floorsEn';
+                koPlaceholder = `${labelItem.label}(국문)을 입력하세요`;
+                enPlaceholder = `${labelItem.label}(영문)을 입력하세요`;
+              } else {
+                koField = `${labelItem.id}Ko`;
+                enField = `${labelItem.id}En`;
+                koPlaceholder = `${labelItem.label}(국문)을 입력하세요`;
+                enPlaceholder = `${labelItem.label}(영문)을 입력하세요`;
+              }
 
-            {/* GFA & 층수 */}
-            <div className="admin-form-section">
-              <h4>건물 정보</h4>
-              <div className="admin-form-row">
-                <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label>GFA</label>
-                  <input
-                    type="text"
-                    value={formData.gfa}
-                    onChange={(e) => handleInputChange('gfa', e.target.value)}
-                    placeholder="GFA를 입력하세요"
-                    className="admin-input"
-                  />
+              return (
+                <div key={labelItem.id} className="admin-form-section">
+                  <h4>{labelItem.label}</h4>
+                  <div className="admin-form-row">
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label>국문</label>
+                      <input
+                        type="text"
+                        value={formData[koField] || ''}
+                        onChange={(e) => handleInputChange(koField, e.target.value)}
+                        placeholder={koPlaceholder}
+                        className="admin-input"
+                      />
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label>영문</label>
+                      <input
+                        type="text"
+                        value={formData[enField] || ''}
+                        onChange={(e) => handleInputChange(enField, e.target.value)}
+                        placeholder={enPlaceholder}
+                        className="admin-input"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                  <label>Floor</label>
-                  <input
-                    type="text"
-                    value={formData.floors}
-                    onChange={(e) => handleInputChange('floors', e.target.value)}
-                    placeholder="층수를 입력하세요"
-                    className="admin-input"
-                  />
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </form>
       </div>

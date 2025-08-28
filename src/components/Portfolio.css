@@ -34,7 +34,7 @@
   background: var(--primary-color);
   padding: 40px 50px;
   min-height: 300px;
-  height: 380px;
+  height: 430px;
   text-align: left;
   display: flex;
   align-items: flex-end;
@@ -211,6 +211,19 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+}
+
+.no-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 1.4rem;
+  font-weight: 400;
+  border: 1px dashed #ddd;
 }
 
 .property-info {
@@ -543,6 +556,10 @@
 
   .detail-label {
     min-width: 60px;
+  }
+
+  .no-image-placeholder {
+    font-size: 1.2rem;
   }
 }
 

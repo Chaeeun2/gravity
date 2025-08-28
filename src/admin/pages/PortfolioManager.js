@@ -82,6 +82,69 @@ const SortablePortfolioItem = ({ item, onEdit, onDelete }) => {
   );
 };
 
+// SortableLabelItem 컴포넌트
+const SortableLabelItem = ({ labelItem, index, onUpdate, onRemove, disabled }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: labelItem.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    marginBottom: '20px',
+  };
+
+  return (
+    <div 
+      ref={setNodeRef} 
+      style={style} 
+      className={`admin-form-group ${isDragging ? 'dragging' : ''}`}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div 
+          {...attributes}
+          {...listeners}
+          style={{ 
+            cursor: 'grab', 
+            marginTop: '20px',
+            color: '#999',
+            fontSize: '2rem',
+          }}
+        >
+          ⠿
+        </div>
+        <div style={{ flex: 1 }}>
+          <label style={{ marginBottom: '10px' }}>{`라벨 ${index + 1}`}</label>
+          <input
+            type="text"
+            className="admin-input"
+            value={labelItem.label}
+            onChange={(e) => onUpdate(labelItem.id, e.target.value)}
+            placeholder="라벨을 입력하세요 (예: Location, GFA, Floor)"
+          />
+        </div>
+        <button
+          type="button"
+          className="admin-button admin-button-secondary"
+          onClick={() => onRemove(labelItem.id)}
+          style={{ 
+            marginTop: '20px',
+          }}
+          disabled={disabled}
+        >
+          삭제
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // SortableCategoryItem 컴포넌트
 const SortableCategoryItem = ({ item, onEdit, onDelete }) => {
   const {
@@ -160,12 +223,18 @@ const PortfolioManager = () => {
   });
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [portfolioInfoModalOpen, setPortfolioInfoModalOpen] = useState(false);
   const [categories, setCategories] = useState([
     { id: 'office', label: 'Office', order: 0 },
     { id: 'logistics', label: 'Logistics', order: 1 },
     { id: 'residence', label: 'Residence', order: 2 },
     { id: 'hotel', label: 'Hotel', order: 3 },
     { id: 'others', label: 'Others', order: 4 }
+  ]);
+  const [portfolioLabels, setPortfolioLabels] = useState([
+    { id: 'location', label: 'Location' },
+    { id: 'gfa', label: 'GFA' },
+    { id: 'floor', label: 'Floor' }
   ]);
 
   // DnD 센서 설정
@@ -181,6 +250,7 @@ const PortfolioManager = () => {
     loadOperationalStatus();
     loadTotalAmount();
     loadCategories();
+    loadPortfolioLabels();
   }, []);
 
   const loadPortfolioData = async () => {
@@ -255,6 +325,19 @@ const PortfolioManager = () => {
     } catch (error) {
       console.error('카테고리 데이터 로딩 오류:', error);
       // 기본 카테고리 사용
+    }
+  };
+
+  // 포트폴리오 라벨 데이터 로드
+  const loadPortfolioLabels = async () => {
+    try {
+      const result = await dataService.getDocument('portfolio', 'labels');
+      if (result.success && result.data && result.data.labels) {
+        setPortfolioLabels(result.data.labels);
+      }
+    } catch (error) {
+      console.error('포트폴리오 라벨 데이터 로딩 오류:', error);
+      // 기본 라벨 사용
     }
   };
 
@@ -454,6 +537,56 @@ const PortfolioManager = () => {
     }
   };
 
+  // 포트폴리오 라벨 저장
+  const handlePortfolioLabelsSave = async () => {
+    try {
+      await dataService.setDocument('portfolio', 'labels', { labels: portfolioLabels });
+      alert('라벨이 저장되었습니다.');
+      setPortfolioInfoModalOpen(false);
+    } catch (error) {
+      console.error('라벨 저장 오류:', error);
+      alert('라벨 저장에 실패했습니다.');
+    }
+  };
+
+  // 라벨 추가
+  const handleAddLabel = () => {
+    const newLabel = {
+      id: `label_${Date.now()}`,
+      label: ''
+    };
+    setPortfolioLabels([...portfolioLabels, newLabel]);
+  };
+
+  // 라벨 삭제
+  const handleRemoveLabel = (labelId) => {
+    if (portfolioLabels.length <= 1) {
+      alert('최소 1개의 라벨은 있어야 합니다.');
+      return;
+    }
+    setPortfolioLabels(portfolioLabels.filter(label => label.id !== labelId));
+  };
+
+  // 라벨 수정
+  const handleUpdateLabel = (labelId, newValue) => {
+    setPortfolioLabels(portfolioLabels.map(label => 
+      label.id === labelId ? { ...label, label: newValue } : label
+    ));
+  };
+
+  // 라벨 드래그 앤 드롭 핸들러
+  const handleLabelDragEnd = async (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = portfolioLabels.findIndex(item => item.id === active.id);
+      const newIndex = portfolioLabels.findIndex(item => item.id === over.id);
+
+      const newLabels = arrayMove(portfolioLabels, oldIndex, newIndex);
+      setPortfolioLabels(newLabels);
+    }
+  };
+
 
 
   if (loading) {
@@ -570,6 +703,14 @@ const PortfolioManager = () => {
                       </option>
                     ))}
                   </select>
+                  <button
+                    type="button"
+                    className="admin-button admin-button-secondary"
+                    onClick={() => setPortfolioInfoModalOpen(true)}
+                  >
+                    포트폴리오 정보 관리
+                  </button>
+
                   <button
                     type="button"
                     className="admin-button admin-button-secondary"
@@ -713,6 +854,69 @@ const PortfolioManager = () => {
                         />
                       ))}
                     </div>
+                  </SortableContext>
+                </DndContext>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 포트폴리오 정보 관리 모달 */}
+      {portfolioInfoModalOpen && (
+        <div className="admin-modal-overlay">
+          <div className="admin-modal-content" style={{ maxWidth: '600px' }}>
+            <div className="admin-modal-header">
+              <h3>포트폴리오 정보 관리</h3>
+              <div className="admin-button-group">
+                <button
+                  type="button"
+                  className="admin-button admin-button-secondary"
+                  onClick={() => setPortfolioInfoModalOpen(false)}
+                >
+                  취소
+                </button>
+                <button
+                  type="button"
+                  className="admin-button"
+                  onClick={handlePortfolioLabelsSave}
+                >
+                  저장
+                </button>
+              </div>
+            </div>
+            
+            <div className="admin-modal-body">
+              <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
+                <button
+                  type="button"
+                  className="admin-button"
+                  onClick={handleAddLabel}
+                >
+                  + 라벨 추가
+                </button>
+              </div>
+
+              <div className="admin-form-section">
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleLabelDragEnd}
+                >
+                  <SortableContext
+                    items={portfolioLabels.map(item => item.id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {portfolioLabels.map((labelItem, index) => (
+                      <SortableLabelItem
+                        key={labelItem.id}
+                        labelItem={labelItem}
+                        index={index}
+                        onUpdate={handleUpdateLabel}
+                        onRemove={handleRemoveLabel}
+                        disabled={portfolioLabels.length <= 1}
+                      />
+                    ))}
                   </SortableContext>
                 </DndContext>
               </div>
