@@ -72,7 +72,7 @@ const News = ({ language }) => {
         setNewsData([]);
       }
     } catch (error) {
-      console.error('뉴스 데이터 로딩 오류:', error);
+      // console.error('뉴스 데이터 로딩 오류:', error);
       setNewsData([]);
     } finally {
       setLoading(false);

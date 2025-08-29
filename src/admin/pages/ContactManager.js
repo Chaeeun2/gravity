@@ -33,7 +33,7 @@ const ContactManager = () => {
         });
       }
     } catch (error) {
-      console.error('Contact 데이터 로드 오류:', error);
+      // console.error('Contact 데이터 로드 오류:', error);
     } finally {
       setLoading(false);
     }
@@ -51,7 +51,7 @@ const ContactManager = () => {
       await dataService.contact.update(contactData);
       alert('저장되었습니다.');
     } catch (error) {
-      console.error('저장 오류:', error);
+      // console.error('저장 오류:', error);
       alert('저장에 실패했습니다.');
     } finally {
       setSaving(false);
@@ -107,7 +107,7 @@ const ContactManager = () => {
         throw new Error('PDF 업로드에 실패했습니다.');
       }
     } catch (error) {
-      console.error('파일 업로드 오류:', error);
+      // console.error('파일 업로드 오류:', error);
       alert('파일 업로드에 실패했습니다: ' + error.message);
     }
   };

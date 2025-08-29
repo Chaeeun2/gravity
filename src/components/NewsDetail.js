@@ -60,15 +60,15 @@ const NewsDetail = ({ language }) => {
           if (foundNews) {
             setNews(foundNews);
           } else {
-            console.error('뉴스를 찾을 수 없습니다:', id);
+            // console.error('뉴스를 찾을 수 없습니다:', id);
             navigate('/news');
           }
         } else {
-          console.error('뉴스 데이터 로딩 실패');
+          // console.error('뉴스 데이터 로딩 실패');
           navigate('/news');
         }
       } catch (error) {
-        console.error('뉴스 데이터 로딩 오류:', error);
+        // console.error('뉴스 데이터 로딩 오류:', error);
         navigate('/news');
       } finally {
         setLoading(false);
@@ -99,7 +99,7 @@ const NewsDetail = ({ language }) => {
     const fileUrl = file.url || file.downloadUrl || file.fileUrl || file.path;
     
     if (!fileUrl) {
-      console.error('파일 URL을 찾을 수 없습니다. 파일 데이터:', file);
+      // console.error('파일 URL을 찾을 수 없습니다. 파일 데이터:', file);
       return;
     }
 
@@ -133,7 +133,7 @@ const NewsDetail = ({ language }) => {
       
       
     } catch (error) {
-      console.error('첨부파일 다운로드 처리 오류:', error);
+      // console.error('첨부파일 다운로드 처리 오류:', error);
       
       // fallback: 직접 링크로 다운로드 시도
       try {
@@ -146,13 +146,13 @@ const NewsDetail = ({ language }) => {
         link.click();
         document.body.removeChild(link);
       } catch (fallbackError) {
-        console.error('fallback 다운로드도 실패:', fallbackError);
+        // console.error('fallback 다운로드도 실패:', fallbackError);
         
         // 최종 fallback: 새 탭에서 열기
         try {
           window.open(fileUrl, '_blank');
         } catch (finalError) {
-          console.error('최종 fallback도 실패:', finalError);
+          // console.error('최종 fallback도 실패:', finalError);
         }
       }
     }

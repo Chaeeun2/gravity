@@ -76,7 +76,7 @@ const Disclosure = ({ language }) => {
         }));
         setDisclosureList(disclosures);
       } catch (error) {
-        console.error('공시 데이터 로딩 오류:', error);
+        // console.error('공시 데이터 로딩 오류:', error);
         setDisclosureList([]);
       } finally {
         setLoading(false);

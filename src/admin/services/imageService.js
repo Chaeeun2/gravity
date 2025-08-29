@@ -78,7 +78,7 @@ export const imageService = {
       // 타임스탬프와 랜덤 문자열이 없으면 원본 파일명 그대로 반환
       return `${originalName}.${extension}`;
     } catch (error) {
-      console.error('파일명 복원 오류:', error);
+      // console.error('파일명 복원 오류:', error);
       return storedFileName; // 오류 시 원본 반환
     }
   },
@@ -152,7 +152,7 @@ export const imageService = {
         originalUrl: publicUrl
       };
     } catch (error) {
-      console.error('이미지 업로드 상세 오류:', {
+      // console.error('이미지 업로드 상세 오류:', {
         message: error.message,
         name: error.name,
         stack: error.stack,
@@ -227,7 +227,7 @@ export const imageService = {
         originalUrl: publicUrl
       };
     } catch (error) {
-      console.error('파일 업로드 오류:', error);
+      // console.error('파일 업로드 오류:', error);
       throw error;
     }
   },
@@ -245,7 +245,7 @@ export const imageService = {
         successCount: results.filter(r => r.success).length
       };
     } catch (error) {
-      console.error('다중 이미지 업로드 오류:', error);
+      // console.error('다중 이미지 업로드 오류:', error);
       throw error;
     }
   },
@@ -267,7 +267,7 @@ export const imageService = {
         deletedKey: key
       };
     } catch (error) {
-      console.error('이미지 삭제 오류:', error);
+      // console.error('이미지 삭제 오류:', error);
       throw error;
     }
   },
@@ -285,7 +285,7 @@ export const imageService = {
         successCount: results.filter(r => r.success).length
       };
     } catch (error) {
-      console.error('다중 이미지 삭제 오류:', error);
+      // console.error('다중 이미지 삭제 오류:', error);
       throw error;
     }
   },
@@ -303,7 +303,7 @@ export const imageService = {
       
       return null;
     } catch (error) {
-      console.error('URL에서 키 추출 오류:', error);
+      // console.error('URL에서 키 추출 오류:', error);
       return null;
     }
   },
@@ -336,7 +336,7 @@ export const imageService = {
         nextContinuationToken: response.NextContinuationToken
       };
     } catch (error) {
-      console.error('이미지 목록 조회 오류:', error);
+      // console.error('이미지 목록 조회 오류:', error);
       throw error;
     }
   },
@@ -365,7 +365,7 @@ export const imageService = {
         expiresIn: expiresIn
       };
     } catch (error) {
-      console.error('서명된 URL 생성 오류:', error);
+      // console.error('서명된 URL 생성 오류:', error);
       throw error;
     }
   },
@@ -408,7 +408,7 @@ export const imageService = {
     try {
       return decodeURIComponent(atob(encodedName));
     } catch (error) {
-      console.error('파일명 디코딩 오류:', error);
+      // console.error('파일명 디코딩 오류:', error);
       return encodedName;
     }
   },

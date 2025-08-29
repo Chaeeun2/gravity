@@ -60,7 +60,7 @@ const InvestmentStrategy = ({ language }) => {
         }));
         setProducts(productsData);
       } catch (error) {
-        console.error('투자 데이터 로드 실패:', error);
+        // console.error('투자 데이터 로드 실패:', error);
         // 에러 발생 시 기본 데이터 사용
         setStrategies([]);
         setProducts([]);

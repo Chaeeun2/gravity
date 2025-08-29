@@ -101,7 +101,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
         }
       }
     } catch (error) {
-      console.error('이미지 업로드 오류:', error);
+      // console.error('이미지 업로드 오류:', error);
       let errorMessage = '이미지 업로드 중 오류가 발생했습니다.';
       
       if (error.message.includes('환경변수')) {
@@ -124,7 +124,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
         // Cloudflare에서 이미지 삭제
         await imageService.deleteImage(imageToRemove.imageId);
       } catch (error) {
-        console.error('이미지 삭제 오류:', error);
+        // console.error('이미지 삭제 오류:', error);
       }
     }
     setImages(prev => prev.filter((_, i) => i !== index));
@@ -157,7 +157,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
         }
       }
     } catch (error) {
-      console.error('파일 업로드 오류:', error);
+      // console.error('파일 업로드 오류:', error);
       alert('파일 업로드 중 오류가 발생했습니다.');
     } finally {
       setFileUploading(false);
@@ -172,7 +172,7 @@ function NewsModal({ isOpen, onClose, news, onSave, loading }) {
         // Cloudflare에서 파일 삭제
         await imageService.deleteImage(fileToRemove.fileId);
       } catch (error) {
-        console.error('파일 삭제 오류:', error);
+        // console.error('파일 삭제 오류:', error);
       }
     }
     setFiles(prev => prev.filter((_, i) => i !== index));
@@ -406,7 +406,7 @@ const NewsManager = () => {
         setNewsList([]);
       }
     } catch (error) {
-      console.error('뉴스 로딩 실패:', error);
+      // console.error('뉴스 로딩 실패:', error);
       setNewsList([]);
     } finally {
       setLoading(false);
@@ -434,7 +434,7 @@ const NewsManager = () => {
       setEditingNews(null);
       await loadNews();
     } catch (error) {
-      console.error('뉴스 저장 실패:', error);
+      // console.error('뉴스 저장 실패:', error);
       alert('뉴스 저장에 실패했습니다.');
     } finally {
       setSaveLoading(false);
@@ -454,7 +454,7 @@ const NewsManager = () => {
       alert('삭제되었습니다.');
       await loadNews();
     } catch (error) {
-      console.error('뉴스 삭제 실패:', error);
+      // console.error('뉴스 삭제 실패:', error);
       alert('삭제에 실패했습니다.');
     }
   };

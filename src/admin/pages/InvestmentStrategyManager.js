@@ -57,7 +57,7 @@ const InvestmentStrategyManager = () => {
       setStrategies(strategiesData.sort((a, b) => a.order - b.order));
       setProducts(productsData.sort((a, b) => a.order - b.order));
     } catch (error) {
-      console.error('데이터 로드 실패:', error);
+      // console.error('데이터 로드 실패:', error);
     } finally {
       setLoading(false);
     }
@@ -83,7 +83,7 @@ const InvestmentStrategyManager = () => {
       setEditingStrategy(null);
       alert('투자 전략이 업데이트되었습니다.');
     } catch (error) {
-      console.error('전략 업데이트 실패:', error);
+      // console.error('전략 업데이트 실패:', error);
       alert('업데이트에 실패했습니다.');
     }
   };
@@ -96,7 +96,7 @@ const InvestmentStrategyManager = () => {
       setEditingProduct(null);
       alert('투자 상품이 업데이트되었습니다.');
     } catch (error) {
-      console.error('상품 업데이트 실패:', error);
+      // console.error('상품 업데이트 실패:', error);
       alert('업데이트에 실패했습니다.');
     }
   };
@@ -139,7 +139,7 @@ const InvestmentStrategyManager = () => {
         }
         alert('전략 순서가 업데이트되었습니다.');
       } catch (error) {
-        console.error('순서 업데이트 실패:', error);
+        // console.error('순서 업데이트 실패:', error);
         alert('순서 업데이트에 실패했습니다.');
         await loadData(); // 실패 시 원래 데이터로 복원
       }
@@ -170,7 +170,7 @@ const InvestmentStrategyManager = () => {
         }
         alert('상품 순서가 업데이트되었습니다.');
       } catch (error) {
-        console.error('순서 업데이트 실패:', error);
+        // console.error('순서 업데이트 실패:', error);
         alert('순서 업데이트에 실패했습니다.');
         await loadData(); // 실패 시 원래 데이터로 복원
       }
@@ -184,7 +184,7 @@ const InvestmentStrategyManager = () => {
         alert('전략이 삭제되었습니다.');
         await loadData();
       } catch (error) {
-        console.error('전략 삭제 실패:', error);
+        // console.error('전략 삭제 실패:', error);
         alert('삭제에 실패했습니다.');
       }
     }
@@ -197,7 +197,7 @@ const InvestmentStrategyManager = () => {
         alert('상품이 삭제되었습니다.');
         await loadData();
       } catch (error) {
-        console.error('상품 삭제 실패:', error);
+        // console.error('상품 삭제 실패:', error);
         alert('삭제에 실패했습니다.');
       }
     }

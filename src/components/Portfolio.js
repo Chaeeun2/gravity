@@ -83,7 +83,6 @@ const Portfolio = ({ language }) => {
           ]);
         }
       } catch (error) {
-        console.error('카테고리 로딩 오류:', error);
         // 기본 카테고리 사용
         setCategories([
           { id: 'office', label: 'Office' },
@@ -113,8 +112,8 @@ const Portfolio = ({ language }) => {
           setPortfolioLabels(labelsData.labels);
         }
       }
-    } catch (error) {
-      console.error('포트폴리오 라벨 로딩 오류:', error);
+          } catch (error) {
+        // 포트폴리오 라벨 로딩 오류 처리
       // 기본 라벨 사용
     }
   };
@@ -184,8 +183,8 @@ const Portfolio = ({ language }) => {
         });
 
         setPortfolioData(categorizedData);
-      } catch (error) {
-        console.error('데이터 로딩 오류:', error);
+              } catch (error) {
+          // 데이터 로딩 오류 처리
         // 에러 발생 시 기본 데이터 사용
         setPortfolioData({
           office: [],
@@ -418,16 +417,6 @@ const Portfolio = ({ language }) => {
 
                             // 데이터가 없거나 공백만 있으면 해당 라벨을 표시하지 않음
                             if (!dataValue || dataValue.toString().trim() === '' || dataValue === null || dataValue === undefined) {
-                              // 디버깅용 로그 (개발 환경에서만)
-                              if (process.env.NODE_ENV === 'development') {
-                                console.log(`${labelItem.label} 라벨이 숨겨짐:`, { 
-                                  propertyTitle: property.titleKo || property.titleEn,
-                                  labelId: labelItem.id, 
-                                  dataValue,
-                                  koField: labelItem.id === 'floor' ? 'floorsKo' : `${labelItem.id}Ko`,
-                                  enField: labelItem.id === 'floor' ? 'floorsEn' : `${labelItem.id}En`
-                                });
-                              }
                               return null;
                             }
 

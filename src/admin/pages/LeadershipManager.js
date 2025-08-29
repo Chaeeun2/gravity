@@ -76,7 +76,7 @@ const LeadershipManager = () => {
               await dataService.leadership.update(item.id, { order: index });
               return { ...item, order: index };
             } catch (error) {
-              console.error('order 필드 추가 오류:', error);
+              // console.error('order 필드 추가 오류:', error);
               return { ...item, order: index };
             }
           }
@@ -103,7 +103,7 @@ const LeadershipManager = () => {
       
       setLeadershipData(sortedData);
     } catch (error) {
-      console.error('리더쉽 데이터 로드 오류:', error);
+      // console.error('리더쉽 데이터 로드 오류:', error);
     } finally {
       setLoading(false);
     }
@@ -323,7 +323,7 @@ const LeadershipManager = () => {
       await loadLeadershipData();
       closeModal();
     } catch (error) {
-      console.error('저장 오류:', error);
+      // console.error('저장 오류:', error);
       alert('저장에 실패했습니다.');
     }
   };
@@ -335,7 +335,7 @@ const LeadershipManager = () => {
         await loadLeadershipData();
         alert('삭제되었습니다.');
       } catch (error) {
-        console.error('삭제 오류:', error);
+        // console.error('삭제 오류:', error);
         alert('삭제에 실패했습니다.');
       }
     }
@@ -393,7 +393,7 @@ const LeadershipManager = () => {
             await loadLeadershipData();
 
           } catch (error) {
-            console.error('순서 변경 저장 오류:', error);
+            // console.error('순서 변경 저장 오류:', error);
             alert('순서 변경에 실패했습니다.');
           }
         }
