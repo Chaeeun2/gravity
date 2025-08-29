@@ -153,12 +153,12 @@ export const imageService = {
       };
     } catch (error) {
       // console.error('이미지 업로드 상세 오류:', {
-        message: error.message,
-        name: error.name,
-        stack: error.stack,
-        code: error.$metadata?.httpStatusCode,
-        requestId: error.$metadata?.requestId
-      });
+      //   message: error.message,
+      //   name: error.name,
+      //   stack: error.stack,
+      //   code: error.$metadata?.httpStatusCode,
+      //   requestId: error.$metadata?.requestId
+      // });
       throw error;
     }
   },
