@@ -65,14 +65,42 @@ const News = ({ language }) => {
   const loadNewsData = async () => {
     try {
       setLoading(true);
-      const result = await dataService.getAllDocuments('news', 'createdAt', 'desc');
+      // 모든 데이터를 가져와서 클라이언트에서 정렬 (순서 없이)
+      const result = await dataService.getAllDocuments('news');
       if (result.success) {
-        setNewsData(result.data);
+        // 중요공지 우선, 그 다음 publishDate 우선으로 정렬
+        const sortedData = result.data.sort((a, b) => {
+          // 중요공지 우선도 (중요공지가 항상 최상단)
+          if (a.isImportant && !b.isImportant) return -1;
+          if (!a.isImportant && b.isImportant) return 1;
+          
+          // 둘 다 중요공지이거나 둘 다 일반 공지인 경우 날짜로 정렬
+          const dateA = a.publishDate || a.createdAt;
+          const dateB = b.publishDate || b.createdAt;
+          
+          if (!dateA && !dateB) return 0;
+          if (!dateA) return 1;
+          if (!dateB) return -1;
+          
+          const timeA = dateA?.toDate ? dateA.toDate().getTime() : new Date(dateA).getTime();
+          const timeB = dateB?.toDate ? dateB.toDate().getTime() : new Date(dateB).getTime();
+          
+          return timeB - timeA; // 내림차순 정렬
+        });
+        
+        console.log('Sorted news data:', sortedData.map(item => ({
+          id: item.id,
+          title: item.title,
+          publishDate: item.publishDate,
+          createdAt: item.createdAt
+        })));
+        
+        setNewsData(sortedData);
       } else {
         setNewsData([]);
       }
     } catch (error) {
-      // console.error('뉴스 데이터 로딩 오류:', error);
+      console.error('뉴스 데이터 로딩 오류:', error);
       setNewsData([]);
     } finally {
       setLoading(false);
@@ -89,8 +117,10 @@ const News = ({ language }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Format date based on screen size
-  const formatDate = (timestamp) => {
+  // Format date based on screen size (publishDate 우선 사용)
+  const formatDate = (newsItem) => {
+    const timestamp = newsItem.publishDate || newsItem.createdAt;
+    
     let date;
     if (timestamp?.toDate) {
       date = timestamp.toDate(); // Firestore Timestamp
@@ -162,13 +192,23 @@ const News = ({ language }) => {
     navigate(`/news/${news.id}`);
   };
 
-  // 페이지네이션 로직
+  // 페이지네이션 로직 (중요공지는 모든 페이지에 표시)
   const itemsPerPage = 10;
   const displayItems = isSearching ? filteredNews : newsData;
-  const totalPages = Math.ceil(displayItems.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = displayItems.slice(startIndex, endIndex);
+  
+  // 중요공지와 일반 게시물 분리
+  const importantItems = displayItems.filter(item => item.isImportant);
+  const normalItems = displayItems.filter(item => !item.isImportant);
+  
+  // 일반 게시물 기준으로 페이지네이션 계산
+  const normalItemsPerPage = itemsPerPage - importantItems.length;
+  const totalPages = normalItemsPerPage > 0 ? Math.ceil(normalItems.length / normalItemsPerPage) : 1;
+  const startIndex = (currentPage - 1) * normalItemsPerPage;
+  const endIndex = startIndex + normalItemsPerPage;
+  const currentNormalItems = normalItems.slice(startIndex, endIndex);
+  
+  // 중요공지를 항상 최상단에, 그 다음 페이지별 일반 게시물
+  const currentItems = [...importantItems, ...currentNormalItems];
 
 
 
@@ -257,18 +297,29 @@ const News = ({ language }) => {
               {loading ? (
                 <div className="loading">로딩 중...</div>
               ) : currentItems.length > 0 ? (
-                currentItems.map((item, index) => (
-                  <div 
-                    key={item.id} 
-                    className="news-item"
-                    onClick={() => handleNewsClick(item)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <div className="news-number">{displayItems.length - (startIndex + index)}</div>
-                    <div className="news-title-text">{item.title}</div>
-                    <div className="news-date">{formatDate(item.createdAt)}</div>
-                  </div>
-                ))
+                currentItems.map((item, index) => {
+                  // 중요공지는 '공지'로 표시, 일반 게시물은 번호 표시
+                  let itemNumber = '';
+                  if (item.isImportant) {
+                    itemNumber = '공지';
+                  } else {
+                    const normalItemIndex = index - importantItems.length;
+                    itemNumber = normalItems.length - (startIndex + normalItemIndex);
+                  }
+                  
+                  return (
+                    <div 
+                      key={item.id} 
+                      className={`news-item ${item.isImportant ? 'news-item-important' : ''}`}
+                      onClick={() => handleNewsClick(item)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <div className="news-number">{itemNumber}</div>
+                      <div className="news-title-text">{item.title}</div>
+                      <div className="news-date">{formatDate(item)}</div>
+                    </div>
+                  );
+                })
               ) : (
                 <div className="no-results">
                   {isSearching ? '검색 결과가 없습니다.' : '뉴스가 없습니다.'}

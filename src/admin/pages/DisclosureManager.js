@@ -59,6 +59,8 @@ function RichEditor({ content, setContent }) {
 function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [publishDate, setPublishDate] = useState('');
+  const [isImportant, setIsImportant] = useState(false);
   const [images, setImages] = useState([]);
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -71,12 +73,32 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
       setContent(disclosure.content || '');
       setImages(disclosure.images || []);
       setFiles(disclosure.files || []);
+      setIsImportant(disclosure.isImportant || false);
+      
+      // 게시일 설정 (publishDate가 있으면 우선, 없으면 createdAt 사용)
+      let dateToUse = disclosure.publishDate || disclosure.createdAt;
+      if (dateToUse) {
+        let date;
+        if (dateToUse?.toDate) {
+          date = dateToUse.toDate(); // Firestore Timestamp
+        } else {
+          date = new Date(dateToUse);
+        }
+        // ISO 문자열의 앞 16자리만 사용 (yyyy-mm-ddThh:mm 형식)
+        setPublishDate(date.toISOString().slice(0, 16));
+      } else {
+        setPublishDate('');
+      }
     } else {
       // 새 공시 모드
       setTitle('');
       setContent('');
       setImages([]);
       setFiles([]);
+      setIsImportant(false);
+      // 현재 시각을 기본값으로 설정
+      const now = new Date();
+      setPublishDate(now.toISOString().slice(0, 16));
     }
   }, [disclosure, isOpen]);
 
@@ -160,6 +182,16 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
       alert('내용을 입력해주세요.');
       return;
     }
+    
+    // 미래 날짜 방지 검사
+    if (publishDate) {
+      const selectedDate = new Date(publishDate);
+      const now = new Date();
+      if (selectedDate > now) {
+        alert('미래 날짜로는 게시일을 설정할 수 없습니다.');
+        return;
+      }
+    }
 
     // undefined 값 필터링 함수
     const filterUndefined = (obj) => {
@@ -175,6 +207,8 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
     const disclosureData = {
       title: title.trim(),
       content: content.trim(),
+      publishDate: publishDate ? new Date(publishDate) : new Date(),
+      isImportant: isImportant,
       images: images.length > 0 ? images.map(img => filterUndefined({
         url: img.url,
         name: img.name,
@@ -236,6 +270,32 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
                 required
               />
             </div>
+            
+            <div className="admin-form-group">
+              <label className="admin-label">게시일</label>
+              <input
+                type="datetime-local"
+                className="admin-input"
+                value={publishDate}
+                onChange={(e) => setPublishDate(e.target.value)}
+                max={new Date().toISOString().slice(0, 16)}
+                required
+              />
+            </div>
+            
+              <div className="admin-form-group">
+                <label className="admin-checkbox-label" style={{display: 'flex', justifyContent: 'flex-start', width: '90px'}}>
+                  <input
+                    type="checkbox"
+                    checked={isImportant}
+                    onChange={(e) => setIsImportant(e.target.checked)}
+                    className="admin-checkbox"
+                disabled={loading}
+                 style={{display: 'inline-block'}}
+                  />
+                  <span className="admin-checkbox-text">중요공지</span>
+                </label>
+              </div>
             
             <div className="admin-form-group">
               <label className="admin-label">내용</label>
@@ -357,14 +417,35 @@ const DisclosureManager = () => {
   const loadDisclosure = async () => {
     try {
       setLoading(true);
+      // publishDate 필드로 정렬하려고 하면 에러가 발생할 수 있으므로 createdAt로 먼저 로드
       const result = await dataService.getAllDocuments('disclosure', 'createdAt', 'desc');
       if (result.success) {
-        setDisclosureList(result.data);
+        // 중요공지 우선, 그 다음 publishDate 우선 정렬
+        const sortedData = result.data.sort((a, b) => {
+          // 중요공지 우선도
+          if (a.isImportant && !b.isImportant) return -1;
+          if (!a.isImportant && b.isImportant) return 1;
+          
+          // 둘 다 중요공직이거나 둘 다 일반 게시글이면 날짜로 정렬
+          const dateA = a.publishDate || a.createdAt;
+          const dateB = b.publishDate || b.createdAt;
+          
+          if (!dateA && !dateB) return 0;
+          if (!dateA) return 1;
+          if (!dateB) return -1;
+          
+          const timeA = dateA?.toDate ? dateA.toDate().getTime() : new Date(dateA).getTime();
+          const timeB = dateB?.toDate ? dateB.toDate().getTime() : new Date(dateB).getTime();
+          
+          return timeB - timeA; // 내림차순 정렬
+        });
+        
+        setDisclosureList(sortedData);
       } else {
         setDisclosureList([]);
       }
     } catch (error) {
-      // console.error('공시 로딩 실패:', error);
+      console.error('공시 로딩 실패:', error);
       setDisclosureList([]);
     } finally {
       setLoading(false);
@@ -422,7 +503,11 @@ const DisclosureManager = () => {
     setModalOpen(true);
   };
 
-  const formatDate = (timestamp) => {
+  const formatDate = (disclosure) => {
+    if (!disclosure) return '';
+    
+    // publishDate가 있으면 우선 사용, 없으면 createdAt 사용
+    const timestamp = disclosure.publishDate || disclosure.createdAt;
     if (!timestamp) return '';
     
     let date;
@@ -491,7 +576,7 @@ const DisclosureManager = () => {
                             {disclosure.title}
                           </div>
                           <div className="admin-news-item-date">
-                            {formatDate(disclosure.createdAt)}
+                            {formatDate(disclosure)}
                           </div>
                         </div>
                         <div className="admin-news-item-actions">

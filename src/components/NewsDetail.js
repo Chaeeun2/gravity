@@ -180,9 +180,15 @@ const NewsDetail = ({ language }) => {
               <div className="news-detail-header-info">
                 <h2 className="news-detail-article-title">{news.title}</h2>
                 <div className="news-detail-article-date">
-                  {news.createdAt?.toDate ? 
-                    news.createdAt.toDate().toLocaleDateString('ko-KR') : 
-                    news.createdAt || '날짜 없음'
+                  {(() => {
+                    const timestamp = news.publishDate || news.createdAt;
+                    if (timestamp?.toDate) {
+                      return timestamp.toDate().toLocaleDateString('ko-KR');
+                    } else if (timestamp) {
+                      return new Date(timestamp).toLocaleDateString('ko-KR');
+                    }
+                    return '날짜 없음';
+                  })()
                   }
                 </div>
               </div>
