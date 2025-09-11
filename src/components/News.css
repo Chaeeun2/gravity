@@ -51,6 +51,10 @@
   transform: translateY(30px);
 }
 
+.news-title.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
 /* Main Content Section */
 .news-main {
   display: flex;

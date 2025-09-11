@@ -6,7 +6,7 @@ import './News.css';
 import Footer from './Footer';
 import { formatForDisplay, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
-const useIntersectionObserver = (ref, options = {}) => {
+const useIntersectionObserver = (ref, delay = 0) => {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
@@ -16,21 +16,24 @@ const useIntersectionObserver = (ref, options = {}) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             element.classList.add('animate-fade-in-up');
-          }, options.delay || 0);
+            observer.unobserve(element); // Stop observing after animation
+          }, delay);
         }
       },
       {
         threshold: 0.1,
-        ...options
+        rootMargin: '0px'
       }
     );
 
     observer.observe(element);
 
     return () => {
-      observer.unobserve(element);
+      if (element) {
+        observer.unobserve(element);
+      }
     };
-  }, [ref, options.delay]);
+  }, [ref, delay]);
 };
 
 const Disclosure = ({ language }) => {
@@ -50,9 +53,9 @@ const Disclosure = ({ language }) => {
   const disclosureListRef = useRef(null);
 
   // Apply intersection observer
-  useIntersectionObserver(titleRef, { delay: 100 });
-  useIntersectionObserver(searchBarRef, { delay: 200 });
-  useIntersectionObserver(disclosureListRef, { delay: 300 });
+  useIntersectionObserver(titleRef, 100);
+  useIntersectionObserver(searchBarRef, 200);
+  useIntersectionObserver(disclosureListRef, 300);
 
   // Handle window resize for mobile detection
   useEffect(() => {

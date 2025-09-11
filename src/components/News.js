@@ -5,7 +5,7 @@ import Footer from './Footer';
 import { dataService } from '../admin/services/dataService';
 import { formatSimpleDate, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
-const useIntersectionObserver = (ref, options = {}) => {
+const useIntersectionObserver = (ref, delay = 0) => {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
@@ -15,21 +15,24 @@ const useIntersectionObserver = (ref, options = {}) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             element.classList.add('animate-fade-in-up');
-          }, options.delay || 0);
+            observer.unobserve(element); // Stop observing after animation
+          }, delay);
         }
       },
       {
         threshold: 0.1,
-        ...options
+        rootMargin: '0px'
       }
     );
 
     observer.observe(element);
 
     return () => {
-      observer.unobserve(element);
+      if (element) {
+        observer.unobserve(element);
+      }
     };
-  }, [ref, options.delay]);
+  }, [ref, delay]);
 };
 
 const News = ({ language }) => {
@@ -57,10 +60,10 @@ const News = ({ language }) => {
 
 
   // Apply intersection observer
-  useIntersectionObserver(titleRef, { delay: 100 });
-  useIntersectionObserver(searchBarRef, { delay: 200 });
-  useIntersectionObserver(newsListRef, { delay: 300 });
-  useIntersectionObserver(paginationRef, { delay: 400 });
+  useIntersectionObserver(titleRef, 100);
+  useIntersectionObserver(searchBarRef, 200);
+  useIntersectionObserver(newsListRef, 300);
+  useIntersectionObserver(paginationRef, 400);
 
   // 뉴스 데이터 로드 함수
   const loadNewsData = async () => {
