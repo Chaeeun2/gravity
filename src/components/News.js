@@ -149,6 +149,12 @@ const News = ({ language }) => {
     setCurrentPage(1);
   };
 
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setFilteredNews([]);
+    setIsSearching(false);
+    setCurrentPage(1);
+  };
 
   const handleNewsClick = (news) => {
     navigate(`/news/${news.id}`);
@@ -234,7 +240,7 @@ const News = ({ language }) => {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   placeholder={currentContent.searchLabel}
                   className="search-input"
                 />
