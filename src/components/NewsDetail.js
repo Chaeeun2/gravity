@@ -193,24 +193,9 @@ const NewsDetail = ({ language }) => {
                 </div>
               </div>
               <div className="news-detail-article-content">
-                <div dangerouslySetInnerHTML={{ __html: news.content }} />
-                
-                {/* 이미지 표시 */}
-                {news.images && news.images.length > 0 && (
-                  <div className="news-detail-images">
-                    {news.images.map((image, index) => (
-                      <div key={index} className="news-detail-image">
-                        <img src={image.url} alt={image.name || `이미지 ${index + 1}`} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Attachments */}
+                              {/* Attachments */}
               {news.files && news.files.length > 0 && (
                 <div className="news-detail-attachments">
-                  <h3 className="attachments-title">첨부파일</h3>
                   <div className="attachments-list">
                     {news.files.map((file, index) => {
               
@@ -224,7 +209,6 @@ const NewsDetail = ({ language }) => {
                           <div className="attachment-info">
                             <div className="attachment-details">
                               <span className="attachment-name">{file.name}</span>
-                              {file.size && <span className="attachment-size">{file.size}</span>}
                             </div>
                           </div>
                           <button 
@@ -244,6 +228,19 @@ const NewsDetail = ({ language }) => {
                   </div>
                 </div>
               )}
+                <div dangerouslySetInnerHTML={{ __html: news.content }} />
+                
+                {/* 이미지 표시 */}
+                {news.images && news.images.length > 0 && (
+                  <div className="news-detail-images">
+                    {news.images.map((image, index) => (
+                      <div key={index} className="news-detail-image">
+                        <img src={image.url} alt={image.name || `이미지 ${index + 1}`} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
