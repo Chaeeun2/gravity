@@ -217,17 +217,6 @@ const DisclosureDetail = ({ language }) => {
               </div>
               <div className="news-detail-article-content">
                 <div dangerouslySetInnerHTML={{ __html: disclosure.content }} />
-                
-                {/* 이미지 표시 */}
-                {disclosure.images && disclosure.images.length > 0 && (
-                  <div className="news-detail-images">
-                    {disclosure.images.map((image, index) => (
-                      <div key={index} className="news-detail-image">
-                        <img src={image.url} alt={image.name || `이미지 ${index + 1}`} />
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
 
               {/* 첨부파일 */}
