@@ -21,8 +21,8 @@ function RichEditor({ content, setContent }) {
       init={{
         height: 400,
         menubar: false,
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        plugins: 'anchor autolink charmap codesample emoticons link lists searchreplace table visualblocks wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | link table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         content_style: `
           body { 
             font-family: 'Pretendard', sans-serif; 
