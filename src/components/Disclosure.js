@@ -4,6 +4,7 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../admin/lib/firebase';
 import './News.css';
 import Footer from './Footer';
+import { formatForDisplay, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
 const useIntersectionObserver = (ref, options = {}) => {
   useEffect(() => {
@@ -77,24 +78,7 @@ const Disclosure = ({ language }) => {
         }));
         
         // 중요공지 우선, 그 다음 publishDate 우선으로 정렬
-        const sortedData = disclosures.sort((a, b) => {
-          // 중요공지 우선도 (중요공지가 항상 최상단)
-          if (a.isImportant && !b.isImportant) return -1;
-          if (!a.isImportant && b.isImportant) return 1;
-          
-          // 둘 다 중요공지이거나 둘 다 일반 공지인 경우 날짜로 정렬
-          const dateA = a.publishDate || a.createdAt;
-          const dateB = b.publishDate || b.createdAt;
-          
-          if (!dateA && !dateB) return 0;
-          if (!dateA) return 1;
-          if (!dateB) return -1;
-          
-          const timeA = dateA?.toDate ? dateA.toDate().getTime() : new Date(dateA).getTime();
-          const timeB = dateB?.toDate ? dateB.toDate().getTime() : new Date(dateB).getTime();
-          
-          return timeB - timeA; // 내림차순 정렬
-        });
+        const sortedData = sortWithImportant(disclosures);
         
         console.log('Sorted disclosure data:', sortedData.map(item => ({
           id: item.id,
@@ -119,28 +103,14 @@ const Disclosure = ({ language }) => {
 
   // Format date based on screen size (publishDate 우선 사용)
   const formatDate = (disclosureItem) => {
-    const timestamp = disclosureItem.publishDate || disclosureItem.createdAt;
+    const timestamp = getDisplayDate(disclosureItem);
     if (!timestamp) return '';
     
-    let date;
-    if (timestamp?.toDate) {
-      date = timestamp.toDate(); // Firestore Timestamp
-    } else {
-      date = new Date(timestamp);
-    }
-
     if (isMobile) {
-      // Mobile: MM/DD format
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${month}/${day}`;
+      return formatMobileDate(timestamp);
     } else {
-      // Desktop: Full date format
-      return date.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      });
+      // Desktop: Korean format without time
+      return formatForDisplay(timestamp, { includeTime: false });
     }
   };
 

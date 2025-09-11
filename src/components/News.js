@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './News.css';
 import Footer from './Footer';
 import { dataService } from '../admin/services/dataService';
+import { formatSimpleDate, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
 const useIntersectionObserver = (ref, options = {}) => {
   useEffect(() => {
@@ -69,24 +70,7 @@ const News = ({ language }) => {
       const result = await dataService.getAllDocuments('news');
       if (result.success) {
         // 중요공지 우선, 그 다음 publishDate 우선으로 정렬
-        const sortedData = result.data.sort((a, b) => {
-          // 중요공지 우선도 (중요공지가 항상 최상단)
-          if (a.isImportant && !b.isImportant) return -1;
-          if (!a.isImportant && b.isImportant) return 1;
-          
-          // 둘 다 중요공지이거나 둘 다 일반 공지인 경우 날짜로 정렬
-          const dateA = a.publishDate || a.createdAt;
-          const dateB = b.publishDate || b.createdAt;
-          
-          if (!dateA && !dateB) return 0;
-          if (!dateA) return 1;
-          if (!dateB) return -1;
-          
-          const timeA = dateA?.toDate ? dateA.toDate().getTime() : new Date(dateA).getTime();
-          const timeB = dateB?.toDate ? dateB.toDate().getTime() : new Date(dateB).getTime();
-          
-          return timeB - timeA; // 내림차순 정렬
-        });
+        const sortedData = sortWithImportant(result.data);
         
         console.log('Sorted news data:', sortedData.map(item => ({
           id: item.id,
@@ -119,27 +103,8 @@ const News = ({ language }) => {
 
   // Format date based on screen size (publishDate 우선 사용)
   const formatDate = (newsItem) => {
-    const timestamp = newsItem.publishDate || newsItem.createdAt;
-    
-    let date;
-    if (timestamp?.toDate) {
-      date = timestamp.toDate(); // Firestore Timestamp
-    } else {
-      date = new Date(timestamp);
-    }
-    
-    if (isMobile) {
-      // Mobile: MM/DD format
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${month}/${day}`;
-    } else {
-      // Desktop: Full date format
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
+    const timestamp = getDisplayDate(newsItem);
+    return isMobile ? formatMobileDate(timestamp) : formatSimpleDate(timestamp);
   };
 
   const content = {

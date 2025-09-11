@@ -3,6 +3,12 @@ import { Editor } from '@tinymce/tinymce-react';
 import { dataService } from '../services/dataService';
 import { imageService } from '../services/imageService';
 import AdminLayout from '../components/AdminLayout';
+import { 
+  formatForDateTimeInput, 
+  formatForDisplay, 
+  parseDateTime, 
+  sortWithImportant 
+} from '../../utils/dateUtils';
 
 // TinyMCE 리치텍스트 에디터 컴포넌트
 function RichEditor({ content, setContent }) {
@@ -76,19 +82,8 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
       setIsImportant(disclosure.isImportant || false);
       
       // 게시일 설정 (publishDate가 있으면 우선, 없으면 createdAt 사용)
-      let dateToUse = disclosure.publishDate || disclosure.createdAt;
-      if (dateToUse) {
-        let date;
-        if (dateToUse?.toDate) {
-          date = dateToUse.toDate(); // Firestore Timestamp
-        } else {
-          date = new Date(dateToUse);
-        }
-        // ISO 문자열의 앞 16자리만 사용 (yyyy-mm-ddThh:mm 형식)
-        setPublishDate(date.toISOString().slice(0, 16));
-      } else {
-        setPublishDate('');
-      }
+      const dateToUse = disclosure.publishDate || disclosure.createdAt;
+      setPublishDate(formatForDateTimeInput(dateToUse));
     } else {
       // 새 공시 모드
       setTitle('');
@@ -97,8 +92,7 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
       setFiles([]);
       setIsImportant(false);
       // 현재 시각을 기본값으로 설정
-      const now = new Date();
-      setPublishDate(now.toISOString().slice(0, 16));
+      setPublishDate(formatForDateTimeInput(new Date()));
     }
   }, [disclosure, isOpen]);
 
@@ -185,7 +179,7 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
     
     // 미래 날짜 방지 검사
     if (publishDate) {
-      const selectedDate = new Date(publishDate);
+      const selectedDate = parseDateTime(publishDate);
       const now = new Date();
       if (selectedDate > now) {
         alert('미래 날짜로는 게시일을 설정할 수 없습니다.');
@@ -207,7 +201,7 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
     const disclosureData = {
       title: title.trim(),
       content: content.trim(),
-      publishDate: publishDate ? new Date(publishDate) : new Date(),
+      publishDate: publishDate ? parseDateTime(publishDate) : new Date(),
       isImportant: isImportant,
       images: images.length > 0 ? images.map(img => filterUndefined({
         url: img.url,
@@ -278,7 +272,7 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
                 className="admin-input"
                 value={publishDate}
                 onChange={(e) => setPublishDate(e.target.value)}
-                max={new Date().toISOString().slice(0, 16)}
+                max={formatForDateTimeInput(new Date())}
                 required
               />
             </div>
@@ -421,25 +415,7 @@ const DisclosureManager = () => {
       const result = await dataService.getAllDocuments('disclosure', 'createdAt', 'desc');
       if (result.success) {
         // 중요공지 우선, 그 다음 publishDate 우선 정렬
-        const sortedData = result.data.sort((a, b) => {
-          // 중요공지 우선도
-          if (a.isImportant && !b.isImportant) return -1;
-          if (!a.isImportant && b.isImportant) return 1;
-          
-          // 둘 다 중요공직이거나 둘 다 일반 게시글이면 날짜로 정렬
-          const dateA = a.publishDate || a.createdAt;
-          const dateB = b.publishDate || b.createdAt;
-          
-          if (!dateA && !dateB) return 0;
-          if (!dateA) return 1;
-          if (!dateB) return -1;
-          
-          const timeA = dateA?.toDate ? dateA.toDate().getTime() : new Date(dateA).getTime();
-          const timeB = dateB?.toDate ? dateB.toDate().getTime() : new Date(dateB).getTime();
-          
-          return timeB - timeA; // 내림차순 정렬
-        });
-        
+        const sortedData = sortWithImportant(result.data);
         setDisclosureList(sortedData);
       } else {
         setDisclosureList([]);
@@ -505,25 +481,8 @@ const DisclosureManager = () => {
 
   const formatDate = (disclosure) => {
     if (!disclosure) return '';
-    
-    // publishDate가 있으면 우선 사용, 없으면 createdAt 사용
     const timestamp = disclosure.publishDate || disclosure.createdAt;
-    if (!timestamp) return '';
-    
-    let date;
-    if (timestamp?.toDate) {
-      date = timestamp.toDate(); // Firestore Timestamp
-    } else {
-      date = new Date(timestamp);
-    }
-    
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return formatForDisplay(timestamp, { includeTime: true });
   };
 
   if (loading) {
