@@ -292,23 +292,72 @@ const PortfolioModal = ({ isOpen, onClose, onSave, portfolio, categories = [] })
             <div className="admin-form-section">
               <h4>이미지</h4>
               <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 6fr', gap: '20px' }}>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
                   className="admin-input"
                   id="portfolio-image"
+                  style={{ border: 'none', padding: 0, width: '100px' }}
                 />
-                <small className="admin-form-help-text" style={{paddingTop: '0px', marginBottom: '10px', lineHeight: '1.6' }}>
+                <small className="admin-form-help-text" style={{marginTop: '-3px', paddingTop: '0px', marginBottom: '10px', lineHeight: '1.4', fontSize: '15px' }}>
                   지원 형식: JPG, PNG, GIF, WebP | 최대 크기: 2MB<br/><a href="https://www.adobe.com/kr/express/feature/image/resize/jpg" target="_blank" rel="noopener noreferrer" style={{color: '#666', textDecoration: 'underline'}}>이미지 용량 줄이기 →</a>
-                </small>
+                  </small>
+                </div>
                 {imagePreview && (
                   <div className="admin-image-preview">
+                    {(imageFile || formData.image) && (
+                      <div style={{ 
+                        marginBottom: '15px',
+                        color: '#666',
+                        fontSize: '16px',
+                        width: '100%'
+                      }}>
+                        {imageFile ? imageFile.name : (() => {
+                          // 기존 이미지 URL에서 파일명 추출
+                          if (formData.image) {
+                            // Cloudflare URL 또는 Firebase Storage URL에서 파일명 추출
+                            const urlParts = formData.image.split('/');
+                            let fileName = urlParts[urlParts.length - 1];
+                            
+                            // URL 파라미터 제거 (? 이후)
+                            fileName = fileName.split('?')[0];
+                            
+                            // 파일 확장자 분리
+                            const lastDotIndex = fileName.lastIndexOf('.');
+                            let nameWithoutExt = fileName.substring(0, lastDotIndex);
+                            const extension = fileName.substring(lastDotIndex);
+                            
+                            // Cloudflare variant 식별자 제거 (_로 시작하는 마지막 부분)
+                            const parts = nameWithoutExt.split('_');
+                            if (parts.length > 1) {
+                              const lastPart = parts[parts.length - 1];
+                              // variant는 보통 짧은 랜덤 문자열
+                              if (lastPart.length <= 10 && /^[a-z0-9]+$/i.test(lastPart)) {
+                                parts.pop();
+                                nameWithoutExt = parts.join('_');
+                              }
+                            }
+                            
+                            // ISO 날짜 패턴 제거 (예: 2025-09-09T07-26-53-997Z)
+                            nameWithoutExt = nameWithoutExt.replace(/_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z$/g, '');
+                            
+                            // 최종 파일명 조합
+                            fileName = nameWithoutExt + extension;
+                            
+                            // URL 디코딩
+                            return decodeURIComponent(fileName);
+                          }
+                          return '이미지';
+                        })()}
+                      </div>
+                    )}
                     <img 
                       src={imagePreview} 
                       alt="미리보기" 
                       style={{ 
-                        maxWidth: '80%', 
+                        maxWidth: '100%', 
                         objectFit: 'contain',
                         borderRadius: '4px',
                         display: 'block',
