@@ -113,7 +113,7 @@ const InvestmentProcess = ({ language }) => {
             "Due diligence",
             "SPA negotiation with seller",
             "Negotiation with investor and lending institutions",
-            "Conduct due diligence on subject property (legal, physical, market, appraisal, etc.)",
+            "Conduct due diligence on subject property<br/>(legal, physical, market, appraisal, etc.)",
           ],
         },
         step6: {
@@ -166,7 +166,7 @@ const InvestmentProcess = ({ language }) => {
             "자산실사 진행",
             "매도인과 매매계약 협의 진행",
             "투자자, 대출기관 등과 협의 진행",
-            "투자대상의 법률, 물리, 시장조사, 감정평가 등의 각종 실사 진행",
+            "투자대상의 법률, 물리, 시장조사,<br/>감정평가 등의 각종 실사 진행",
           ],
         },
         step6: {
@@ -209,9 +209,8 @@ const InvestmentProcess = ({ language }) => {
           <h1
             ref={titleRef}
             className={`investment-process-title investment-process-title-${language.toLowerCase()}`}
-          >
-            {currentContent.title}
-          </h1>
+            dangerouslySetInnerHTML={{ __html: currentContent.title }}
+          />
         </div>
       </div>
 
@@ -233,9 +232,8 @@ const InvestmentProcess = ({ language }) => {
             >
               <h3
                 className={`step-title step-title-1 step-title-${language.toLowerCase()}`}
-              >
-                {currentContent.steps.step1.title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: currentContent.steps.step1.title }}
+              />
               <ul
                 className={`step-items step-items-1 step-items-${language.toLowerCase()}`}
               >
@@ -243,9 +241,8 @@ const InvestmentProcess = ({ language }) => {
                   <li
                     key={index}
                     className={`step-item step-item-1 step-item-${language.toLowerCase()}`}
-                  >
-                    {item}
-                  </li>
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
                 ))}
               </ul>
             </div>
@@ -273,9 +270,8 @@ const InvestmentProcess = ({ language }) => {
             >
               <h3
                 className={`step-title step-title-2 step-title-${language.toLowerCase()}`}
-              >
-                {currentContent.steps.step2.title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: currentContent.steps.step2.title }}
+              />
               <ul
                 className={`step-items step-items-2 step-items-${language.toLowerCase()}`}
               >
@@ -283,9 +279,8 @@ const InvestmentProcess = ({ language }) => {
                   <li
                     key={index}
                     className={`step-item step-item-2 step-item-${language.toLowerCase()}`}
-                  >
-                    {item}
-                  </li>
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
                 ))}
               </ul>
             </div>
@@ -316,9 +311,8 @@ const InvestmentProcess = ({ language }) => {
                 >
                   <h4
                     className={`side-box-title side-box-title-1 side-box-title-${language.toLowerCase()}`}
-                  >
-                    {currentContent.sideBoxes.box1.title}
-                  </h4>
+                    dangerouslySetInnerHTML={{ __html: currentContent.sideBoxes.box1.title }}
+                  />
                 </div>
               </div>
 
@@ -359,9 +353,8 @@ const InvestmentProcess = ({ language }) => {
                 >
                   <h4
                     className={`side-box-title side-box-title-1 side-box-title-${language.toLowerCase()}`}
-                  >
-                    {currentContent.sideBoxes.box1.title}
-                  </h4>
+                    dangerouslySetInnerHTML={{ __html: currentContent.sideBoxes.box1.title }}
+                  />
                 </div>
               </div>
             </div>
@@ -373,24 +366,21 @@ const InvestmentProcess = ({ language }) => {
             >
               <h3
                 className={`step-title step-title-3 step-title-${language.toLowerCase()}`}
-              >
-                {currentContent.steps.step3.title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: currentContent.steps.step3.title }}
+              />
               <ul
                 className={`step-items step-items-3 step-items-${language.toLowerCase()}`}
               >
                 <li
                   className={`step-item step-item-main step-item-3 step-item-${language.toLowerCase()}`}
-                >
-                  {currentContent.steps.step3.items[0]}
-                </li>
+                  dangerouslySetInnerHTML={{ __html: currentContent.steps.step3.items[0] }}
+                />
                 {currentContent.steps.step3.items.slice(1).map((item, index) => (
                   <li
                     key={index + 1}
                     className={`step-item step-item-sub step-item-3 step-item-${language.toLowerCase()}`}
-                  >
-                    {item}
-                  </li>
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
                 ))}
               </ul>
             </div>
@@ -418,9 +408,8 @@ const InvestmentProcess = ({ language }) => {
             >
               <h3
                 className={`step-title step-title-4 step-title-${language.toLowerCase()}`}
-              >
-                {currentContent.steps.step4.title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: currentContent.steps.step4.title }}
+              />
             </div>
 
                         {/* Arrow 4 */}
@@ -449,9 +438,8 @@ const InvestmentProcess = ({ language }) => {
                 >
                   <h4
                     className={`side-box-title side-box-title-2 side-box-title-${language.toLowerCase()}`}
-                  >
-                    {currentContent.sideBoxes.box2.title}
-                  </h4>
+                    dangerouslySetInnerHTML={{ __html: currentContent.sideBoxes.box2.title }}
+                  />
                 </div>
               </div>
 
@@ -492,9 +480,8 @@ const InvestmentProcess = ({ language }) => {
                 >
                   <h4
                     className={`side-box-title side-box-title-2 side-box-title-${language.toLowerCase()}`}
-                  >
-                    {currentContent.sideBoxes.box2.title}
-                  </h4>
+                    dangerouslySetInnerHTML={{ __html: currentContent.sideBoxes.box2.title }}
+                  />
                 </div>
               </div>
             </div>
@@ -506,24 +493,21 @@ const InvestmentProcess = ({ language }) => {
             >
               <h3
                 className={`step-title step-title-5 step-title-${language.toLowerCase()}`}
-              >
-                {currentContent.steps.step5.title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: currentContent.steps.step5.title }}
+              />
               <ul
                 className={`step-items step-items-5 step-items-${language.toLowerCase()}`}
               >
                 <li
                   className={`step-item step-item-main step-item-5 step-item-${language.toLowerCase()}`}
-                >
-                  {currentContent.steps.step5.items[0]}
-                </li>
+                  dangerouslySetInnerHTML={{ __html: currentContent.steps.step5.items[0] }}
+                />
                 {currentContent.steps.step5.items.slice(1).map((item, index) => (
                   <li
                     key={index + 1}
                     className={`step-item step-item-sub step-item-5 step-item-${language.toLowerCase()}`}
-                  >
-                    {item}
-                  </li>
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
                 ))}
               </ul>
             </div>
@@ -551,9 +535,8 @@ const InvestmentProcess = ({ language }) => {
             >
               <h3
                 className={`step-title step-title-6 step-title-${language.toLowerCase()}`}
-              >
-                {currentContent.steps.step6.title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: currentContent.steps.step6.title }}
+              />
               <ul
                 className={`step-items step-items-6 step-items-${language.toLowerCase()}`}
               >
@@ -561,9 +544,8 @@ const InvestmentProcess = ({ language }) => {
                   <li
                     key={index}
                     className={`step-item step-item-6 step-item-${language.toLowerCase()}`}
-                  >
-                    {item}
-                  </li>
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
                 ))}
               </ul>
             </div>
@@ -591,9 +573,8 @@ const InvestmentProcess = ({ language }) => {
             >
               <h3
                 className={`step-title step-title-${language.toLowerCase()}`}
-              >
-                {currentContent.finalStep.title}
-              </h3>
+                dangerouslySetInnerHTML={{ __html: currentContent.finalStep.title }}
+              />
               <ul
                 className={`step-items step-items-${language.toLowerCase()}`}
               >
@@ -601,9 +582,8 @@ const InvestmentProcess = ({ language }) => {
                   <li
                     key={index}
                     className={`step-item step-item-${language.toLowerCase()}`}
-                  >
-                    {item}
-                  </li>
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
                 ))}
               </ul>
             </div>
