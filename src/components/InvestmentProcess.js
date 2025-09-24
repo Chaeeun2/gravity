@@ -340,7 +340,12 @@ const InvestmentProcess = ({ language }) => {
     },
   };
 
-  const currentContent = content[language][isMobile ? 'mobile' : 'desktop'];
+  const currentContent = content[language]?.[isMobile ? 'mobile' : 'desktop'] || content['EN']?.['desktop'] || {
+    title: "Investment Process",
+    steps: {},
+    sideBoxes: {},
+    finalStep: { title: "", items: [] }
+  };
 
   return (
     <div
