@@ -107,7 +107,7 @@ const RiskCompliance = ({ language }) => {
       compliance: {
         title: "Compliance",
         subtitle: "Compliance is",
-        description: "a policy that trains, monitors, and controls financial institutions and employees on a formerand regular basis to comply with laws<br/>and regulations such as supervision laws and firm’s internal control guidelines, as well as to fulfill their duty of care of a good manager",
+        description: "a policy that trains, monitors, and controls financial institutions and employees on a former and regular basis to comply with laws<br/>and regulations such as supervision laws and firm’s internal control guidelines, as well as to fulfill their duty of care of a good manager",
         principles: [
           "Establishment of internal control guidelines",
           "Exercise of fiduciary duties and duties in accordance with principle of trust and good faith",

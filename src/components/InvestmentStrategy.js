@@ -164,7 +164,7 @@ const InvestmentStrategy = ({ language }) => {
   const content = {
     EN: {
       title: "Investment Strategy",
-      description: "We safely manage customer assets through balanced design of profitability and risk.",
+      description: "We manage client’s capital securely with a balanced measure of risk and return",
       profitability: "Profitability",
       risk: "Risk",
       strategies: {
