@@ -1,6 +1,26 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./InvestmentProcess.css";
 import Footer from "./Footer";
+
+// 모바일 감지 훅
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkIsMobile);
+    };
+  }, []);
+
+  return isMobile;
+};
 
 // Intersection Observer를 사용한 애니메이션 훅
 const useIntersectionObserver = (ref, options = {}) => {
@@ -33,6 +53,7 @@ const useIntersectionObserver = (ref, options = {}) => {
 };
 
 const InvestmentProcess = ({ language }) => {
+  const isMobile = useIsMobile();
   const titleRef = useRef(null);
   const step1Ref = useRef(null);
   const step2Ref = useRef(null);
@@ -77,17 +98,18 @@ const InvestmentProcess = ({ language }) => {
 
   const content = {
     EN: {
-      title: "Investment Process",
-      steps: {
+      desktop: {
+        title: "Investment Process",
+        steps: {
         step1: {
           title: "Deal Sourcing",
           items: [
             "Obtain information on subject property",
-            "Understand market trends of the subject property's location",
+            "Understand market trends of the subject<br/>property's location",
           ],
         },
         step2: {
-          title: "Preliminary Review",
+          title: "Preliminary<br>Review",
           items: [
             "Financial analysis on subject property",
             "Formulate investment strategy",
@@ -95,12 +117,12 @@ const InvestmentProcess = ({ language }) => {
           ],
         },
         step3: {
-          title: "Preparation of Pre-IC",
+          title: "Preparation of<br>Pre-IC",
           items: [
             "Transaction information gathering, market research",
             "Investment feasibility analysis",
             "Confirm investment strategy",
-            "Review physical, legal risk and find mitigation points",
+            "Review physical, legal risk and find<br/>mitigation points",
           ],
         },
         step4: {
@@ -132,13 +154,74 @@ const InvestmentProcess = ({ language }) => {
       finalStep: {
         title: "Deal Closing",
         items: [
-          "Fund establishment, contract execution (SPA, Loan Agreement, etc.)",
+          "Fund establishment, contract execution<br/>(SPA, Loan Agreement, etc.)",
         ],
+      },
+      mobile: {
+        title: "Investment<br>Process",
+        steps: {
+          step1: {
+            title: "Deal<br>Sourcing",
+            items: [
+              "Obtain information on<br>subject property",
+              "Understand market trends of the<br>subject property's location",
+            ],
+          },
+          step2: {
+            title: "Preliminary<br>Review",
+            items: [
+              "Financial analysis on<br>subject property",
+              "Formulate investment<br>strategy",
+              "Fund raising",
+            ],
+          },
+          step3: {
+            title: "Preparation of<br>Pre-IC",
+            items: [
+              "Transaction information<br>gathering, market research",
+              "Investment feasibility<br>analysis",
+              "Confirm investment<br>strategy",
+              "Review physical, legal risk and<br>find mitigation points",
+            ],
+          },
+          step4: {
+            title: "Pre-IC",
+            items: [],
+          },
+          step5: {
+            title: "Due diligence and<br>contract negotiation",
+            items: [
+              "Due diligence",
+              "SPA negotiation<br>with seller",
+              "Negotiation with investor and<br>lending institutions",
+              "Conduct due diligence on<br>subject property (legal, physical,<br>market, appraisal, etc.)",
+            ],
+          },
+          step6: {
+            title: "Investment<br>Committee",
+            items: ["Investment Committee<br>approval"],
+          },
+        },
+        sideBoxes: {
+          box1: {
+            title: "Submission of Letter<br>of Intent (LOI)",
+          },
+          box2: {
+            title: "Signing of<br>MOU",
+          },
+        },
+        finalStep: {
+          title: "Deal Closing",
+          items: [
+            "Fund establishment, contract<br>execution (SPA, Loan Agreement, etc.)",
+          ],
+        },
       },
     },
     KO: {
-      title: "Investment Process",
-      steps: {
+      desktop: {
+        title: "Investment Process",
+        steps: {
         step1: {
           title: "투자 대상 발굴",
           items: ["투자대상의 정보 획득", "투자대상군의 시장동향 파악"],
@@ -148,7 +231,7 @@ const InvestmentProcess = ({ language }) => {
           items: ["투자대상에 대한 재무검토", "투자전략 수립", "투자자 모집"],
         },
         step3: {
-          title: "예비투자심의 자료준비",
+          title: "예비투자심의<br>자료준비",
           items: [
             "거래정보수집, 시장조사",
             "투자타당성 검토",
@@ -161,12 +244,12 @@ const InvestmentProcess = ({ language }) => {
           items: [],
         },
         step5: {
-          title: "자산실사 및 계약 협의",
+          title: "자산실사 및<br/>계약 협의",
           items: [
             "자산실사 진행",
             "매도인과 매매계약 협의 진행",
             "투자자, 대출기관 등과 협의 진행",
-            "투자대상의 법률, 물리, 시장조사,<br/>감정평가 등의 각종 실사 진행",
+            "투자대상의 법률, 물리, 시장조사, 감정평가 등의<br/>각종 실사 진행",
           ],
         },
         step6: {
@@ -190,10 +273,72 @@ const InvestmentProcess = ({ language }) => {
           "부동산 운용 개시",
         ],
       },
+      mobile: {
+        title: "Investment<br>Process",
+        steps: {
+          step1: {
+            title: "투자 대상<br>발굴",
+            items: [
+              "투자대상의<br>정보 획득", 
+              "투자대상군의<br>시장동향 파악"
+            ],
+          },
+          step2: {
+            title: "기초조사<br>진행",
+            items: [
+              "투자대상에 대한<br>재무검토", 
+              "투자전략<br>수립", 
+              "투자자<br>모집"
+            ],
+          },
+          step3: {
+            title: "예비투자심의<br>자료준비",
+            items: [
+              "거래정보수집,<br>시장조사",
+              "투자타당성<br>검토",
+              "투자전략<br>확정",
+              "물리적, 법률적 리스크 검토 및<br>해소방안 강구",
+            ],
+          },
+          step4: {
+            title: "예비투자심의<br>진행",
+            items: [],
+          },
+          step5: {
+            title: "자산실사 및<br>계약 협의",
+            items: [
+              "자산실사<br>진행",
+              "매도인과 매매계약<br>협의 진행",
+              "투자자, 대출기관 등과<br>협의 진행",
+              "투자대상의 법률, 물리, 시장조사,<br>감정평가 등의 각종 실사 진행",
+            ],
+          },
+          step6: {
+            title: "최종투자심의<br>진행",
+            items: ["최종 투자심의<br>완료"],
+          },
+        },
+        sideBoxes: {
+          box1: {
+            title: "투자의향서<br>제출",
+          },
+          box2: {
+            title: "양해각서<br>체결",
+          },
+        },
+        finalStep: {
+          title: "Deal Closing",
+          items: [
+            "펀드설정, 부동산 매매계약,<br>대출약정 등의 관련계약 체결",
+            "매매대금 지급 및<br>소유권 이전",
+            "부동산 운용<br>개시",
+          ],
+        },
+      },
     },
   };
 
-  const currentContent = content[language];
+  const currentContent = content[language][isMobile ? 'mobile' : 'desktop'];
 
   return (
     <div
