@@ -220,7 +220,7 @@ const InvestmentProcess = ({ language }) => {
     },
     KO: {
       desktop: {
-        title: "Investment Process",
+        title: "투자 프로세스",
         steps: {
           step1: {
             title: "투자 대상 발굴",
@@ -266,7 +266,7 @@ const InvestmentProcess = ({ language }) => {
           },
         },
         finalStep: {
-          title: "Deal Closing",
+          title: "거래 완료",
           items: [
             "펀드설정, 부동산 매매계약, 대출약정 등의 관련계약 체결",
             "매매대금 지급 및 소유권 이전",
@@ -275,7 +275,7 @@ const InvestmentProcess = ({ language }) => {
         },
       },
       mobile: {
-          title: "Investment<br>Process",
+          title: "투자<br>프로세스",
           steps: {
             step1: {
               title: "투자 대상<br>발굴",
@@ -326,11 +326,11 @@ const InvestmentProcess = ({ language }) => {
             box2: {
               title: "양해각서<br>체결",
             },
-          },
-          finalStep: {
-            title: "Deal Closing",
-            items: [
-              "펀드설정, 부동산 매매계약,<br>대출약정 등의 관련계약 체결",
+        },
+        finalStep: {
+          title: "거래 완료",
+          items: [
+            "펀드설정, 부동산 매매계약,<br>대출약정 등의 관련계약 체결",
               "매매대금 지급 및<br>소유권 이전",
               "부동산 운용<br>개시",
             ],
