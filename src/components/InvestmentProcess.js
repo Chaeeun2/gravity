@@ -109,7 +109,7 @@ const InvestmentProcess = ({ language }) => {
             ],
           },
           step2: {
-            title: "Preliminary Review",
+            title: "Preliminary<br/>Review",
             items: [
               "Financial analysis on subject property",
               "Formulate investment strategy",
@@ -117,7 +117,7 @@ const InvestmentProcess = ({ language }) => {
             ],
           },
           step3: {
-            title: "Preparation of Pre-IC",
+            title: "Preparation<br/>of Pre-IC",
             items: [
               "Transaction information gathering, market research",
               "Investment feasibility analysis",
@@ -130,7 +130,7 @@ const InvestmentProcess = ({ language }) => {
             items: [],
           },
           step5: {
-            title: "Due diligence and contract negotiation",
+            title: "Due diligence<br/>and contract<br/>negotiation",
             items: [
               "Due diligence",
               "SPA negotiation with seller",
@@ -232,7 +232,7 @@ const InvestmentProcess = ({ language }) => {
             items: ["투자대상에 대한 재무검토", "투자전략 수립", "투자자 모집"],
           },
           step3: {
-            title: "예비투자심의 자료준비",
+            title: "예비투자심의<br/>자료준비",
             items: [
               "거래정보수집, 시장조사",
               "투자타당성 검토",
@@ -245,7 +245,7 @@ const InvestmentProcess = ({ language }) => {
             items: [],
           },
           step5: {
-            title: "자산실사 및 계약 협의",
+            title: "자산실사 및<br/>계약 협의",
             items: [
               "자산실사 진행",
               "매도인과 매매계약 협의 진행",
