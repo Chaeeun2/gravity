@@ -135,7 +135,7 @@ const InvestmentProcess = ({ language }) => {
               "Due diligence",
               "SPA negotiation with seller",
               "Negotiation with investor and lending institutions",
-              "Conduct due diligence on subject property (legal, physical, market, appraisal, etc.)",
+              "Conduct due diligence on subject property<br/>(legal, physical, market, appraisal, etc.)",
             ],
           },
           step6: {
@@ -154,7 +154,7 @@ const InvestmentProcess = ({ language }) => {
         finalStep: {
           title: "Deal Closing",
           items: [
-            "Fund establishment, contract execution (SPA, Loan Agreement, etc.)",
+            "Fund establishment, contract execution<br/>(SPA, Loan Agreement, etc.)",
           ],
         },
       },
