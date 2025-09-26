@@ -24,47 +24,30 @@ const Disclosure = ({ language }) => {
   const searchBarRef = useRef(null);
   const disclosureListRef = useRef(null);
 
-  // Apply intersection observer with animations after loading
+  // Apply animations only once per session
   useEffect(() => {
-    // Only apply animations after data is loaded
-    if (loading) return;
+    // Check if animations have already been shown in this session
+    const animationsShown = sessionStorage.getItem('disclosureAnimationsShown');
+    
+    // Only apply animations if not shown yet and data is loaded
+    if (animationsShown || loading) return;
     
     const applyAnimation = (ref, delay) => {
       const element = ref.current;
       if (!element) return;
       
-      // Check if animation already applied
-      if (element.classList.contains('animate-fade-in-up')) {
-        return;
-      }
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting && !element.classList.contains('animate-fade-in-up')) {
-            setTimeout(() => {
-              element.classList.add('animate-fade-in-up');
-            }, delay);
-            observer.unobserve(element);
-          }
-        },
-        {
-          threshold: 0.1,
-          rootMargin: '0px'
-        }
-      );
-
-      observer.observe(element);
-
-      return () => {
-        if (element) {
-          observer.unobserve(element);
-        }
-      };
+      setTimeout(() => {
+        element.classList.add('animate-fade-in-up');
+      }, delay);
     };
 
+    // Apply animations
     applyAnimation(titleRef, 100);
     applyAnimation(searchBarRef, 200);
     applyAnimation(disclosureListRef, 300);
+    
+    // Mark animations as shown for this session
+    sessionStorage.setItem('disclosureAnimationsShown', 'true');
   }, [loading]); // Run when loading state changes
 
   // Handle window resize for mobile detection
