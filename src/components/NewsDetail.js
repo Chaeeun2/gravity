@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
 import { imageService } from '../admin/services/imageService';
 import Footer from './Footer';
 import './NewsDetail.css';
