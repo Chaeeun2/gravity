@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './News.css';
 import Footer from './Footer';
@@ -9,14 +9,19 @@ const useIntersectionObserver = (ref, delay = 0) => {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
+    
+    // Check if animation already applied
+    if (element.classList.contains('animate-fade-in-up')) {
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !element.classList.contains('animate-fade-in-up')) {
           setTimeout(() => {
             element.classList.add('animate-fade-in-up');
-            observer.unobserve(element); // Stop observing after animation
           }, delay);
+          observer.unobserve(element); // Stop observing immediately after triggering
         }
       },
       {
