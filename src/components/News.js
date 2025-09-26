@@ -1,11 +1,39 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './News.css';
 import Footer from './Footer';
 import { dataService } from '../admin/services/dataService';
 import { formatSimpleDate, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
+const useIntersectionObserver = (ref, delay = 0) => {
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            element.classList.add('animate-fade-in-up');
+            observer.unobserve(element); // Stop observing after animation
+          }, delay);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px'
+      }
+    );
+
+    observer.observe(element);
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, [ref, delay]);
+};
 
 const News = ({ language }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,32 +57,13 @@ const News = ({ language }) => {
     loadNewsData();
   }, []);
 
-  // Apply animations only once per session
-  useEffect(() => {
-    // Check if animations have already been shown in this session
-    const animationsShown = sessionStorage.getItem('newsAnimationsShown');
-    
-    // Only apply animations if not shown yet and data is loaded
-    if (animationsShown || loading) return;
-    
-    const applyAnimation = (ref, delay) => {
-      const element = ref.current;
-      if (!element) return;
-      
-      setTimeout(() => {
-        element.classList.add('animate-fade-in-up');
-      }, delay);
-    };
 
-    // Apply animations
-    applyAnimation(titleRef, 100);
-    applyAnimation(searchBarRef, 200);
-    applyAnimation(newsListRef, 300);
-    applyAnimation(paginationRef, 400);
-    
-    // Mark animations as shown for this session
-    sessionStorage.setItem('newsAnimationsShown', 'true');
-  }, [loading]); // Run when loading state changes
+
+  // Apply intersection observer
+  useIntersectionObserver(titleRef, 100);
+  useIntersectionObserver(searchBarRef, 200);
+  useIntersectionObserver(newsListRef, 300);
+  useIntersectionObserver(paginationRef, 400);
 
   // 뉴스 데이터 로드 함수
   const loadNewsData = async () => {

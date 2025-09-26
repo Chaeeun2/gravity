@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../admin/lib/firebase';
@@ -6,7 +6,35 @@ import './News.css';
 import Footer from './Footer';
 import { formatForDisplay, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
+const useIntersectionObserver = (ref, delay = 0) => {
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            element.classList.add('animate-fade-in-up');
+            observer.unobserve(element); // Stop observing after animation
+          }, delay);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px'
+      }
+    );
+
+    observer.observe(element);
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, [ref, delay]);
+};
 
 const Disclosure = ({ language }) => {
   const [disclosureList, setDisclosureList] = useState([]);
@@ -24,31 +52,10 @@ const Disclosure = ({ language }) => {
   const searchBarRef = useRef(null);
   const disclosureListRef = useRef(null);
 
-  // Apply animations only once per session
-  useEffect(() => {
-    // Check if animations have already been shown in this session
-    const animationsShown = sessionStorage.getItem('disclosureAnimationsShown');
-    
-    // Only apply animations if not shown yet and data is loaded
-    if (animationsShown || loading) return;
-    
-    const applyAnimation = (ref, delay) => {
-      const element = ref.current;
-      if (!element) return;
-      
-      setTimeout(() => {
-        element.classList.add('animate-fade-in-up');
-      }, delay);
-    };
-
-    // Apply animations
-    applyAnimation(titleRef, 100);
-    applyAnimation(searchBarRef, 200);
-    applyAnimation(disclosureListRef, 300);
-    
-    // Mark animations as shown for this session
-    sessionStorage.setItem('disclosureAnimationsShown', 'true');
-  }, [loading]); // Run when loading state changes
+  // Apply intersection observer
+  useIntersectionObserver(titleRef, 100);
+  useIntersectionObserver(searchBarRef, 200);
+  useIntersectionObserver(disclosureListRef, 300);
 
   // Handle window resize for mobile detection
   useEffect(() => {
