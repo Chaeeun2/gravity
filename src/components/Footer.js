@@ -58,39 +58,37 @@ const Footer = ({ language = 'KO' }) => {
       return;
     }
 
+    // 모바일 기기 감지
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
     try {
-      // 모바일 기기 감지
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      
-      // fetch로 파일을 가져와서 Blob으로 다운로드 (강제 다운로드)
-      const response = await fetch(pdfUrl);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const blob = await response.blob();
-      
       if (isMobile) {
-        // 모바일에서 더 안정적인 다운로드 방식
-        const reader = new FileReader();
-        reader.onloadend = function() {
-          const link = document.createElement('a');
-          link.href = reader.result;
-          link.download = filename;
-          link.setAttribute('download', filename);
-          link.style.display = 'none';
-          
-          document.body.appendChild(link);
-          link.click();
-          
+        // 모바일: 새 창에서 열기 (브라우저가 다운로드 옵션 제공)
+        const newWindow = window.open(pdfUrl, '_blank');
+        
+        // iOS Safari의 경우 추가 처리
+        if (isIOS && newWindow) {
+          // iOS에서는 명시적으로 다운로드 속성 지원 안함
+          // 사용자가 직접 공유 버튼 → 파일로 저장 선택하도록 유도
           setTimeout(() => {
-            document.body.removeChild(link);
+            if (newWindow && !newWindow.closed) {
+              // 팝업이 차단되지 않았으면 아무것도 하지 않음
+            } else {
+              // 팝업이 차단된 경우 현재 창에서 열기
+              window.location.href = pdfUrl;
+            }
           }, 100);
-        };
-        reader.readAsDataURL(blob);
+        }
       } else {
-        // PC에서는 기존 방식 사용
+        // PC: 기존 blob 다운로드 방식
+        const response = await fetch(pdfUrl);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
         const blobUrl = window.URL.createObjectURL(blob);
         
         const link = document.createElement('a');
@@ -102,32 +100,19 @@ const Footer = ({ language = 'KO' }) => {
         link.click();
         
         // 정리
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(blobUrl);
+        setTimeout(() => {
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(blobUrl);
+        }, 100);
       }
-
     } catch (error) {
       // console.error('다운로드 처리 오류:', error);
       
-      // fallback: 직접 링크로 다운로드 시도
+      // Fallback: 새 탭에서 열기
       try {
-        const link = document.createElement('a');
-        link.href = pdfUrl;
-        link.download = filename;
-        link.setAttribute('download', filename);
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (fallbackError) {
-        // console.error('fallback 다운로드도 실패:', fallbackError);
-        
-        // 최종 fallback: 새 탭에서 열기
-        try {
-          window.open(pdfUrl, '_blank');
-        } catch (finalError) {
-          // console.error('최종 fallback도 실패:', finalError);
+        window.open(pdfUrl, '_blank');
+      } catch (finalError) {
+        // console.error('최종 fallback도 실패:', finalError);
         }
       }
     }

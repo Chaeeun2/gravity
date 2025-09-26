@@ -127,68 +127,58 @@ const DisclosureDetail = ({ language }) => {
       return;
     }
 
+    // 모바일 기기 감지
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const fileName = imageService.getOriginalFileName(file.name);
+
     try {
-      // 모바일 기기 감지
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      
-      // fetch로 파일을 가져와서 Blob으로 다운로드 (강제 다운로드)
-      const response = await fetch(fileUrl);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const blob = await response.blob();
-      
       if (isMobile) {
-        // 모바일에서 더 안정적인 다운로드 방식
-        const reader = new FileReader();
-        reader.onloadend = function() {
-          const link = document.createElement('a');
-          link.href = reader.result;
-          link.download = imageService.getOriginalFileName(file.name);
-          link.setAttribute('download', imageService.getOriginalFileName(file.name));
-          link.style.display = 'none';
-          
-          document.body.appendChild(link);
-          link.click();
-          
+        // 모바일: 새 창에서 열기 (브라우저가 다운로드 옵션 제공)
+        const newWindow = window.open(fileUrl, '_blank');
+        
+        // iOS Safari의 경우 추가 처리
+        if (isIOS && newWindow) {
           setTimeout(() => {
-            document.body.removeChild(link);
+            if (newWindow && !newWindow.closed) {
+              // 팝업이 차단되지 않았으면 아무것도 하지 않음
+            } else {
+              // 팝업이 차단된 경우 현재 창에서 열기
+              window.location.href = fileUrl;
+            }
           }, 100);
-        };
-        reader.readAsDataURL(blob);
+        }
       } else {
-        // PC에서는 기존 방식 사용
+        // PC: 기존 blob 다운로드 방식
+        const response = await fetch(fileUrl);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
         const blobUrl = window.URL.createObjectURL(blob);
         
         const link = document.createElement('a');
         link.href = blobUrl;
-        link.download = imageService.getOriginalFileName(file.name);
+        link.download = fileName;
         link.style.display = 'none';
         
         document.body.appendChild(link);
         link.click();
         
         // 정리
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(blobUrl);
+        setTimeout(() => {
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(blobUrl);
+        }, 100);
       }
-      
     } catch (error) {
       // console.error('첨부파일 다운로드 처리 오류:', error);
       
-      // fallback: 직접 링크로 다운로드 시도
+      // Fallback: 새 탭에서 열기
       try {
-        const link = document.createElement('a');
-        link.href = fileUrl;
-        link.download = imageService.getOriginalFileName(file.name);
-        link.setAttribute('download', imageService.getOriginalFileName(file.name));
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        window.open(fileUrl, '_blank');
       } catch (fallbackError) {
         // console.error('fallback 다운로드도 실패:', fallbackError);
         
