@@ -248,6 +248,21 @@
   height: 14px;
 }
 
+.attachment-name {
+  word-break: keep-all;
+}
+
+.news-detail-article-content > div:not(.news-detail-attachments) {
+  display: flex;
+  flex-direction: column;
+}
+
+.news-detail-article-content p {
+  line-height: 1.6 !important;
+  margin: 0;
+  word-break: keep-all;
+}
+
 .pagination-number {
   padding: 10px;
   border: none;

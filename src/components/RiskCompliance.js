@@ -34,6 +34,20 @@ const useIntersectionObserver = (ref, options = {}) => {
 };
 
 const RiskCompliance = ({ language }) => {
+  // Check if mobile
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const titleRef = useRef(null);
   const riskTitleRef = useRef(null);
   const riskSubtitleRef = useRef(null);
@@ -96,18 +110,24 @@ const RiskCompliance = ({ language }) => {
       riskManagement: {
         title: "Risk Management",
         subtitle: "Risk management basic policy",
-        description: "We are an investment management company that manages client’s capital,<br/>and carry out risk management activities of the following chart below to sustain stability and enhance trust.",
+        description: {
+          pc: "We are an investment management company that manages client's capital,<br/>and carry out risk management activities of the following chart below to sustain stability and enhance trust.",
+          mobile: "We are an investment management company that manages client's capital,<br/>and carry out risk management activities<br/>of the following chart below to sustain<br/>stability and enhance trust."
+        },
         principles: [
           "Maintain a balance between risk and return",
           "Proactive and preemptive response and reporting",
-          "Each and every employee at the firm is responsible for risk management and complies with the firm’s risk management policies",
+          "Each and every employee at the firm is responsible for risk management and complies with the firm's risk management policies",
           "Risk management group is organized and operated independently by each department"
         ]
       },
       compliance: {
         title: "Compliance",
         subtitle: "Compliance is",
-        description: "a policy that trains, monitors, and controls financial institutions and employees on a former and regular basis to comply with laws<br/>and regulations such as supervision laws and firm’s internal control guidelines, as well as to fulfill their duty of care of a good manager",
+        description: {
+          pc: "a policy that trains, monitors, and controls financial institutions and employees on a former and regular basis to comply with laws<br/>and regulations such as supervision laws and firm's internal control guidelines, as well as to fulfill their duty of care of a good manager",
+          mobile: "a policy that trains, monitors, and controls<br/>financial institutions and employees on a former<br/>and regular basis to comply with laws and<br/>regulations such as supervision laws and firm's<br/>internal control guidelines, as well as to fulfill<br/>their duty of care of a good manager"
+        },
         principles: [
           "Establishment of internal control guidelines",
           "Exercise of fiduciary duties and duties in accordance with principle of trust and good faith",
@@ -130,7 +150,10 @@ const RiskCompliance = ({ language }) => {
       riskManagement: {
         title: "Risk Management",
         subtitle: "위험관리 기본방침",
-        description: "당사는 고객의 자산을 관리하는 자산운용사로서 건전성 유지 및 신뢰 증진을 위하여 아래 기본방침에 따라 위험관리업무를 수행하고 있습니다.",
+        description: {
+          pc: "당사는 고객의 자산을 관리하는 자산운용사로서 건전성 유지 및 신뢰 증진을 위하여<br/>아래 기본방침에 따라 위험관리업무를 수행하고 있습니다.",
+          mobile: "당사는 고객의 자산을 관리하는 자산운용사로서<br/>건전성 유지 및 신뢰 증진을 위하여<br/>아래 기본방침에 따라 위험관리업무를 수행하고 있습니다."
+        },
         principles: [
           "위험과 수익의 균형 유지",
           "사전적 & 선제적 대응 및 보고",
@@ -141,7 +164,10 @@ const RiskCompliance = ({ language }) => {
       compliance: {
         title: "Compliance",
         subtitle: "컴플라이언스는",
-        description: "금융회사 및 모든 임직원이 직무를 수행할 때 감독법규 및 내부통제기준 등 사규를 준수하고 선량한 관리자로서의 주의의무를 다할 수 있도록 사전적・상시적으로 교육, 모니터링, 통제하는 제도입니다.",
+        description: {
+          pc: "금융회사 및 모든 임직원이 직무를 수행할 때 감독법규 및 내부통제기준 등 사규를 준수하고 선량한 관리자로서의 주의의무를 다할 수 있도록<br/>사전적・상시적으로 교육, 모니터링, 통제하는 제도입니다.",
+          mobile: "금융회사 및 모든 임직원이 직무를 수행할 때<br/>감독법규 및 내부통제기준 등 사규를 준수하고<br/>선량한 관리자로서의 주의의무를 다할 수 있도록<br/>사전적・상시적으로 교육, 모니터링, 통제하는 제도입니다."
+        },
         principles: [
           "내부통제체계 구축",
           "선관주의의무, 신의성실의무 이행",
@@ -224,7 +250,7 @@ const RiskCompliance = ({ language }) => {
             <p 
               ref={riskDescriptionRef}
               className={`section-description section-description-${language.toLowerCase()}`}
-              dangerouslySetInnerHTML={{ __html: currentContent.riskManagement.description }}
+              dangerouslySetInnerHTML={{ __html: isMobile ? currentContent.riskManagement.description.mobile : currentContent.riskManagement.description.pc }}
             />
             
             <div className="principles-grid">
@@ -267,7 +293,7 @@ const RiskCompliance = ({ language }) => {
             <p 
               ref={complianceDescriptionRef}
               className={`section-description section-description-${language.toLowerCase()}`}
-              dangerouslySetInnerHTML={{ __html: currentContent.compliance.description }}
+              dangerouslySetInnerHTML={{ __html: isMobile ? currentContent.compliance.description.mobile : currentContent.compliance.description.pc }}
             />
             
             <div className="compliance-principles">

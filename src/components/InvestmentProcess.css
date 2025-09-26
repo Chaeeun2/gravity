@@ -194,7 +194,7 @@
   font-size: 2rem;
   color: var(--text-black);
   font-weight: 500;
-  margin-left: 25px;
+  margin-left: 15px;
 }
 
 .step-item-sub::before {
@@ -508,6 +508,7 @@
     font-size: 1.8rem;
     font-family: var(--font-neue);
     letter-spacing: var(--spacing-00);
+    width: 100%;
   }
 
   .process-step,
