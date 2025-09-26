@@ -24,8 +24,11 @@ const Disclosure = ({ language }) => {
   const searchBarRef = useRef(null);
   const disclosureListRef = useRef(null);
 
-  // Apply intersection observer with animations
+  // Apply intersection observer with animations after loading
   useEffect(() => {
+    // Only apply animations after data is loaded
+    if (loading) return;
+    
     const applyAnimation = (ref, delay) => {
       const element = ref.current;
       if (!element) return;
@@ -62,7 +65,7 @@ const Disclosure = ({ language }) => {
     applyAnimation(titleRef, 100);
     applyAnimation(searchBarRef, 200);
     applyAnimation(disclosureListRef, 300);
-  }, []); // Only run once on mount
+  }, [loading]); // Run when loading state changes
 
   // Handle window resize for mobile detection
   useEffect(() => {

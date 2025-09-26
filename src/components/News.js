@@ -29,8 +29,11 @@ const News = ({ language }) => {
     loadNewsData();
   }, []);
 
-  // Apply intersection observer with animations
+  // Apply intersection observer with animations after loading
   useEffect(() => {
+    // Only apply animations after data is loaded
+    if (loading) return;
+    
     const applyAnimation = (ref, delay) => {
       const element = ref.current;
       if (!element) return;
@@ -68,7 +71,7 @@ const News = ({ language }) => {
     applyAnimation(searchBarRef, 200);
     applyAnimation(newsListRef, 300);
     applyAnimation(paginationRef, 400);
-  }, []); // Only run once on mount
+  }, [loading]); // Run when loading state changes
 
   // 뉴스 데이터 로드 함수
   const loadNewsData = async () => {
