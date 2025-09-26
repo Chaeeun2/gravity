@@ -5,40 +5,7 @@ import Footer from './Footer';
 import { dataService } from '../admin/services/dataService';
 import { formatSimpleDate, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
-const useIntersectionObserver = (ref, delay = 0) => {
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-    
-    // Check if animation already applied
-    if (element.classList.contains('animate-fade-in-up')) {
-      return;
-    }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !element.classList.contains('animate-fade-in-up')) {
-          setTimeout(() => {
-            element.classList.add('animate-fade-in-up');
-          }, delay);
-          observer.unobserve(element); // Stop observing immediately after triggering
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px'
-      }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
-    };
-  }, [ref, delay]);
-};
 
 const News = ({ language }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -62,13 +29,46 @@ const News = ({ language }) => {
     loadNewsData();
   }, []);
 
+  // Apply intersection observer with animations
+  useEffect(() => {
+    const applyAnimation = (ref, delay) => {
+      const element = ref.current;
+      if (!element) return;
+      
+      // Check if animation already applied
+      if (element.classList.contains('animate-fade-in-up')) {
+        return;
+      }
 
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !element.classList.contains('animate-fade-in-up')) {
+            setTimeout(() => {
+              element.classList.add('animate-fade-in-up');
+            }, delay);
+            observer.unobserve(element);
+          }
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px'
+        }
+      );
 
-  // Apply intersection observer
-  useIntersectionObserver(titleRef, 100);
-  useIntersectionObserver(searchBarRef, 200);
-  useIntersectionObserver(newsListRef, 300);
-  useIntersectionObserver(paginationRef, 400);
+      observer.observe(element);
+
+      return () => {
+        if (element) {
+          observer.unobserve(element);
+        }
+      };
+    };
+
+    applyAnimation(titleRef, 100);
+    applyAnimation(searchBarRef, 200);
+    applyAnimation(newsListRef, 300);
+    applyAnimation(paginationRef, 400);
+  }, []); // Only run once on mount
 
   // 뉴스 데이터 로드 함수
   const loadNewsData = async () => {

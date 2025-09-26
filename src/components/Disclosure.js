@@ -6,40 +6,7 @@ import './News.css';
 import Footer from './Footer';
 import { formatForDisplay, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
-const useIntersectionObserver = (ref, delay = 0) => {
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-    
-    // Check if animation already applied
-    if (element.classList.contains('animate-fade-in-up')) {
-      return;
-    }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !element.classList.contains('animate-fade-in-up')) {
-          setTimeout(() => {
-            element.classList.add('animate-fade-in-up');
-          }, delay);
-          observer.unobserve(element); // Stop observing immediately after triggering
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px'
-      }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
-    };
-  }, [ref, delay]);
-};
 
 const Disclosure = ({ language }) => {
   const [disclosureList, setDisclosureList] = useState([]);
@@ -57,10 +24,45 @@ const Disclosure = ({ language }) => {
   const searchBarRef = useRef(null);
   const disclosureListRef = useRef(null);
 
-  // Apply intersection observer
-  useIntersectionObserver(titleRef, 100);
-  useIntersectionObserver(searchBarRef, 200);
-  useIntersectionObserver(disclosureListRef, 300);
+  // Apply intersection observer with animations
+  useEffect(() => {
+    const applyAnimation = (ref, delay) => {
+      const element = ref.current;
+      if (!element) return;
+      
+      // Check if animation already applied
+      if (element.classList.contains('animate-fade-in-up')) {
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && !element.classList.contains('animate-fade-in-up')) {
+            setTimeout(() => {
+              element.classList.add('animate-fade-in-up');
+            }, delay);
+            observer.unobserve(element);
+          }
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px'
+        }
+      );
+
+      observer.observe(element);
+
+      return () => {
+        if (element) {
+          observer.unobserve(element);
+        }
+      };
+    };
+
+    applyAnimation(titleRef, 100);
+    applyAnimation(searchBarRef, 200);
+    applyAnimation(disclosureListRef, 300);
+  }, []); // Only run once on mount
 
   // Handle window resize for mobile detection
   useEffect(() => {
