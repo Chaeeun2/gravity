@@ -113,7 +113,6 @@ const Footer = ({ language = 'KO' }) => {
         window.open(pdfUrl, '_blank');
       } catch (finalError) {
         // console.error('최종 fallback도 실패:', finalError);
-        }
       }
     }
   };
