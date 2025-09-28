@@ -2,36 +2,6 @@ import React, { useEffect, useRef } from "react";
 import "./RiskCompliance.css";
 import Footer from "./Footer";
 
-// Intersection Observer를 사용한 애니메이션 훅
-const useIntersectionObserver = (ref, options = {}) => {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const delay = options.delay || 0;
-          const animationClass = options.animationClass || "animate-fade-in-up";
-          setTimeout(() => {
-            entry.target.classList.add(animationClass);
-          }, delay);
-        }
-      },
-      {
-        threshold: 0.1,
-        ...options,
-      }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [ref, options.delay, options.animationClass, options.threshold]);
-};
 
 const RiskCompliance = ({ language }) => {
   // Check if mobile
@@ -77,33 +47,82 @@ const RiskCompliance = ({ language }) => {
   const riskDescriptionRef = useRef(null);
   const complianceDescriptionRef = useRef(null);
 
-  // Intersection Observer 적용
-  useIntersectionObserver(titleRef, { delay: 100 });
-  useIntersectionObserver(riskTitleRef, { delay: 200 });
-  useIntersectionObserver(riskSubtitleRef, { delay: 300 });
-  useIntersectionObserver(riskSubtitleLineRef, { delay: 400 });
-  useIntersectionObserver(principle1Ref, { delay: 500 });
-  useIntersectionObserver(principle2Ref, { delay: 600 });
-  useIntersectionObserver(principle3Ref, { delay: 700 });
-  useIntersectionObserver(principle4Ref, { delay: 800 });
-  useIntersectionObserver(complianceTitleRef, { delay: 100 });
-  useIntersectionObserver(complianceSubtitleRef, { delay: 200 });
-  useIntersectionObserver(complianceSubtitleLineRef, { delay: 300 });
-  useIntersectionObserver(circle1Ref, { delay: 100 });
-  useIntersectionObserver(circle2Ref, { delay: 200 });
-  useIntersectionObserver(circle3Ref, { delay: 300 });
-  useIntersectionObserver(circle4Ref, { delay: 400 });
-  useIntersectionObserver(circle5Ref, { delay: 500 });
-  useIntersectionObserver(circle6Ref, { delay: 600 });
-  useIntersectionObserver(outcomeRef, { delay: 100 });
-  useIntersectionObserver(process1Ref, { delay: 100 });
-  useIntersectionObserver(process2Ref, { delay: 200 });
-  useIntersectionObserver(process3Ref, { delay: 300 });
-  useIntersectionObserver(process4Ref, { delay: 400 });
-  useIntersectionObserver(process5Ref, { delay: 500 });
-  useIntersectionObserver(feedbackRef, { delay: 100, animationClass: 'animate-fade-in' });
-  useIntersectionObserver(riskDescriptionRef, { delay: 250 });
-  useIntersectionObserver(complianceDescriptionRef, { delay: 100 });
+  // Intersection Observer 적용 (Portfolio 방식)
+  useEffect(() => {
+    const observers = [];
+
+    // 모든 요소들에 대한 Observer
+    const elements = [
+      { ref: titleRef },
+      { ref: riskTitleRef },
+      { ref: riskSubtitleRef },
+      { ref: riskSubtitleLineRef },
+      { ref: principle1Ref },
+      { ref: principle2Ref },
+      { ref: principle3Ref },
+      { ref: principle4Ref },
+      { ref: riskDescriptionRef },
+      { ref: complianceTitleRef },
+      { ref: complianceSubtitleRef },
+      { ref: complianceSubtitleLineRef },
+      { ref: circle1Ref },
+      { ref: circle2Ref },
+      { ref: circle3Ref },
+      { ref: circle4Ref },
+      { ref: circle5Ref },
+      { ref: circle6Ref },
+      { ref: outcomeRef },
+      { ref: process1Ref },
+      { ref: process2Ref },
+      { ref: process3Ref },
+      { ref: process4Ref },
+      { ref: process5Ref },
+      { ref: feedbackRef },
+      { ref: complianceDescriptionRef }
+    ];
+
+    elements.forEach(({ ref }) => {
+      if (ref.current) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
+              entry.target.classList.add('animate-fade-in-up');
+            }
+          }
+        }, { threshold: 0.3, rootMargin: '0px 0px -100px 0px' });
+
+        observer.observe(ref.current);
+        observers.push(observer);
+      }
+    });
+
+    // Cleanup 함수
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, []);
+
+  // Fallback: 페이지 로드 후 강제로 애니메이션 실행
+  useEffect(() => {
+    const fallbackTimer = setTimeout(() => {
+      const allRefs = [
+        titleRef, riskTitleRef, riskSubtitleRef, riskSubtitleLineRef,
+        principle1Ref, principle2Ref, principle3Ref, principle4Ref,
+        riskDescriptionRef, complianceTitleRef, complianceSubtitleRef, complianceSubtitleLineRef,
+        circle1Ref, circle2Ref, circle3Ref, circle4Ref, circle5Ref, circle6Ref,
+        outcomeRef, process1Ref, process2Ref, process3Ref, process4Ref, process5Ref,
+        feedbackRef, complianceDescriptionRef
+      ];
+
+      allRefs.forEach(ref => {
+        if (ref.current && !ref.current.classList.contains('animate-fade-in-up')) {
+          ref.current.classList.add('animate-fade-in-up');
+        }
+      });
+    }, 0);
+
+    return () => clearTimeout(fallbackTimer);
+  }, []);
 
   const content = {
     EN: {

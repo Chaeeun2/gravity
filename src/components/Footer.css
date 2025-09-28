@@ -58,6 +58,10 @@
   letter-spacing: var(--spacing-91);
 }
 
+.overview-footer-en .footer-policies {
+  display: none;
+}
+
 .footer-policies {
   display: flex;
   gap: 8px;
@@ -184,6 +188,10 @@
 
   .separator {
     display: none;
+  }
+
+  .overview-footer-en .footer-content {
+    gap: 0;
   }
 }
 

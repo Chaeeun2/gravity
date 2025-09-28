@@ -4,33 +4,6 @@ import { db } from '../admin/lib/firebase';
 import './Overview.css';
 import Footer from './Footer';
 
-// Intersection Observer를 사용한 애니메이션 훅
-const useIntersectionObserver = (ref, options = {}) => {
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        const delay = options.delay || 0;
-        setTimeout(() => {
-          entry.target.classList.add(options.animationClass || 'animate-fade-in-up');
-        }, delay);
-      }
-    }, {
-      threshold: 0.1,
-      ...options
-    });
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [ref, options]);
-};
-
 const Overview = ({ language }) => {
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
@@ -87,20 +60,69 @@ const Overview = ({ language }) => {
     }
   };
 
-  // Intersection Observer 적용 - 항상 동일한 순서로 호출
-  useIntersectionObserver(titleRef, { delay: 100, animationClass: 'animate-fade-in-up' });
-  useIntersectionObserver(imageRef, { 
-    delay: isMobile ? 300 : 700, 
-    animationClass: isMobile ? 'animate-fade-in-up' : 'animate-fade-in-right' 
-  });
-  useIntersectionObserver(subtitleRef, { 
-    delay: isMobile ? 500 : 300, 
-    animationClass: isMobile ? 'animate-fade-in-up' : 'animate-fade-in-left' 
-  });
-  useIntersectionObserver(descriptionRef, { 
-    delay: isMobile ? 700 : 500, 
-    animationClass: 'animate-fade-in-up' 
-  });
+  // 애니메이션 적용 - 로딩 완료 후 실행
+  useEffect(() => {
+    // 로딩이 완료되지 않았으면 실행하지 않음
+    if (loading) return;
+
+    // 언어 변경 시 애니메이션 리셋
+    const allRefs = [titleRef, subtitleRef, descriptionRef, imageRef];
+    allRefs.forEach(ref => {
+      if (ref.current) {
+        ref.current.classList.remove('animate-fade-in-up', 'animate-fade-in-left', 'animate-fade-in-right');
+        // 리플로우 강제
+        void ref.current.offsetHeight;
+      }
+    });
+
+    // 강제 애니메이션 실행 (바로 실행)
+    const applyAnimations = () => {
+      if (titleRef.current) {
+        titleRef.current.classList.add('animate-fade-in-up');
+      }
+      if (subtitleRef.current) {
+        const subtitleClass = isMobile ? 'animate-fade-in-up' : 'animate-fade-in-left';
+        subtitleRef.current.classList.add(subtitleClass);
+      }
+      if (descriptionRef.current) {
+        descriptionRef.current.classList.add('animate-fade-in-up');
+      }
+      if (imageRef.current) {
+        const imageClass = isMobile ? 'animate-fade-in-up' : 'animate-fade-in-right';
+        imageRef.current.classList.add(imageClass);
+      }
+    };
+
+    // DOM이 준비되면 바로 애니메이션 적용
+    const timer = setTimeout(applyAnimations, 0);
+
+    // IntersectionObserver는 스크롤 시 보이는 요소들을 위한 백업
+    const observers = [];
+    const elements = [
+      { ref: titleRef, animationClass: 'animate-fade-in-up' },
+      { ref: subtitleRef, animationClass: isMobile ? 'animate-fade-in-up' : 'animate-fade-in-left' },
+      { ref: descriptionRef, animationClass: 'animate-fade-in-up' },
+      { ref: imageRef, animationClass: isMobile ? 'animate-fade-in-up' : 'animate-fade-in-right' }
+    ];
+
+    elements.forEach(({ ref, animationClass }) => {
+      if (ref.current) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting && !entry.target.classList.contains(animationClass)) {
+            entry.target.classList.add(animationClass);
+          }
+        }, { threshold: 0.01 });
+
+        observer.observe(ref.current);
+        observers.push(observer);
+      }
+    });
+
+    return () => {
+      clearTimeout(timer);
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, [loading, language, isMobile]);
 
   // 스크롤 애니메이션
   useEffect(() => {
