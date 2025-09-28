@@ -263,7 +263,7 @@ const News = ({ language }) => {
             {/* News List */}
             <div ref={newsListRef} className="news-list">
               {loading ? (
-                <div className="loading">로딩 중...</div>
+                <div className="loading"></div>
               ) : currentItems.length > 0 ? (
                 currentItems.map((item, index) => {
                   // 중요공지는 '공지'로 표시, 일반 게시물은 번호 표시
