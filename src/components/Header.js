@@ -386,14 +386,13 @@ const Header = ({ language, onLanguageChange }) => {
                     KO
                   </button>
                   <div className="mobile-language-separator">/</div>
-                  <button 
+                  <button
                     className={`mobile-lang-btn ${language === 'EN' ? 'active' : ''}`}
                     onClick={() => {
-                      if (location.pathname === '/news' || location.pathname.startsWith('/news/') || 
+                      onLanguageChange('EN'); // 항상 언어를 먼저 영어로 변경
+                      if (location.pathname === '/news' || location.pathname.startsWith('/news/') ||
                           location.pathname === '/disclosure' || location.pathname.startsWith('/disclosure/')) {
-                        handlePageChange('');
-                      } else {
-                        onLanguageChange('EN');
+                        handlePageChange(''); // 그 다음 홈으로 이동
                       }
                       setIsMobileMenuOpen(false); // 모바일 메뉴 닫기
                     }}
