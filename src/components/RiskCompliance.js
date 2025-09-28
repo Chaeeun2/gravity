@@ -47,49 +47,64 @@ const RiskCompliance = ({ language }) => {
   const riskDescriptionRef = useRef(null);
   const complianceDescriptionRef = useRef(null);
 
-  // Intersection Observer 적용 (Portfolio 방식)
+  // Intersection Observer 적용 (언어 토글 대응)
   useEffect(() => {
     const observers = [];
 
-    // 모든 요소들에 대한 Observer
+    // 모든 요소들에 대한 Observer (순차적 딜레이 추가)
     const elements = [
-      { ref: titleRef },
-      { ref: riskTitleRef },
-      { ref: riskSubtitleRef },
-      { ref: riskSubtitleLineRef },
-      { ref: principle1Ref },
-      { ref: principle2Ref },
-      { ref: principle3Ref },
-      { ref: principle4Ref },
-      { ref: riskDescriptionRef },
-      { ref: complianceTitleRef },
-      { ref: complianceSubtitleRef },
-      { ref: complianceSubtitleLineRef },
-      { ref: circle1Ref },
-      { ref: circle2Ref },
-      { ref: circle3Ref },
-      { ref: circle4Ref },
-      { ref: circle5Ref },
-      { ref: circle6Ref },
-      { ref: outcomeRef },
-      { ref: process1Ref },
-      { ref: process2Ref },
-      { ref: process3Ref },
-      { ref: process4Ref },
-      { ref: process5Ref },
-      { ref: feedbackRef },
-      { ref: complianceDescriptionRef }
+      { ref: titleRef, delay: 0 },
+      { ref: riskTitleRef, delay: 100 },
+      { ref: riskSubtitleRef, delay: 150 },
+      { ref: riskSubtitleLineRef, delay: 150 },
+      { ref: riskDescriptionRef, delay: 200 },
+      { ref: principle1Ref, delay: 250 },
+      { ref: principle2Ref, delay: 300 },
+      { ref: principle3Ref, delay: 350 },
+      { ref: principle4Ref, delay: 400 },
+      { ref: complianceTitleRef, delay: 100 },
+      { ref: complianceSubtitleRef, delay: 150 },
+      { ref: complianceSubtitleLineRef, delay: 150 },
+      { ref: complianceDescriptionRef, delay: 200 },
+      { ref: circle1Ref, delay: 250 },
+      { ref: circle2Ref, delay: 300 },
+      { ref: circle3Ref, delay: 350 },
+      { ref: circle4Ref, delay: 400 },
+      { ref: circle5Ref, delay: 450 },
+      { ref: circle6Ref, delay: 500 },
+      { ref: outcomeRef, delay: 550 },
+      { ref: process1Ref, delay: 250 },
+      { ref: process2Ref, delay: 350 },
+      { ref: process3Ref, delay: 450 },
+      { ref: process4Ref, delay: 550 },
+      { ref: process5Ref, delay: 650 },
+      { ref: feedbackRef, delay: 700 }
     ];
 
+    // 언어 변경 시 애니메이션 리셋
     elements.forEach(({ ref }) => {
       if (ref.current) {
+        ref.current.classList.remove('animate-fade-in-up');
+        // 리플로우 강제
+        void ref.current.offsetHeight;
+      }
+    });
+
+    // IntersectionObserver 설정 (딜레이 적용)
+    elements.forEach(({ ref, delay }) => {
+      if (ref.current) {
         const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-            if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
-              entry.target.classList.add('animate-fade-in-up');
-            }
+          if (entry.isIntersecting && !entry.target.classList.contains('animate-fade-in-up')) {
+            setTimeout(() => {
+              if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
+                entry.target.classList.add('animate-fade-in-up');
+              }
+            }, delay);
           }
-        }, { threshold: 0.3, rootMargin: '0px 0px -100px 0px' });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        });
 
         observer.observe(ref.current);
         observers.push(observer);
@@ -100,29 +115,61 @@ const RiskCompliance = ({ language }) => {
     return () => {
       observers.forEach(observer => observer.disconnect());
     };
-  }, []);
+  }, [language]);
 
-  // Fallback: 페이지 로드 후 강제로 애니메이션 실행
+  // Fallback: 즉시 보이는 요소들 애니메이션 실행
   useEffect(() => {
-    const fallbackTimer = setTimeout(() => {
-      const allRefs = [
-        titleRef, riskTitleRef, riskSubtitleRef, riskSubtitleLineRef,
-        principle1Ref, principle2Ref, principle3Ref, principle4Ref,
-        riskDescriptionRef, complianceTitleRef, complianceSubtitleRef, complianceSubtitleLineRef,
-        circle1Ref, circle2Ref, circle3Ref, circle4Ref, circle5Ref, circle6Ref,
-        outcomeRef, process1Ref, process2Ref, process3Ref, process4Ref, process5Ref,
-        feedbackRef, complianceDescriptionRef
-      ];
+    const elements = [
+      { ref: titleRef, delay: 0 },
+      { ref: riskTitleRef, delay: 100 },
+      { ref: riskSubtitleRef, delay: 150 },
+      { ref: riskSubtitleLineRef, delay: 150 },
+      { ref: riskDescriptionRef, delay: 200 },
+      { ref: principle1Ref, delay: 250 },
+      { ref: principle2Ref, delay: 300 },
+      { ref: principle3Ref, delay: 350 },
+      { ref: principle4Ref, delay: 400 },
+      { ref: complianceTitleRef, delay: 100 },
+      { ref: complianceSubtitleRef, delay: 150 },
+      { ref: complianceSubtitleLineRef, delay: 150 },
+      { ref: complianceDescriptionRef, delay: 200 },
+      { ref: circle1Ref, delay: 250 },
+      { ref: circle2Ref, delay: 300 },
+      { ref: circle3Ref, delay: 350 },
+      { ref: circle4Ref, delay: 400 },
+      { ref: circle5Ref, delay: 450 },
+      { ref: circle6Ref, delay: 500 },
+      { ref: outcomeRef, delay: 550 },
+      { ref: process1Ref, delay: 250 },
+      { ref: process2Ref, delay: 350 },
+      { ref: process3Ref, delay: 450 },
+      { ref: process4Ref, delay: 550 },
+      { ref: process5Ref, delay: 650 },
+      { ref: feedbackRef, delay: 700 }
+    ];
 
-      allRefs.forEach(ref => {
+    const timers = [];
+
+    elements.forEach(({ ref, delay }) => {
+      const timer = setTimeout(() => {
         if (ref.current && !ref.current.classList.contains('animate-fade-in-up')) {
-          ref.current.classList.add('animate-fade-in-up');
-        }
-      });
-    }, 0);
+          // 뷰포트에 있는지 확인
+          const rect = ref.current.getBoundingClientRect();
+          const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
 
-    return () => clearTimeout(fallbackTimer);
-  }, []);
+          if (isInViewport) {
+            ref.current.classList.add('animate-fade-in-up');
+          }
+        }
+      }, 100 + delay);  // 기본 100ms + 각 요소의 딜레이
+
+      timers.push(timer);
+    });
+
+    return () => {
+      timers.forEach(timer => clearTimeout(timer));
+    };
+  }, [language]);
 
   const content = {
     EN: {
