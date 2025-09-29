@@ -99,6 +99,7 @@
   background-repeat: no-repeat;
   background-position: right 0px center;
   background-size: 24px;
+  -webkit-border-radius: 0;
 }
 
 .search-input-container {
