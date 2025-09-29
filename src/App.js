@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
@@ -17,6 +17,7 @@ import Disclosure from './components/Disclosure';
 import DisclosureDetail from './components/DisclosureDetail';
 import ScrollToTop from './components/ScrollToTop';
 import AdminApp from './admin/Admin';
+import { startDelayedPreload } from './services/imagePreloadService';
 
 function App() {
   const [language, setLanguage] = useState('KO');
@@ -24,6 +25,11 @@ function App() {
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
   };
+
+  // Portfolio 이미지 preload - 홈페이지 로드 2초 후 시작
+  useEffect(() => {
+    startDelayedPreload(2000);
+  }, []);
 
   return (
     <Router
