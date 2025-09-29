@@ -62,7 +62,7 @@ function App() {
           <Route path="/portfolio" element={
             <>
               <Header language={language} onLanguageChange={handleLanguageChange} />
-              <Portfolio language={language} />
+              <Portfolio key={language} language={language} />
             </>
           } />
           <Route path="/investment-strategy" element={

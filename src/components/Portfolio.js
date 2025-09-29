@@ -207,12 +207,18 @@ const Portfolio = ({ language }) => {
 
   // Animation for basic elements - different approach for Safari
   useEffect(() => {
+    console.log('Portfolio animation useEffect triggered');
     const elements = [
       { ref: titleRef, delay: 100 },
       { ref: statusRef, delay: 200 },
       { ref: dateRef, delay: 300 },
       { ref: operationalAmountRef, delay: 400 }
     ];
+
+    // 요소 확인
+    elements.forEach(({ ref }) => {
+      console.log('Element exists:', ref.current ? 'YES' : 'NO', ref.current);
+    });
 
     if (isSafari) {
       // Safari: Simple timeout-based animation
@@ -223,12 +229,14 @@ const Portfolio = ({ language }) => {
           element.style.transform = 'translateY(30px)';
           element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
           
-          setTimeout(() => {
-            if (element) {
-              element.style.opacity = '1';
-              element.style.transform = 'translateY(0)';
-            }
-          }, delay);
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              if (element) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+              }
+            }, delay);
+          });
         }
       });
     } else {
@@ -240,16 +248,18 @@ const Portfolio = ({ language }) => {
           element.style.transform = 'translateY(30px)';
           element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
           
-          setTimeout(() => {
-            if (element) {
-              element.style.opacity = '1';
-              element.style.transform = 'translateY(0)';
-            }
-          }, delay);
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              if (element) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+              }
+            }, delay);
+          });
         }
       });
     }
-  }, [isSafari]); // 컴포넌트 마운트 시에만 실행 (key prop으로 재마운트 처리)
+  }, []); // 컴포넌트 마운트 시에만 실행 (key prop으로 재마운트 처리)
 
   // Animation for category elements - different approach for Safari
   useEffect(() => {
@@ -295,7 +305,7 @@ const Portfolio = ({ language }) => {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [categories, isSafari]); // 컴포넌트 마운트 시에만 실행 (key prop으로 재마운트 처리)
+  }, [categories]); // categories가 로드되면 실행
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {
@@ -326,7 +336,7 @@ const Portfolio = ({ language }) => {
   const currentContent = content[language];
 
   return (
-    <div className="portfolio-page" key={language}>
+    <div className="portfolio-page">
       {/* Header Section */}
       <section className={`portfolio-header portfolio-header-${language.toLowerCase()}`}>
         <div className="portfolio-header-content">
