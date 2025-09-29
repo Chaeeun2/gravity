@@ -210,10 +210,10 @@ const Portfolio = ({ language }) => {
   useEffect(() => {
     const elements = [
       { ref: titleRef, delay: 100 },
-      { ref: statusRef, delay: 100 },
-      { ref: amountRef, delay: 100 },
-      { ref: dateRef, delay: 100 },
-      { ref: operationalAmountRef, delay: 100 }
+      { ref: statusRef, delay: 200 },
+      { ref: dateRef, delay: 300 },
+      { ref: amountRef, delay: 400 },
+      { ref: operationalAmountRef, delay: 400 }
     ];
 
     if (isSafari) {
@@ -282,7 +282,7 @@ const Portfolio = ({ language }) => {
                 element.style.opacity = '1';
                 element.style.transform = 'translateY(0)';
               }
-            }, 600 + (index * 100));
+            }, 500 + (index * 100));
           } else {
             // Other browsers: Use IntersectionObserver
             element.classList.remove('animate-fade-in-up');
