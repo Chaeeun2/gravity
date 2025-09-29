@@ -232,23 +232,24 @@ const Portfolio = ({ language }) => {
         }
       });
     } else {
-      // Other browsers: Set initial state then add animation class
+      // Other browsers: Use same approach as Safari
       elements.forEach(({ ref, delay }) => {
         if (ref.current) {
           const element = ref.current;
-          element.classList.remove('animate-fade-in-up');
           element.style.opacity = '0';
           element.style.transform = 'translateY(30px)';
+          element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
           
           setTimeout(() => {
             if (element) {
-              element.classList.add('animate-fade-in-up');
+              element.style.opacity = '1';
+              element.style.transform = 'translateY(0)';
             }
           }, delay);
         }
       });
     }
-  }, [isSafari, language]); // 언어 변경 시에도 애니메이션 재실행
+  }, [isSafari]); // 컴포넌트 마운트 시에만 실행 (key prop으로 재마운트 처리)
 
   // Animation for category elements - different approach for Safari
   useEffect(() => {
@@ -294,7 +295,7 @@ const Portfolio = ({ language }) => {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [categories, isSafari, language]); // 언어 변경 시에도 애니메이션 재실행
+  }, [categories, isSafari]); // 컴포넌트 마운트 시에만 실행 (key prop으로 재마운트 처리)
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {
@@ -325,7 +326,7 @@ const Portfolio = ({ language }) => {
   const currentContent = content[language];
 
   return (
-    <div className="portfolio-page">
+    <div className="portfolio-page" key={language}>
       {/* Header Section */}
       <section className={`portfolio-header portfolio-header-${language.toLowerCase()}`}>
         <div className="portfolio-header-content">
