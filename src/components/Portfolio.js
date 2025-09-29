@@ -234,11 +234,13 @@ const Portfolio = ({ language }) => {
         }
       });
     } else {
-      // Other browsers: Use class-based animation with delay
+      // Other browsers: Set initial state then add animation class
       elements.forEach(({ ref, delay }) => {
         if (ref.current) {
           const element = ref.current;
           element.classList.remove('animate-fade-in-up');
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(30px)';
           
           setTimeout(() => {
             if (element) {
