@@ -210,10 +210,10 @@ const Portfolio = ({ language }) => {
   useEffect(() => {
     const elements = [
       { ref: titleRef, delay: 100 },
-      { ref: statusRef, delay: 200 },
-      { ref: amountRef, delay: 300 },
-      { ref: dateRef, delay: 400 },
-      { ref: operationalAmountRef, delay: 500 }
+      { ref: statusRef, delay: 100 },
+      { ref: amountRef, delay: 100 },
+      { ref: dateRef, delay: 100 },
+      { ref: operationalAmountRef, delay: 100 }
     ];
 
     if (isSafari) {
