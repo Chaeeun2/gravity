@@ -17,36 +17,52 @@ const NewsDetail = ({ language }) => {
   const titleRef = useRef(null);
   const contentRef = useRef(null);
 
-  // Apply intersection observer
+  // Safari detection
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  // Animation setup - different approach for Safari
   useEffect(() => {
     if (!loading && news) {
-      // 애니메이션 클래스 초기화
-      if (titleRef.current) {
-        titleRef.current.classList.remove('animate-fade-in-up');
+      const elements = [
+        { ref: titleRef, delay: 200 },
+        { ref: contentRef, delay: 500 }
+      ];
+
+      if (isSafari) {
+        // Safari: Simple timeout-based animation
+        elements.forEach(({ ref, delay }) => {
+          if (ref.current) {
+            const element = ref.current;
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            
+            setTimeout(() => {
+              if (element) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+              }
+            }, delay);
+          }
+        });
+      } else {
+        // Other browsers: Use CSS animation class
+        elements.forEach(({ ref, delay }) => {
+          if (ref.current) {
+            ref.current.classList.remove('animate-fade-in-up');
+            
+            const timer = setTimeout(() => {
+              if (ref.current) {
+                ref.current.classList.add('animate-fade-in-up');
+              }
+            }, delay);
+
+            return () => clearTimeout(timer);
+          }
+        });
       }
-      if (contentRef.current) {
-        contentRef.current.classList.remove('animate-fade-in-up');
-      }
-
-      // 데이터가 로드된 후 애니메이션 실행
-      const timer1 = setTimeout(() => {
-        if (titleRef.current) {
-          titleRef.current.classList.add('animate-fade-in-up');
-        }
-      }, 200);
-
-      const timer2 = setTimeout(() => {
-        if (contentRef.current) {
-          contentRef.current.classList.add('animate-fade-in-up');
-        }
-      }, 500);
-
-      return () => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
-      };
     }
-  }, [loading, news]);
+  }, [loading, news, isSafari]);
 
   // 뉴스 데이터 로드
   useEffect(() => {
