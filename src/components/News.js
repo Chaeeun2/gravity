@@ -30,10 +30,11 @@ const News = ({ language }) => {
 
 
 
-  // Setup IntersectionObserver for animations with Safari fix
+  // Safari detection
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  // Animation setup - different approach for Safari
   useEffect(() => {
-    const animatedElements = new Set(); // 이미 애니메이션된 요소 추적
-    const observers = [];
     const elements = [
       { ref: titleRef, delay: 100 },
       { ref: searchBarRef, delay: 200 },
@@ -41,42 +42,53 @@ const News = ({ language }) => {
       { ref: paginationRef, delay: 400 }
     ];
 
-    elements.forEach(({ ref, delay }) => {
-      if (ref.current) {
-        const element = ref.current;
-        // 초기화
-        element.classList.remove('animate-fade-in-up');
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            // 이미 애니메이션된 요소는 무시
-            if (entry.isIntersecting && !animatedElements.has(entry.target)) {
-              animatedElements.add(entry.target); // 즉시 Set에 추가
-              
-              setTimeout(() => {
-                entry.target.style.opacity = ''; // 스타일 초기화
-                entry.target.style.transform = '';
-                entry.target.classList.add('animate-fade-in-up');
-                observer.disconnect(); // 완전히 observer 제거
-              }, delay);
+    if (isSafari) {
+      // Safari: Simple timeout-based animation
+      elements.forEach(({ ref, delay }) => {
+        if (ref.current) {
+          const element = ref.current;
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(30px)';
+          element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+          
+          setTimeout(() => {
+            if (element) {
+              element.style.opacity = '1';
+              element.style.transform = 'translateY(0)';
             }
+          }, delay);
+        }
+      });
+    } else {
+      // Other browsers: Use IntersectionObserver
+      const observers = [];
+      elements.forEach(({ ref, delay }) => {
+        if (ref.current) {
+          const element = ref.current;
+          element.classList.remove('animate-fade-in-up');
+          
+          const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                entry.target.classList.add('animate-fade-in-up');
+              }, delay);
+              observer.disconnect();
+            }
+          }, {
+            threshold: 0.1,
+            rootMargin: '0px'
           });
-        }, {
-          threshold: 0.01,
-          rootMargin: '0px 0px -50px 0px'
-        });
+          
+          observer.observe(element);
+          observers.push(observer);
+        }
+      });
 
-        observer.observe(element);
-        observers.push(observer);
-      }
-    });
-
-    return () => {
-      observers.forEach(observer => observer.disconnect());
-    };
-  }, []);
+      return () => {
+        observers.forEach(observer => observer.disconnect());
+      };
+    }
+  }, [isSafari]);
 
   // 뉴스 데이터 로드 함수
   const loadNewsData = async () => {

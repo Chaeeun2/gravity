@@ -203,98 +203,110 @@ const Portfolio = ({ language }) => {
     }
   }, [language, categories]);
 
-  // Intersection Observer with Safari fix 
-  useEffect(() => {
-    const animatedElements = new Set(); // 이미 애니메이션된 요소 추적
-    const observers = [];
-    
-    // 기본 요소들에 대한 Observer
-    const elements = [
-      { ref: titleRef },
-      { ref: statusRef },
-      { ref: amountRef },
-      { ref: dateRef },
-      { ref: operationalAmountRef }
-    ];
-    
-    elements.forEach(({ ref }) => {
-      if (ref.current) {
-        const element = ref.current;
-        // 초기화
-        element.classList.remove('animate-fade-in-up');
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            // 이미 애니메이션된 요소는 무시
-            if (entry.isIntersecting && !animatedElements.has(entry.target)) {
-              animatedElements.add(entry.target); // 즉시 Set에 추가
-              
-              entry.target.style.opacity = ''; // 스타일 초기화
-              entry.target.style.transform = '';
-              entry.target.classList.add('animate-fade-in-up');
-              observer.disconnect(); // 완전히 observer 제거
-            }
-          });
-        }, { 
-          threshold: 0.01,
-          rootMargin: '0px 0px -50px 0px' 
-        });
-        
-        observer.observe(element);
-        observers.push(observer);
-      }
-    });
-    
-    return () => {
-      observers.forEach(observer => observer.disconnect());
-    };
-  }, []);
+  // Safari detection
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-  // 카테고리 요소들에 대한 별도 Observer with Safari fix
+  // Animation for basic elements - different approach for Safari
   useEffect(() => {
-    if (categories.length === 0) return;
-    
-    const animatedCategories = new Set(); // 이미 애니메이션된 카테고리 추적
-    const observers = [];
-    const timer = setTimeout(() => {
-      categories.forEach((category) => {
-        if (categoryRefs.current[category.id]) {
-          const element = categoryRefs.current[category.id];
-          // 초기화
-          element.classList.remove('animate-fade-in-up');
+    const elements = [
+      { ref: titleRef, delay: 100 },
+      { ref: statusRef, delay: 200 },
+      { ref: amountRef, delay: 300 },
+      { ref: dateRef, delay: 400 },
+      { ref: operationalAmountRef, delay: 500 }
+    ];
+
+    if (isSafari) {
+      // Safari: Simple timeout-based animation
+      elements.forEach(({ ref, delay }) => {
+        if (ref.current) {
+          const element = ref.current;
           element.style.opacity = '0';
           element.style.transform = 'translateY(30px)';
+          element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
           
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              // 이미 애니메이션된 요소는 무시
-              if (entry.isIntersecting && !animatedCategories.has(entry.target)) {
-                animatedCategories.add(entry.target); // 즉시 Set에 추가
-                
-                entry.target.style.opacity = ''; // 스타일 초기화
-                entry.target.style.transform = '';
-                entry.target.classList.add('animate-fade-in-up');
-                observer.disconnect(); // 완전히 observer 제거
-              }
-            });
-          }, { 
-            threshold: 0.01,
-            rootMargin: '0px 0px -50px 0px' 
+          setTimeout(() => {
+            if (element) {
+              element.style.opacity = '1';
+              element.style.transform = 'translateY(0)';
+            }
+          }, delay);
+        }
+      });
+    } else {
+      // Other browsers: Use IntersectionObserver
+      const observers = [];
+      elements.forEach(({ ref }) => {
+        if (ref.current) {
+          const element = ref.current;
+          element.classList.remove('animate-fade-in-up');
+          
+          const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-fade-in-up');
+              observer.disconnect();
+            }
+          }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
           });
           
           observer.observe(element);
           observers.push(observer);
         }
       });
-    }, 100); // 카테고리 로드 후 약간의 딜레이
-    
-    return () => {
-      clearTimeout(timer);
-      observers.forEach(observer => observer.disconnect());
-    };
-  }, [categories]);
+
+      return () => {
+        observers.forEach(observer => observer.disconnect());
+      };
+    }
+  }, [isSafari]);
+
+  // Animation for category elements - different approach for Safari
+  useEffect(() => {
+    if (categories.length === 0) return;
+
+    const timer = setTimeout(() => {
+      categories.forEach((category, index) => {
+        if (categoryRefs.current[category.id]) {
+          const element = categoryRefs.current[category.id];
+          
+          if (isSafari) {
+            // Safari: Simple timeout-based animation
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            
+            setTimeout(() => {
+              if (element) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+              }
+            }, 600 + (index * 100));
+          } else {
+            // Other browsers: Use IntersectionObserver
+            element.classList.remove('animate-fade-in-up');
+            
+            const observer = new IntersectionObserver(([entry]) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.classList.add('animate-fade-in-up');
+                }, index * 100);
+                observer.disconnect();
+              }
+            }, {
+              threshold: 0.1,
+              rootMargin: '0px 0px -50px 0px'
+            });
+            
+            observer.observe(element);
+          }
+        }
+      });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [categories, isSafari]);
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {
