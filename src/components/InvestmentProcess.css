@@ -509,6 +509,7 @@
     font-family: var(--font-neue);
     letter-spacing: var(--spacing-00);
     width: 100%;
+    white-space: nowrap;
   }
 
   .process-step,

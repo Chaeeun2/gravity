@@ -4,10 +4,11 @@
 
 /* 애니메이션은 index.css의 공통 스타일 사용 */
 
-/* 기본 요소들의 초기 상태 */
+/*/* 기본 요소들의 초기 상태 */
 .portfolio-title,
 .portfolio-status-left,
-.portfolio-status-right {
+.status-date,
+.status-amount {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -20,10 +21,11 @@
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-/* 애니메이션 클래스가 추가된 후의 상태 */
+/*/* 애니메이션 클래스가 추가된 후의 상태 */
 .portfolio-title.animate-fade-in-up,
 .portfolio-status-left.animate-fade-in-up,
-.portfolio-status-right.animate-fade-in-up,
+.status-date.animate-fade-in-up,
+.status-amount.animate-fade-in-up,
 .portfolio-section.animate-fade-in-up {
   opacity: 1;
   transform: translateY(0);
@@ -113,7 +115,6 @@
 }
 
 .portfolio-status-right {
-  opacity: 0;
   transform: translateY(30px);
   position: absolute;
   width: 100%;
