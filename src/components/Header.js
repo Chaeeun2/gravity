@@ -123,17 +123,17 @@ const Header = ({ language, onLanguageChange }) => {
     
     // 각 메뉴 아이템과 서브메뉴를 확인
     for (const item of menuItems) {
+      // 메뉴 자체에 page가 있는 경우 (예: PORTFOLIO)
+      if (item.page && currentPath === `/${item.page}`) {
+        return item.name;
+      }
       // 서브메뉴가 있는 경우
-      if (item.submenu) {
+      if (item.submenu && item.submenu.length > 0) {
         for (const subItem of item.submenu) {
           if (currentPath === `/${subItem.page}`) {
             return item.name;
           }
         }
-      }
-      // 서브메뉴가 없는 경우
-      else if (item.page && currentPath === `/${item.page}`) {
-        return item.name;
       }
     }
     
