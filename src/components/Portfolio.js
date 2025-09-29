@@ -234,33 +234,19 @@ const Portfolio = ({ language }) => {
         }
       });
     } else {
-      // Other browsers: Use IntersectionObserver with delay
-      const observers = [];
+      // Other browsers: Use class-based animation with delay
       elements.forEach(({ ref, delay }) => {
         if (ref.current) {
           const element = ref.current;
           element.classList.remove('animate-fade-in-up');
           
-          const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-              setTimeout(() => {
-                entry.target.classList.add('animate-fade-in-up');
-              }, delay);
-              observer.disconnect();
+          setTimeout(() => {
+            if (element) {
+              element.classList.add('animate-fade-in-up');
             }
-          }, {
-            threshold: 0.01,
-            rootMargin: '0px 0px -50px 0px'
-          });
-          
-          observer.observe(element);
-          observers.push(observer);
+          }, delay);
         }
       });
-
-      return () => {
-        observers.forEach(observer => observer.disconnect());
-      };
     }
   }, [isSafari, language]); // 언어 변경 시에도 애니메이션 재실행
 
