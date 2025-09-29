@@ -249,7 +249,7 @@
 }
 
 .attachment-name {
-  word-break: keep-all;
+  word-break: break-all;
 }
 
 .news-detail-article-content > div:not(.news-detail-attachments) {
