@@ -260,7 +260,7 @@ const Portfolio = ({ language }) => {
         observers.forEach(observer => observer.disconnect());
       };
     }
-  }, [isSafari]);
+  }, [isSafari, language]); // 언어 변경 시에도 애니메이션 재실행
 
   // Animation for category elements - different approach for Safari
   useEffect(() => {
@@ -306,7 +306,7 @@ const Portfolio = ({ language }) => {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [categories, isSafari]);
+  }, [categories, isSafari, language]); // 언어 변경 시에도 애니메이션 재실행
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {
