@@ -5,35 +5,6 @@ import Footer from './Footer';
 import { dataService } from '../admin/services/dataService';
 import { formatSimpleDate, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
-const useIntersectionObserver = (ref, delay = 0) => {
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            element.classList.add('animate-fade-in-up');
-            observer.unobserve(element); // Stop observing after animation
-          }, delay);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px'
-      }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
-    };
-  }, [ref, delay]);
-};
 
 const News = ({ language }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -59,11 +30,40 @@ const News = ({ language }) => {
 
 
 
-  // Apply intersection observer
-  useIntersectionObserver(titleRef, 100);
-  useIntersectionObserver(searchBarRef, 200);
-  useIntersectionObserver(newsListRef, 300);
-  useIntersectionObserver(paginationRef, 400);
+  // Setup IntersectionObserver for animations
+  useEffect(() => {
+    const observers = [];
+    const elements = [
+      { ref: titleRef, delay: 100 },
+      { ref: searchBarRef, delay: 200 },
+      { ref: newsListRef, delay: 300 },
+      { ref: paginationRef, delay: 400 }
+    ];
+
+    elements.forEach(({ ref, delay }) => {
+      if (ref.current) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
+                entry.target.classList.add('animate-fade-in-up');
+              }
+            }, delay);
+          }
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px'
+        });
+
+        observer.observe(ref.current);
+        observers.push(observer);
+      }
+    });
+
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, []);
 
   // 뉴스 데이터 로드 함수
   const loadNewsData = async () => {

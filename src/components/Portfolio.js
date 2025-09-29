@@ -253,38 +253,7 @@ const Portfolio = ({ language }) => {
     };
   }, [categories]);
 
-  // Fallback: 페이지 로드 후 일정 시간이 지나면 강제로 애니메이션 실행
-  useEffect(() => {
-    if (categories.length > 0 && !loading) {
-      const fallbackTimer = setTimeout(() => {
-        // 기본 요소들 애니메이션
-        if (titleRef.current && !titleRef.current.classList.contains('animate-fade-in-up')) {
-          titleRef.current.classList.add('animate-fade-in-up');
-        }
-        if (statusRef.current && !statusRef.current.classList.contains('animate-fade-in-up')) {
-          statusRef.current.classList.add('animate-fade-in-up');
-        }
-        if (amountRef.current && !amountRef.current.classList.contains('animate-fade-in-up')) {
-          amountRef.current.classList.add('animate-fade-in-up');
-        }
-        if (dateRef.current && !dateRef.current.classList.contains('animate-fade-in-up')) {
-          dateRef.current.classList.add('animate-fade-in-up');
-        }
-        if (operationalAmountRef.current && !operationalAmountRef.current.classList.contains('animate-fade-in-up')) {
-          operationalAmountRef.current.classList.add('animate-fade-in-up');
-        }
-        
-        // 카테고리별 애니메이션
-        categories.forEach((category) => {
-          if (categoryRefs.current[category.id] && !categoryRefs.current[category.id].classList.contains('animate-fade-in-up')) {
-            categoryRefs.current[category.id].classList.add('animate-fade-in-up');
-          }
-        });
-      }, 0); // 2초 후 실행
-      
-      return () => clearTimeout(fallbackTimer);
-    }
-  }, [categories, loading]);
+  // Fallback 제거 - IntersectionObserver만 사용
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {

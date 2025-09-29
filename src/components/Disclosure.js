@@ -6,35 +6,7 @@ import './News.css';
 import Footer from './Footer';
 import { formatForDisplay, formatMobileDate, sortWithImportant, getDisplayDate } from '../utils/dateUtils';
 
-const useIntersectionObserver = (ref, delay = 0) => {
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            element.classList.add('animate-fade-in-up');
-            observer.unobserve(element); // Stop observing after animation
-          }, delay);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: '0px'
-      }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
-    };
-  }, [ref, delay]);
-};
 
 const Disclosure = ({ language }) => {
   const [disclosureList, setDisclosureList] = useState([]);
@@ -52,10 +24,39 @@ const Disclosure = ({ language }) => {
   const searchBarRef = useRef(null);
   const disclosureListRef = useRef(null);
 
-  // Apply intersection observer
-  useIntersectionObserver(titleRef, 100);
-  useIntersectionObserver(searchBarRef, 200);
-  useIntersectionObserver(disclosureListRef, 300);
+  // Setup IntersectionObserver for animations
+  useEffect(() => {
+    const observers = [];
+    const elements = [
+      { ref: titleRef, delay: 100 },
+      { ref: searchBarRef, delay: 200 },
+      { ref: disclosureListRef, delay: 300 }
+    ];
+
+    elements.forEach(({ ref, delay }) => {
+      if (ref.current) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
+                entry.target.classList.add('animate-fade-in-up');
+              }
+            }, delay);
+          }
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px'
+        });
+
+        observer.observe(ref.current);
+        observers.push(observer);
+      }
+    });
+
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, []);
 
   // Handle window resize for mobile detection
   useEffect(() => {
