@@ -27,7 +27,6 @@ const Portfolio = ({ language }) => {
   };
   const titleRef = useRef(null);
   const statusRef = useRef(null);
-  const amountRef = useRef(null);
   const dateRef = useRef(null);
   const operationalAmountRef = useRef(null);
   const categoryRefs = useRef({});
@@ -212,7 +211,6 @@ const Portfolio = ({ language }) => {
       { ref: titleRef, delay: 100 },
       { ref: statusRef, delay: 200 },
       { ref: dateRef, delay: 300 },
-      { ref: amountRef, delay: 400 },
       { ref: operationalAmountRef, delay: 400 }
     ];
 
@@ -345,7 +343,7 @@ const Portfolio = ({ language }) => {
               <div className="status-line"></div>
               <h2 className={`status-title status-title-${language.toLowerCase()}`}>{currentContent.operationalStatus}</h2>
             </div>
-            <div ref={amountRef} className={`portfolio-status-right portfolio-status-right-${language.toLowerCase()}`}>
+            <div className={`portfolio-status-right portfolio-status-right-${language.toLowerCase()}`}>
               <p ref={dateRef} className={`status-date status-date-${language.toLowerCase()}`}>
                 {updateDate.year && updateDate.month 
                   ? `${getMonthName(updateDate.month)} ${updateDate.year}`
