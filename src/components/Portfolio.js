@@ -234,16 +234,18 @@ const Portfolio = ({ language }) => {
         }
       });
     } else {
-      // Other browsers: Use IntersectionObserver
+      // Other browsers: Use IntersectionObserver with delay
       const observers = [];
-      elements.forEach(({ ref }) => {
+      elements.forEach(({ ref, delay }) => {
         if (ref.current) {
           const element = ref.current;
           element.classList.remove('animate-fade-in-up');
           
           const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add('animate-fade-in-up');
+              setTimeout(() => {
+                entry.target.classList.add('animate-fade-in-up');
+              }, delay);
               observer.disconnect();
             }
           }, {
