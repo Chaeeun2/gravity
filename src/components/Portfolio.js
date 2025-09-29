@@ -203,7 +203,7 @@ const Portfolio = ({ language }) => {
     }
   }, [language, categories]);
 
-  // Intersection Observer 적용
+  // Intersection Observer 적용 - categories 변경과 무관하게 한번만 실행
   useEffect(() => {
     const observers = [];
     
@@ -218,31 +218,17 @@ const Portfolio = ({ language }) => {
     
     elements.forEach(({ ref }) => {
       if (ref.current) {
+        // 애니메이션 클래스 초기화
+        ref.current.classList.remove('animate-fade-in-up');
+        
         const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-            if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
-              entry.target.classList.add('animate-fade-in-up');
-            }
+          if (entry.isIntersecting && !entry.target.classList.contains('animate-fade-in-up')) {
+            entry.target.classList.add('animate-fade-in-up');
+            observer.unobserve(entry.target); // 애니메이션 후 관찰 중지
           }
-        }, { threshold: 0.3, rootMargin: '0px 0px -100px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
         
         observer.observe(ref.current);
-        observers.push(observer);
-      }
-    });
-    
-    // 카테고리별 ref에 Intersection Observer 적용
-    categories.forEach((category) => {
-      if (categoryRefs.current[category.id]) {
-        const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-            if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
-              entry.target.classList.add('animate-fade-in-up');
-            }
-          }
-        }, { threshold: 0.3, rootMargin: '0px 0px -100px 0px' });
-        
-        observer.observe(categoryRefs.current[category.id]);
         observers.push(observer);
       }
     });
@@ -251,9 +237,37 @@ const Portfolio = ({ language }) => {
     return () => {
       observers.forEach(observer => observer.disconnect());
     };
-  }, [categories]);
+  }, []); // 빈 dependency array - 한번만 실행
 
-  // Fallback 제거 - IntersectionObserver만 사용
+  // 카테고리 요소들에 대한 별도 Observer (categories 로드 후)
+  useEffect(() => {
+    if (categories.length === 0) return;
+    
+    const observers = [];
+    const timer = setTimeout(() => {
+      categories.forEach((category) => {
+        if (categoryRefs.current[category.id]) {
+          // 애니메이션 클래스 초기화
+          categoryRefs.current[category.id].classList.remove('animate-fade-in-up');
+          
+          const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && !entry.target.classList.contains('animate-fade-in-up')) {
+              entry.target.classList.add('animate-fade-in-up');
+              observer.unobserve(entry.target); // 애니메이션 후 관찰 중지
+            }
+          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+          
+          observer.observe(categoryRefs.current[category.id]);
+          observers.push(observer);
+        }
+      });
+    }, 100); // 카테고리 로드 후 약간의 딜레이
+    
+    return () => {
+      clearTimeout(timer);
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, [categories]);
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {

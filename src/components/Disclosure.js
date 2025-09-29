@@ -24,7 +24,7 @@ const Disclosure = ({ language }) => {
   const searchBarRef = useRef(null);
   const disclosureListRef = useRef(null);
 
-  // Setup IntersectionObserver for animations
+  // Setup IntersectionObserver for animations - Safari compatible
   useEffect(() => {
     const observers = [];
     const elements = [
@@ -35,20 +35,27 @@ const Disclosure = ({ language }) => {
 
     elements.forEach(({ ref, delay }) => {
       if (ref.current) {
-        const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
-                entry.target.classList.add('animate-fade-in-up');
-              }
-            }, delay);
-          }
+        // Safari 호환성을 위해 초기화
+        ref.current.classList.remove('animate-fade-in-up');
+        
+        const element = ref.current;
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('animate-fade-in-up')) {
+              setTimeout(() => {
+                if (entry.target && !entry.target.classList.contains('animate-fade-in-up')) {
+                  entry.target.classList.add('animate-fade-in-up');
+                  observer.unobserve(entry.target); // Safari에서 중요: 관찰 중지
+                }
+              }, delay);
+            }
+          });
         }, {
-          threshold: 0.1,
-          rootMargin: '0px'
+          threshold: 0.01, // Safari에서 더 낮은 threshold 사용
+          rootMargin: '0px 0px -50px 0px'
         });
 
-        observer.observe(ref.current);
+        observer.observe(element);
         observers.push(observer);
       }
     });
