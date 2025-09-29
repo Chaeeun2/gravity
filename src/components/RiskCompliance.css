@@ -41,9 +41,16 @@
   animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* feedback-text 전용 애니메이션 - rotate 유지 */
+/*/* feedback-text 전용 애니메이션 - PC에서는 rotate 없이 */
 .feedback-text.animate-fade-in-up {
-  animation: fadeInUpRotated 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* 모바일에서만 rotate 적용 */
+@media (max-width: 1200px) {
+  .feedback-text.animate-fade-in-up {
+    animation: fadeInUpRotated 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
 }
 
 .animate-fade-in {
