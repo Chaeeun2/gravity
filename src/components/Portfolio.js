@@ -203,8 +203,9 @@ const Portfolio = ({ language }) => {
     }
   }, [language, categories]);
 
-  // Intersection Observer 적용 - categories 변경과 무관하게 한번만 실행
+  // Intersection Observer with Safari fix 
   useEffect(() => {
+    const animatedElements = new Set(); // 이미 애니메이션된 요소 추적
     const observers = [];
     
     // 기본 요소들에 대한 Observer
@@ -218,46 +219,72 @@ const Portfolio = ({ language }) => {
     
     elements.forEach(({ ref }) => {
       if (ref.current) {
-        // 애니메이션 클래스 초기화
-        ref.current.classList.remove('animate-fade-in-up');
+        const element = ref.current;
+        // 초기화
+        element.classList.remove('animate-fade-in-up');
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
         
-        const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting && !entry.target.classList.contains('animate-fade-in-up')) {
-            entry.target.classList.add('animate-fade-in-up');
-            observer.unobserve(entry.target); // 애니메이션 후 관찰 중지
-          }
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            // 이미 애니메이션된 요소는 무시
+            if (entry.isIntersecting && !animatedElements.has(entry.target)) {
+              animatedElements.add(entry.target); // 즉시 Set에 추가
+              
+              entry.target.style.opacity = ''; // 스타일 초기화
+              entry.target.style.transform = '';
+              entry.target.classList.add('animate-fade-in-up');
+              observer.disconnect(); // 완전히 observer 제거
+            }
+          });
+        }, { 
+          threshold: 0.01,
+          rootMargin: '0px 0px -50px 0px' 
+        });
         
-        observer.observe(ref.current);
+        observer.observe(element);
         observers.push(observer);
       }
     });
     
-    // Cleanup 함수
     return () => {
       observers.forEach(observer => observer.disconnect());
     };
-  }, []); // 빈 dependency array - 한번만 실행
+  }, []);
 
-  // 카테고리 요소들에 대한 별도 Observer (categories 로드 후)
+  // 카테고리 요소들에 대한 별도 Observer with Safari fix
   useEffect(() => {
     if (categories.length === 0) return;
     
+    const animatedCategories = new Set(); // 이미 애니메이션된 카테고리 추적
     const observers = [];
     const timer = setTimeout(() => {
       categories.forEach((category) => {
         if (categoryRefs.current[category.id]) {
-          // 애니메이션 클래스 초기화
-          categoryRefs.current[category.id].classList.remove('animate-fade-in-up');
+          const element = categoryRefs.current[category.id];
+          // 초기화
+          element.classList.remove('animate-fade-in-up');
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(30px)';
           
-          const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !entry.target.classList.contains('animate-fade-in-up')) {
-              entry.target.classList.add('animate-fade-in-up');
-              observer.unobserve(entry.target); // 애니메이션 후 관찰 중지
-            }
-          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              // 이미 애니메이션된 요소는 무시
+              if (entry.isIntersecting && !animatedCategories.has(entry.target)) {
+                animatedCategories.add(entry.target); // 즉시 Set에 추가
+                
+                entry.target.style.opacity = ''; // 스타일 초기화
+                entry.target.style.transform = '';
+                entry.target.classList.add('animate-fade-in-up');
+                observer.disconnect(); // 완전히 observer 제거
+              }
+            });
+          }, { 
+            threshold: 0.01,
+            rootMargin: '0px 0px -50px 0px' 
+          });
           
-          observer.observe(categoryRefs.current[category.id]);
+          observer.observe(element);
           observers.push(observer);
         }
       });
