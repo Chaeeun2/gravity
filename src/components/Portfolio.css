@@ -120,7 +120,6 @@
 }
 
 .portfolio-status-right {
-  transform: translateY(30px);
   position: absolute;
   width: 100%;
   text-align: center;
@@ -164,7 +163,6 @@
 }
 
 .portfolio-section {
-  transform: translateY(30px);
   display: grid;
   grid-template-columns: 1fr 5fr;
   border-bottom: 1px solid var(--line-color);
