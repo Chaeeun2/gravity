@@ -100,15 +100,12 @@ const DisclosureDetail = ({ language }) => {
           if (foundDisclosure) {
             setDisclosure(foundDisclosure);
           } else {
-            // console.error('공시를 찾을 수 없습니다:', id);
             navigate('/disclosure');
           }
         } else {
-          // console.error('공시 데이터 로딩 실패');
           navigate('/disclosure');
         }
       } catch (error) {
-        // console.error('공시 데이터 로딩 오류:', error);
         navigate('/disclosure');
       } finally {
         setLoading(false);
@@ -139,7 +136,6 @@ const DisclosureDetail = ({ language }) => {
     const fileUrl = file.url || file.downloadUrl || file.fileUrl || file.path;
     
     if (!fileUrl) {
-      // console.error('파일 URL을 찾을 수 없습니다. 파일 데이터:', file);
       return;
     }
 
@@ -190,19 +186,16 @@ const DisclosureDetail = ({ language }) => {
         }, 100);
       }
     } catch (error) {
-      // console.error('첨부파일 다운로드 처리 오류:', error);
       
       // Fallback: 새 탭에서 열기
       try {
         window.open(fileUrl, '_blank');
       } catch (fallbackError) {
-        // console.error('fallback 다운로드도 실패:', fallbackError);
         
         // 최종 fallback: 새 탭에서 열기
         try {
           window.open(fileUrl, '_blank');
         } catch (finalError) {
-          // console.error('최종 fallback도 실패:', finalError);
         }
       }
     }

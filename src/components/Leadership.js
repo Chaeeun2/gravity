@@ -55,7 +55,6 @@ const Leadership = ({ language }) => {
           setLeadershipData(sortedData);
         }
       } catch (error) {
-        // console.error('Leadership 데이터 로딩 오류:', error);
       } finally {
         setLoading(false);
       }

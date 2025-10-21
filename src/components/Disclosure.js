@@ -108,17 +108,9 @@ const Disclosure = ({ language }) => {
         
         // 중요공지 우선, 그 다음 publishDate 우선으로 정렬
         const sortedData = sortWithImportant(disclosures);
-        
-        console.log('Sorted disclosure data:', sortedData.map(item => ({
-          id: item.id,
-          title: item.title,
-          publishDate: item.publishDate,
-          createdAt: item.createdAt
-        })));
-        
+
         setDisclosureList(sortedData);
       } catch (error) {
-        console.error('공시 데이터 로딩 오류:', error);
         setDisclosureList([]);
       } finally {
         setLoading(false);

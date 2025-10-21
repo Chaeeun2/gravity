@@ -348,12 +348,6 @@ const InvestmentProcess = ({ language }) => {
   };
 
   // 디버깅용 로그
-  console.log('DEBUG - Language:', language);
-  console.log('DEBUG - isMobile:', isMobile);
-  console.log('DEBUG - content[language]:', content[language]);
-  console.log('DEBUG - Available content keys:', Object.keys(content));
-  console.log('DEBUG - Current Content:', currentContent);
-  console.log('DEBUG - Step1 title:', currentContent.steps?.step1?.title);
 
 
   return (

@@ -54,7 +54,6 @@ const Overview = ({ language }) => {
         });
       }
     } catch (error) {
-      // console.error('Overview 데이터 로딩 오류:', error);
     } finally {
       setLoading(false);
     }

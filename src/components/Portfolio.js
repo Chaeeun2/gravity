@@ -30,6 +30,7 @@ const Portfolio = ({ language }) => {
   const dateRef = useRef(null);
   const operationalAmountRef = useRef(null);
   const categoryRefs = useRef({});
+  const cardRefs = useRef([]);
   
   const [portfolioData, setPortfolioData] = useState({});
   const [categories, setCategories] = useState([]);
@@ -61,7 +62,7 @@ const Portfolio = ({ language }) => {
           return;
         }
 
-        const categoriesDoc = await getDoc(doc(db, 'portfolio', 'categories'));
+        const categoriesDoc = await getDoc(doc(db, 'portfolio', 'categories'), { source: 'server' });
         if (categoriesDoc.exists()) {
           const categoriesData = categoriesDoc.data().categories || [];
           // order 필드로 정렬
@@ -104,7 +105,7 @@ const Portfolio = ({ language }) => {
         return; // 기본 라벨 사용
       }
 
-      const labelsDoc = await getDoc(doc(db, 'portfolio', 'labels'));
+      const labelsDoc = await getDoc(doc(db, 'portfolio', 'labels'), { source: 'server' });
       if (labelsDoc.exists()) {
         const labelsData = labelsDoc.data();
         if (labelsData.labels && Array.isArray(labelsData.labels)) {
@@ -128,7 +129,7 @@ const Portfolio = ({ language }) => {
         }
 
         // 포트폴리오 컬렉션의 모든 문서를 한 번에 가져오기 (캐시 방지)
-        const querySnapshot = await getDocs(collection(db, 'portfolio'));
+        const querySnapshot = await getDocs(collection(db, 'portfolio'), { source: 'server' });
         const data = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -202,12 +203,10 @@ const Portfolio = ({ language }) => {
     }
   }, [language, categories]);
 
-  // Safari detection
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-  // Animation for basic elements - different approach for Safari
+
+  // Animation for basic elements - 순차적 애니메이션 (모든 브라우저 동일)
   useEffect(() => {
-    console.log('Portfolio animation useEffect triggered');
     const elements = [
       { ref: titleRef, delay: 100 },
       { ref: statusRef, delay: 200 },
@@ -215,97 +214,78 @@ const Portfolio = ({ language }) => {
       { ref: operationalAmountRef, delay: 400 }
     ];
 
-    // 요소 확인
-    elements.forEach(({ ref }) => {
-      console.log('Element exists:', ref.current ? 'YES' : 'NO', ref.current);
+    elements.forEach(({ ref, delay }) => {
+      if (ref.current) {
+        const element = ref.current;
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+        
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            if (element) {
+              element.style.opacity = '1';
+              element.style.transform = 'translateY(0)';
+            }
+          }, delay);
+        });
+      }
     });
+  }, []); // 컴포넌트 마운트 시에만 실행
 
-    if (isSafari) {
-      // Safari: Simple timeout-based animation
-      elements.forEach(({ ref, delay }) => {
-        if (ref.current) {
-          const element = ref.current;
-          element.style.opacity = '0';
-          element.style.transform = 'translateY(30px)';
-          element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-          
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              if (element) {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-              }
-            }, delay);
-          });
-        }
-      });
-    } else {
-      // Other browsers: Use same approach as Safari
-      elements.forEach(({ ref, delay }) => {
-        if (ref.current) {
-          const element = ref.current;
-          element.style.opacity = '0';
-          element.style.transform = 'translateY(30px)';
-          element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-          
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              if (element) {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-              }
-            }, delay);
-          });
-        }
-      });
-    }
-  }, []); // 컴포넌트 마운트 시에만 실행 (key prop으로 재마운트 처리)
-
-  // Animation for category elements - different approach for Safari
+  // Animation for category elements - 모두 동시에 애니메이션
   useEffect(() => {
     if (categories.length === 0) return;
 
     const timer = setTimeout(() => {
-      categories.forEach((category, index) => {
+      categories.forEach((category) => {
         if (categoryRefs.current[category.id]) {
           const element = categoryRefs.current[category.id];
           
-          if (isSafari) {
-            // Safari: Simple timeout-based animation
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-            
-            setTimeout(() => {
-              if (element) {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-              }
-            }, 500 + (index * 100));
-          } else {
-            // Other browsers: Use IntersectionObserver
-            element.classList.remove('animate-fade-in-up');
-            
-            const observer = new IntersectionObserver(([entry]) => {
-              if (entry.isIntersecting) {
-                setTimeout(() => {
-                  entry.target.classList.add('animate-fade-in-up');
-                }, index * 100);
-                observer.disconnect();
-              }
-            }, {
-            threshold: 0.01,
-            rootMargin: '0px 0px -50px 0px'
-          });
-            
-            observer.observe(element);
-          }
+          // 초기 상태 설정
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(30px)';
+          element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+          
+          // 운용현황 이후 동시에 애니메이션 실행
+          setTimeout(() => {
+            if (element) {
+              element.style.opacity = '1';
+              element.style.transform = 'translateY(0)';
+            }
+          }, 400); // 모든 카테고리 동시 시작
         }
       });
     }, 100);
 
     return () => clearTimeout(timer);
   }, [categories]); // categories가 로드되면 실행
+
+  // Animation for portfolio cards - 모든 카드 동시 애니메이션
+  useEffect(() => {
+    if (cardRefs.current.length === 0) return;
+
+    const timer = setTimeout(() => {
+      cardRefs.current.forEach((card) => {
+        if (card) {
+          // 초기 상태 설정
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(30px)';
+          card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+          
+          // 카테고리와 동시에 애니메이션 실행
+          setTimeout(() => {
+            if (card) {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }
+          }, 400); // 카테고리와 동일한 시작 시간
+        }
+      });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [portfolioData, language]); // 포트폴리오 데이터 로드 시 실행
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {
@@ -373,7 +353,7 @@ const Portfolio = ({ language }) => {
       <section className={`portfolio-content portfolio-content-${language.toLowerCase()}`}>
         <div className="portfolio-container">
           {/* 동적으로 카테고리별 섹션 생성 */}
-          {categories.map((category) => {
+          {categories.map((category, categoryIndex) => {
             const categoryData = portfolioData[category.id] || [];
             if (categoryData.length === 0) return null; // 데이터가 없으면 섹션 생성하지 않음
             
@@ -397,11 +377,25 @@ const Portfolio = ({ language }) => {
                       return null; // 제목이 없으면 카드 전체를 표시하지 않음
                     }
 
+                    // 첫 3개 이미지는 즉시 로드, 나머지는 lazy loading
+                    const isEagerLoad = index < 3;
+
                     return (
-                    <div key={index} className={`property-card property-card-${language.toLowerCase()}`}>
+                    <div 
+                      key={index} 
+                      ref={(el) => { if (el && !cardRefs.current.includes(el)) cardRefs.current.push(el); }}
+                      data-category-index={categoryIndex}
+                      data-card-index={index}
+                      className={`property-card property-card-${language.toLowerCase()}`}
+                    >
                       <div className="property-image">
                         {property.image ? (
-                          <img src={property.image} alt={language === 'KO' ? property.titleKo : property.titleEn} />
+                          <img 
+                            src={property.image} 
+                            alt={language === 'KO' ? property.titleKo : property.titleEn}
+                            loading={isEagerLoad ? "eager" : "lazy"}
+                            fetchpriority={isEagerLoad ? "high" : "auto"}
+                          />
                         ) : (
                           <div className="no-image-placeholder">
                             <span>No Image</span>

@@ -265,7 +265,6 @@ const PortfolioManager = () => {
         setPortfolioData([]);
       }
     } catch (error) {
-      // // console.error('Portfolio 데이터 로딩 오류:', error);
       setPortfolioData([]);
     } finally {
       setLoading(false);
@@ -290,7 +289,6 @@ const PortfolioManager = () => {
         }
       }
     } catch (error) {
-      // // console.error('운용현황 데이터 로딩 오류:', error);
     }
   };
 
@@ -305,7 +303,6 @@ const PortfolioManager = () => {
         });
       }
     } catch (error) {
-      // // console.error('총 운용금액 데이터 로딩 오류:', error);
     }
   };
 
@@ -323,7 +320,6 @@ const PortfolioManager = () => {
         setCategories(sortedCategories);
       }
     } catch (error) {
-      // // console.error('카테고리 데이터 로딩 오류:', error);
       // 기본 카테고리 사용
     }
   };
@@ -336,7 +332,6 @@ const PortfolioManager = () => {
         setPortfolioLabels(result.data.labels);
       }
     } catch (error) {
-      // // console.error('포트폴리오 라벨 데이터 로딩 오류:', error);
       // 기본 라벨 사용
     }
   };
@@ -358,7 +353,6 @@ const PortfolioManager = () => {
         await loadPortfolioData();
         alert('삭제되었습니다!');
       } catch (error) {
-        // // console.error('삭제 오류:', error);
         alert('삭제에 실패했습니다.');
       }
     }
@@ -390,7 +384,6 @@ const PortfolioManager = () => {
         await dataService.setDocument('portfolio', 'categories', { categories: updatedCategories });
         alert('카테고리가 삭제되었습니다.');
       } catch (error) {
-        // // console.error('카테고리 삭제 오류:', error);
         alert('삭제에 실패했습니다.');
       }
     }
@@ -424,7 +417,6 @@ const PortfolioManager = () => {
       // 입력 필드 초기화
       document.getElementById('category-label').value = '';
     } catch (error) {
-      // // console.error('카테고리 저장 오류:', error);
       alert('저장에 실패했습니다.');
     }
   };
@@ -456,7 +448,6 @@ const PortfolioManager = () => {
       try {
         await dataService.setDocument('portfolio', 'categories', { categories: updatedCategories });
       } catch (error) {
-        // // console.error('카테고리 순서 저장 오류:', error);
         // 에러 발생 시 원래 데이터로 복원
         await loadCategories();
       }
@@ -489,7 +480,6 @@ const PortfolioManager = () => {
         // 데이터를 다시 로드하여 최신 상태 확인
         await loadPortfolioData();
       } catch (error) {
-        // // console.error('순서 저장 오류:', error);
         // 에러 발생 시 원래 데이터로 복원
         await loadPortfolioData();
       }
@@ -513,7 +503,6 @@ const PortfolioManager = () => {
       await loadPortfolioData();
       handleModalClose();
     } catch (error) {
-      // // console.error('저장 오류:', error);
       alert('저장에 실패했습니다.');
     }
   };
@@ -532,7 +521,6 @@ const PortfolioManager = () => {
       });
       alert('운용현황이 저장되었습니다.');
     } catch (error) {
-      // // console.error('운용현황 저장 오류:', error);
       alert('운용현황 저장에 실패했습니다.');
     }
   };
@@ -544,7 +532,6 @@ const PortfolioManager = () => {
       alert('라벨이 저장되었습니다.');
       setPortfolioInfoModalOpen(false);
     } catch (error) {
-      // // console.error('라벨 저장 오류:', error);
       alert('라벨 저장에 실패했습니다.');
     }
   };

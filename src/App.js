@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -26,9 +26,10 @@ function App() {
     setLanguage(lang);
   };
 
-  // Portfolio 이미지 preload - 홈페이지 로드 2초 후 시작
+  // Portfolio 이미지 preload - 포트폴리오 페이지는 lazy loading으로 최적화됨
   useEffect(() => {
-    startDelayedPreload(2000);
+    // 포트폴리오 이외의 이미지만 프리로드 (500ms 지연으로 초기 로딩 방해하지 않음)
+    startDelayedPreload(500);
   }, []);
 
   return (
@@ -128,6 +129,9 @@ function App() {
           
           {/* Admin Routes */}
           <Route path="/admin/*" element={<AdminApp />} />
+          
+          {/* 404 Catch-all: 존재하지 않는 모든 경로를 메인으로 리다이렉트 */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>

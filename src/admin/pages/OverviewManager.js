@@ -41,7 +41,6 @@ const OverviewManager = () => {
         });
       }
     } catch (error) {
-      // console.error('Overview 데이터 로딩 오류:', error);
       setOverviewData({
         subtitleKo: '',
         subtitleEn: '',
@@ -63,7 +62,6 @@ const OverviewManager = () => {
       }
       alert('저장되었습니다.');
     } catch (error) {
-      // console.error('저장 오류:', error);
       alert('저장에 실패했습니다.');
     } finally {
       setSaving(false);

@@ -114,12 +114,10 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
             imageId: result.imageId
           }]);
         } else {
-          // console.error('이미지 업로드 실패:', result.error);
           alert(`이미지 업로드 실패: ${result.error}`);
         }
       }
     } catch (error) {
-      // console.error('이미지 업로드 오류:', error);
       alert('이미지 업로드 중 오류가 발생했습니다.');
     } finally {
       setUploading(false);
@@ -144,12 +142,10 @@ function DisclosureModal({ isOpen, onClose, disclosure, onSave, loading }) {
             fileId: result.fileId
           }]);
         } else {
-          // console.error('파일 업로드 실패:', result.error);
           alert(`파일 업로드 실패: ${result.error}`);
         }
       }
     } catch (error) {
-      // console.error('파일 업로드 오류:', error);
       alert('파일 업로드 중 오류가 발생했습니다.');
     } finally {
       setFileUploading(false);
@@ -421,7 +417,6 @@ const DisclosureManager = () => {
         setDisclosureList([]);
       }
     } catch (error) {
-      console.error('공시 로딩 실패:', error);
       setDisclosureList([]);
     } finally {
       setLoading(false);
@@ -449,7 +444,6 @@ const DisclosureManager = () => {
       setEditingDisclosure(null);
       await loadDisclosure();
     } catch (error) {
-      // console.error('공시 저장 실패:', error);
       alert('공시 저장에 실패했습니다.');
     } finally {
       setSaveLoading(false);
@@ -469,7 +463,6 @@ const DisclosureManager = () => {
       alert('공시가 삭제되었습니다.');
       await loadDisclosure();
     } catch (error) {
-      // console.error('공시 삭제 실패:', error);
       alert('공시 삭제에 실패했습니다.');
     }
   };

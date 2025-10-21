@@ -1,0 +1,536 @@
+[debug] [2025-10-21T02:51:59.268Z] ----------------------------------------------------------------------
+[debug] [2025-10-21T02:51:59.270Z] Command:       /opt/homebrew/Cellar/node/24.4.1/bin/node /opt/homebrew/bin/firebase deploy --only hosting
+[debug] [2025-10-21T02:51:59.270Z] CLI Version:   14.15.1
+[debug] [2025-10-21T02:51:59.270Z] Platform:      darwin
+[debug] [2025-10-21T02:51:59.270Z] Node Version:  v24.4.1
+[debug] [2025-10-21T02:51:59.270Z] Time:          Tue Oct 21 2025 11:51:59 GMT+0900 (Korean Standard Time)
+[debug] [2025-10-21T02:51:59.270Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-21T02:51:59.368Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-21T02:51:59.368Z] > authorizing via signed-in user (contact@alolot.kr)
+[debug] [2025-10-21T02:51:59.369Z] [iam] checking project gravity-5e4fa for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-10-21T02:51:59.369Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:51:59.369Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:51:59.370Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions [none]
+[debug] [2025-10-21T02:51:59.370Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions x-goog-quota-user=projects/gravity-5e4fa
+[debug] [2025-10-21T02:51:59.370Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T02:51:59.628Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions 200
+[debug] [2025-10-21T02:51:59.628Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T02:51:59.629Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:51:59.629Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:51:59.629Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa [none]
+[debug] [2025-10-21T02:52:00.100Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa 200
+[debug] [2025-10-21T02:52:00.101Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa {"projectId":"gravity-5e4fa","projectNumber":"929613419421","displayName":"gravity","name":"projects/gravity-5e4fa","resources":{"hostingSite":"gravity-5e4fa"},"state":"ACTIVE","etag":"1_2ea07f0c-7ddf-42be-b693-e961cdc5a4a1"}
+[info] 
+[info] === Deploying to 'gravity-5e4fa'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-10-21T02:52:00.105Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:00.105Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:00.105Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions [none]
+[debug] [2025-10-21T02:52:00.105Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-10-21T02:52:01.572Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions 200
+[debug] [2025-10-21T02:52:01.572Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions {"name":"projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[gravity-5e4fa]: beginning deploy... 
+[info] i  hosting[gravity-5e4fa]: found 13 files in build 
+[debug] [2025-10-21T02:52:01.581Z] [hosting] uploading with 200 concurrency
+[debug] [2025-10-21T02:52:02.013Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.013Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.013Z] [hosting] hash cache [YnVpbGQ] stored for 13 files
+[debug] [2025-10-21T02:52:02.013Z] [hosting][hash queue][FINAL] {"max":431,"min":5,"avg":42.15384615384615,"active":0,"complete":13,"success":13,"errored":0,"retried":0,"total":13,"elapsed":432}
+[debug] [2025-10-21T02:52:02.014Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280:populateFiles [none]
+[debug] [2025-10-21T02:52:02.014Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280:populateFiles {"files":{"/robots.txt":"3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c","/index.html":"65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6","/asset-manifest.json":"ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc","/_redirects":"48de504d92a8c1fa7e8e2e13ee51aab8a45667d535c0386e76bf2c88b4c6c4b7","/sitemap.xml":"20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897","/manifest.json":"d93e5128b00f94f181a49b6ace990457d74f87a7fd7f87d8df6ae0c346158352","/static/js/main.dad3ff01.js.LICENSE.txt":"5ab9aa93d52178d5ed268dc50f0764a0679607ea481be9a494017df316bc523c","/static/js/453.c7e08b54.chunk.js":"fb83b44172b3246af991df5424adeab2a941e27066954661022e51ce5a94cfb8","/static/js/453.c7e08b54.chunk.js.map":"8c46c361da4c4d331406c7e9e576c1c27e1f05a58bf9f696ac783899a102cb24","/static/css/main.284ce6ad.css":"197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4","/static/css/main.284ce6ad.css.map":"7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb","/static/js/main.dad3ff01.js":"3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732","/static/js/main.dad3ff01.js.map":"0819e74debae09ba7f920392d3c1b483ad58ea8d93022b7e780f92579ae44f63"}}
+[debug] [2025-10-21T02:52:02.411Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280:populateFiles 200
+[debug] [2025-10-21T02:52:02.411Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280:populateFiles {"uploadRequiredHashes":["197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4","0819e74debae09ba7f920392d3c1b483ad58ea8d93022b7e780f92579ae44f63","3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c","65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6","7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb","ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc","3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732","20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files"}
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.412Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.413Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.413Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.413Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.413Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.413Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:02.413Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4 [none]
+[debug] [2025-10-21T02:52:02.413Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4 [stream]
+[debug] [2025-10-21T02:52:02.414Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/0819e74debae09ba7f920392d3c1b483ad58ea8d93022b7e780f92579ae44f63 [none]
+[debug] [2025-10-21T02:52:02.414Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/0819e74debae09ba7f920392d3c1b483ad58ea8d93022b7e780f92579ae44f63 [stream]
+[debug] [2025-10-21T02:52:02.414Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c [none]
+[debug] [2025-10-21T02:52:02.414Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c [stream]
+[debug] [2025-10-21T02:52:02.414Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6 [none]
+[debug] [2025-10-21T02:52:02.414Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6 [stream]
+[debug] [2025-10-21T02:52:02.415Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb [none]
+[debug] [2025-10-21T02:52:02.415Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb [stream]
+[debug] [2025-10-21T02:52:02.415Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc [none]
+[debug] [2025-10-21T02:52:02.415Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc [stream]
+[debug] [2025-10-21T02:52:02.416Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732 [none]
+[debug] [2025-10-21T02:52:02.416Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732 [stream]
+[debug] [2025-10-21T02:52:02.416Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897 [none]
+[debug] [2025-10-21T02:52:02.416Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897 [stream]
+[debug] [2025-10-21T02:52:02.417Z] [hosting][populate queue][FINAL] {"max":400,"min":400,"avg":400,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":404}
+[debug] [2025-10-21T02:52:02.417Z] [hosting] uploads queued: 8
+[debug] [2025-10-21T02:52:03.439Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6 200
+[debug] [2025-10-21T02:52:03.439Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6 [stream]
+[debug] [2025-10-21T02:52:03.555Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897 200
+[debug] [2025-10-21T02:52:03.556Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897 [stream]
+[info] i  hosting: uploading new files [2/8] (25%) 
+[debug] [2025-10-21T02:52:03.593Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc 200
+[debug] [2025-10-21T02:52:03.594Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc [stream]
+[debug] [2025-10-21T02:52:03.739Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c 200
+[debug] [2025-10-21T02:52:03.739Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c [stream]
+[debug] [2025-10-21T02:52:03.766Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4 200
+[debug] [2025-10-21T02:52:03.767Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4 [stream]
+[debug] [2025-10-21T02:52:03.784Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb 200
+[debug] [2025-10-21T02:52:03.784Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb [stream]
+[debug] [2025-10-21T02:52:03.807Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732 200
+[debug] [2025-10-21T02:52:03.807Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732 [stream]
+[debug] [2025-10-21T02:52:04.340Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/0819e74debae09ba7f920392d3c1b483ad58ea8d93022b7e780f92579ae44f63 200
+[debug] [2025-10-21T02:52:04.340Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/d27a23808279f280/files/0819e74debae09ba7f920392d3c1b483ad58ea8d93022b7e780f92579ae44f63 [stream]
+[debug] [2025-10-21T02:52:04.341Z] [hosting][upload queue][FINAL] {"max":1928,"min":1028,"avg":1341.375,"active":0,"complete":8,"success":8,"errored":0,"retried":0,"total":8,"elapsed":1929}
+[info] i  hosting: upload complete 
+[info] ✔  hosting[gravity-5e4fa]: file upload complete 
+[debug] [2025-10-21T02:52:04.341Z] [hosting] deploy completed after 2768ms
+[debug] [2025-10-21T02:52:04.341Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png|webp|svg|ico)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(woff|woff2|ttf|otf|eot)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "index.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1; mode=block"
+            }
+          ]
+        }
+      ],
+      "site": "gravity-5e4fa"
+    },
+    "version": "projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280"
+  }
+]
+[info] i  hosting[gravity-5e4fa]: finalizing version... 
+[debug] [2025-10-21T02:52:04.342Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:04.342Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:04.342Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/d27a23808279f280 updateMask=status%2Cconfig
+[debug] [2025-10-21T02:52:04.342Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/d27a23808279f280 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"headers":[{"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)","headers":{"Cache-Control":"public, max-age=31536000, immutable"}},{"glob":"**/*.@(js|css)","headers":{"Cache-Control":"public, max-age=31536000, immutable"}},{"glob":"**/*.@(woff|woff2|ttf|otf|eot)","headers":{"Cache-Control":"public, max-age=31536000, immutable"}},{"glob":"index.html","headers":{"Cache-Control":"no-cache, no-store, must-revalidate"}},{"glob":"**","headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"}}]}}
+[debug] [2025-10-21T02:52:04.782Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/d27a23808279f280 200
+[debug] [2025-10-21T02:52:04.782Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/d27a23808279f280 {"name":"projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T02:52:01.055860Z","createUser":{"email":"contact@alolot.kr"},"finalizeTime":"2025-10-21T02:52:04.740400Z","finalizeUser":{"email":"contact@alolot.kr"}}
+[debug] [2025-10-21T02:52:04.782Z] [hosting] finalized version for gravity-5e4fa:[object Object]
+[info] ✔  hosting[gravity-5e4fa]: version finalized 
+[info] i  hosting[gravity-5e4fa]: releasing new version... 
+[debug] [2025-10-21T02:52:04.783Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:04.783Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:52:04.783Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases versionName=projects%2F929613419421%2Fsites%2Fgravity-5e4fa%2Fversions%2Fd27a23808279f280
+[debug] [2025-10-21T02:52:04.783Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases {}
+[debug] [2025-10-21T02:52:05.497Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases 200
+[debug] [2025-10-21T02:52:05.497Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases {"name":"projects/929613419421/sites/gravity-5e4fa/channels/live/releases/1761015124856000","version":{"name":"projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T02:52:01.055860Z","createUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjWwiYqrTA_m8jMlRe_h9eLZGjnThAVoFOvhcB9T1uMxBiE5ubYKBPyvTLX4z1z3LC5jFZS7KsK-O0OduuHG_nY2bXigZbFy9gLx7ubgj5WXJG3afmrsTvtJ930oy-RFdjFhAhMbz63xOWRMa2LkKd-t4dDOKi2gN-TJRDBhRLo7kYow9ZXYWkfq_TJumsYtZ9FNYkC4CNuwcnTk_9aYIcDwcQYXgZ0HoxixqDMn6zUg6Uoqr_Hd9WCA9fYtqk1MTdiQqTdW_9uL6iMCAzORt9JLa_BlA8NMFJqb8HvMqg4jmGEJUEwqmRHZF_6xkZgh6DqnEtCHsSeE-sE-qH4NReZlrYDnWT26OJYAcxO_FIkC1W_v0m1R5-mqRIBWeFwV7VMxVW3MhYi5DMAlvWcx3SXuyRoq9Moyr6b9Wf6m7t7vRcCJCMr2JROTIqkwkKQyfUf1SGtlkFCfbziNictbAm1mwAnyz5QCL-qO3sChlqvkk1OoS0I3h8eyyxeb5j9W-NwcTPyQ3giAXhqj-RcsmJEmYiLVQwW1BZL1_mrKxTajBBitl3x5ae7ZnPPM3-qPYuhVAPNMZqV_1ASQ9igMViHE3TweKFAuix5fHmmcTV8VXs5O7fnWXKZqUw0EpvnR46VVYO-W4_RB1oVjgUdT8E_qlbRpYixk_fYxgCDpscprC6AhtV2N9qWHf6FsmPpSEuuK41rQjBF_dY77Yl_MP1VC6i0pm3UXQINLBQh1hUffuBHwqy74O3Eckwz5MkSLA4v5_Me_fEYLLd1J7mfkWJKsIm6Hs4CVeAvm-6tBDgg6lDczo6oPOctijDtjimqBVBmi2qmPnZpcQQNJEZEdbsrXa1_DahrC8AtwZjas8fIlXRYhMRPZb7937TsMXVzvJwonn_hZg4lZiP5lUyOBpge48D2pnyioQwnyktSK8EXI-9TnGpPgoDyy_YFq4L7lxKskRnslbg3I14bAaNPzbyXpoGUKXpap5vU-oXTfN4e-NZzM"},"finalizeTime":"2025-10-21T02:52:04.740400Z","finalizeUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjWwiYqrTA_m8jMlRe_h9eLZGjnThAVoFOvhcB9T1uMxBiE5ubYKBPyvTLX4z1z3LC5jFZS7KsK-O0OduuHG_nY2bXigZbFy9gLx7ubgj5WXJG3afmrsTvtJ930oy-RFdjFhAhMbz63xOWRMa2LkKd-t4dDOKi2gN-TJRDBhRLo7kYow9ZXYWkfq_TJumsYtZ9FNYkC4CNuwcnTk_9aYIcDwcQYXgZ0HoxixqDMn6zUg6Uoqr_Hd9WCA9fYtqk1MTdiQqTdW_9uL6iMCAzORt9JLa_BlA8NMFJqb8HvMqg4jmGEJUEwqmRHZF_6xkZgh6DqnEtCHsSeE-sE-qH4NReZlrYDnWT26OJYAcxO_FIkC1W_v0m1R5-mqRIBWeFwV7VMxVW3MhYi5DMAlvWcx3SXuyRoq9Moyr6b9Wf6m7t7vRcCJCMr2JROTIqkwkKQyfUf1SGtlkFCfbziNictbAm1mwAnyz5QCL-qO3sChlqvkk1OoS0I3h8eyyxeb5j9W-NwcTPyQ3giAXhqj-RcsmJEmYiLVQwW1BZL1_mrKxTajBBitl3x5ae7ZnPPM3-qPYuhVAPNMZqV_1ASQ9igMViHE3TweKFAuix5fHmmcTV8VXs5O7fnWXKZqUw0EpvnR46VVYO-W4_RB1oVjgUdT8E_qlbRpYixk_fYxgCDpscprC6AhtV2N9qWHf6FsmPpSEuuK41rQjBF_dY77Yl_MP1VC6i0pm3UXQINLBQh1hUffuBHwqy74O3Eckwz5MkSLA4v5_Me_fEYLLd1J7mfkWJKsIm6Hs4CVeAvm-6tBDgg6lDczo6oPOctijDtjimqBVBmi2qmPnZpcQQNJEZEdbsrXa1_DahrC8AtwZjas8fIlXRYhMRPZb7937TsMXVzvJwonn_hZg4lZiP5lUyOBpge48D2pnyioQwnyktSK8EXI-9TnGpPgoDyy_YFq4L7lxKskRnslbg3I14bAaNPzbyXpoGUKXpap5vU-oXTfN4e-NZzM"}},"type":"DEPLOY","releaseTime":"2025-10-21T02:52:04.856Z","releaseUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjWwiYqrTA_m8jMlRe_h9eLZGjnThAVoFOvhcB9T1uMxBiE5ubYKBPyvTLX4z1z3LC5jFZS7KsK-O0OduuHG_nY2bXigZbFy9gLx7ubgj5WXJG3afmrsTvtJ930oy-RFdjFhAhMbz63xOWRMa2LkKd-t4dDOKi2gN-TJRDBhRLo7kYow9ZXYWkfq_TJumsYtZ9FNYkC4CNuwcnTk_9aYIcDwcQYXgZ0HoxixqDMn6zUg6Uoqr_Hd9WCA9fYtqk1MTdiQqTdW_9uL6iMCAzORt9JLa_BlA8NMFJqb8HvMqg4jmGEJUEwqmRHZF_6xkZgh6DqnEtCHsSeE-sE-qH4NReZlrYDnWT26OJYAcxO_FIkC1W_v0m1R5-mqRIBWeFwV7VMxVW3MhYi5DMAlvWcx3SXuyRoq9Moyr6b9Wf6m7t7vRcCJCMr2JROTIqkwkKQyfUf1SGtlkFCfbziNictbAm1mwAnyz5QCL-qO3sChlqvkk1OoS0I3h8eyyxeb5j9W-NwcTPyQ3giAXhqj-RcsmJEmYiLVQwW1BZL1_mrKxTajBBitl3x5ae7ZnPPM3-qPYuhVAPNMZqV_1ASQ9igMViHE3TweKFAuix5fHmmcTV8VXs5O7fnWXKZqUw0EpvnR46VVYO-W4_RB1oVjgUdT8E_qlbRpYixk_fYxgCDpscprC6AhtV2N9qWHf6FsmPpSEuuK41rQjBF_dY77Yl_MP1VC6i0pm3UXQINLBQh1hUffuBHwqy74O3Eckwz5MkSLA4v5_Me_fEYLLd1J7mfkWJKsIm6Hs4CVeAvm-6tBDgg6lDczo6oPOctijDtjimqBVBmi2qmPnZpcQQNJEZEdbsrXa1_DahrC8AtwZjas8fIlXRYhMRPZb7937TsMXVzvJwonn_hZg4lZiP5lUyOBpge48D2pnyioQwnyktSK8EXI-9TnGpPgoDyy_YFq4L7lxKskRnslbg3I14bAaNPzbyXpoGUKXpap5vU-oXTfN4e-NZzM"}}
+[debug] [2025-10-21T02:52:05.497Z] [hosting] release: {"name":"projects/929613419421/sites/gravity-5e4fa/channels/live/releases/1761015124856000","version":{"name":"projects/929613419421/sites/gravity-5e4fa/versions/d27a23808279f280","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T02:52:01.055860Z","createUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjWwiYqrTA_m8jMlRe_h9eLZGjnThAVoFOvhcB9T1uMxBiE5ubYKBPyvTLX4z1z3LC5jFZS7KsK-O0OduuHG_nY2bXigZbFy9gLx7ubgj5WXJG3afmrsTvtJ930oy-RFdjFhAhMbz63xOWRMa2LkKd-t4dDOKi2gN-TJRDBhRLo7kYow9ZXYWkfq_TJumsYtZ9FNYkC4CNuwcnTk_9aYIcDwcQYXgZ0HoxixqDMn6zUg6Uoqr_Hd9WCA9fYtqk1MTdiQqTdW_9uL6iMCAzORt9JLa_BlA8NMFJqb8HvMqg4jmGEJUEwqmRHZF_6xkZgh6DqnEtCHsSeE-sE-qH4NReZlrYDnWT26OJYAcxO_FIkC1W_v0m1R5-mqRIBWeFwV7VMxVW3MhYi5DMAlvWcx3SXuyRoq9Moyr6b9Wf6m7t7vRcCJCMr2JROTIqkwkKQyfUf1SGtlkFCfbziNictbAm1mwAnyz5QCL-qO3sChlqvkk1OoS0I3h8eyyxeb5j9W-NwcTPyQ3giAXhqj-RcsmJEmYiLVQwW1BZL1_mrKxTajBBitl3x5ae7ZnPPM3-qPYuhVAPNMZqV_1ASQ9igMViHE3TweKFAuix5fHmmcTV8VXs5O7fnWXKZqUw0EpvnR46VVYO-W4_RB1oVjgUdT8E_qlbRpYixk_fYxgCDpscprC6AhtV2N9qWHf6FsmPpSEuuK41rQjBF_dY77Yl_MP1VC6i0pm3UXQINLBQh1hUffuBHwqy74O3Eckwz5MkSLA4v5_Me_fEYLLd1J7mfkWJKsIm6Hs4CVeAvm-6tBDgg6lDczo6oPOctijDtjimqBVBmi2qmPnZpcQQNJEZEdbsrXa1_DahrC8AtwZjas8fIlXRYhMRPZb7937TsMXVzvJwonn_hZg4lZiP5lUyOBpge48D2pnyioQwnyktSK8EXI-9TnGpPgoDyy_YFq4L7lxKskRnslbg3I14bAaNPzbyXpoGUKXpap5vU-oXTfN4e-NZzM"},"finalizeTime":"2025-10-21T02:52:04.740400Z","finalizeUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjWwiYqrTA_m8jMlRe_h9eLZGjnThAVoFOvhcB9T1uMxBiE5ubYKBPyvTLX4z1z3LC5jFZS7KsK-O0OduuHG_nY2bXigZbFy9gLx7ubgj5WXJG3afmrsTvtJ930oy-RFdjFhAhMbz63xOWRMa2LkKd-t4dDOKi2gN-TJRDBhRLo7kYow9ZXYWkfq_TJumsYtZ9FNYkC4CNuwcnTk_9aYIcDwcQYXgZ0HoxixqDMn6zUg6Uoqr_Hd9WCA9fYtqk1MTdiQqTdW_9uL6iMCAzORt9JLa_BlA8NMFJqb8HvMqg4jmGEJUEwqmRHZF_6xkZgh6DqnEtCHsSeE-sE-qH4NReZlrYDnWT26OJYAcxO_FIkC1W_v0m1R5-mqRIBWeFwV7VMxVW3MhYi5DMAlvWcx3SXuyRoq9Moyr6b9Wf6m7t7vRcCJCMr2JROTIqkwkKQyfUf1SGtlkFCfbziNictbAm1mwAnyz5QCL-qO3sChlqvkk1OoS0I3h8eyyxeb5j9W-NwcTPyQ3giAXhqj-RcsmJEmYiLVQwW1BZL1_mrKxTajBBitl3x5ae7ZnPPM3-qPYuhVAPNMZqV_1ASQ9igMViHE3TweKFAuix5fHmmcTV8VXs5O7fnWXKZqUw0EpvnR46VVYO-W4_RB1oVjgUdT8E_qlbRpYixk_fYxgCDpscprC6AhtV2N9qWHf6FsmPpSEuuK41rQjBF_dY77Yl_MP1VC6i0pm3UXQINLBQh1hUffuBHwqy74O3Eckwz5MkSLA4v5_Me_fEYLLd1J7mfkWJKsIm6Hs4CVeAvm-6tBDgg6lDczo6oPOctijDtjimqBVBmi2qmPnZpcQQNJEZEdbsrXa1_DahrC8AtwZjas8fIlXRYhMRPZb7937TsMXVzvJwonn_hZg4lZiP5lUyOBpge48D2pnyioQwnyktSK8EXI-9TnGpPgoDyy_YFq4L7lxKskRnslbg3I14bAaNPzbyXpoGUKXpap5vU-oXTfN4e-NZzM"}},"type":"DEPLOY","releaseTime":"2025-10-21T02:52:04.856Z","releaseUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjWwiYqrTA_m8jMlRe_h9eLZGjnThAVoFOvhcB9T1uMxBiE5ubYKBPyvTLX4z1z3LC5jFZS7KsK-O0OduuHG_nY2bXigZbFy9gLx7ubgj5WXJG3afmrsTvtJ930oy-RFdjFhAhMbz63xOWRMa2LkKd-t4dDOKi2gN-TJRDBhRLo7kYow9ZXYWkfq_TJumsYtZ9FNYkC4CNuwcnTk_9aYIcDwcQYXgZ0HoxixqDMn6zUg6Uoqr_Hd9WCA9fYtqk1MTdiQqTdW_9uL6iMCAzORt9JLa_BlA8NMFJqb8HvMqg4jmGEJUEwqmRHZF_6xkZgh6DqnEtCHsSeE-sE-qH4NReZlrYDnWT26OJYAcxO_FIkC1W_v0m1R5-mqRIBWeFwV7VMxVW3MhYi5DMAlvWcx3SXuyRoq9Moyr6b9Wf6m7t7vRcCJCMr2JROTIqkwkKQyfUf1SGtlkFCfbziNictbAm1mwAnyz5QCL-qO3sChlqvkk1OoS0I3h8eyyxeb5j9W-NwcTPyQ3giAXhqj-RcsmJEmYiLVQwW1BZL1_mrKxTajBBitl3x5ae7ZnPPM3-qPYuhVAPNMZqV_1ASQ9igMViHE3TweKFAuix5fHmmcTV8VXs5O7fnWXKZqUw0EpvnR46VVYO-W4_RB1oVjgUdT8E_qlbRpYixk_fYxgCDpscprC6AhtV2N9qWHf6FsmPpSEuuK41rQjBF_dY77Yl_MP1VC6i0pm3UXQINLBQh1hUffuBHwqy74O3Eckwz5MkSLA4v5_Me_fEYLLd1J7mfkWJKsIm6Hs4CVeAvm-6tBDgg6lDczo6oPOctijDtjimqBVBmi2qmPnZpcQQNJEZEdbsrXa1_DahrC8AtwZjas8fIlXRYhMRPZb7937TsMXVzvJwonn_hZg4lZiP5lUyOBpge48D2pnyioQwnyktSK8EXI-9TnGpPgoDyy_YFq4L7lxKskRnslbg3I14bAaNPzbyXpoGUKXpap5vU-oXTfN4e-NZzM"}}
+[info] ✔  hosting[gravity-5e4fa]: release complete 
+[info] 
+[info] ✔  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/gravity-5e4fa/overview
+[info] Hosting URL: https://gravity-5e4fa.web.app
+[debug] [2025-10-21T02:54:39.852Z] ----------------------------------------------------------------------
+[debug] [2025-10-21T02:54:39.854Z] Command:       /opt/homebrew/Cellar/node/24.4.1/bin/node /opt/homebrew/bin/firebase hosting:channel:list
+[debug] [2025-10-21T02:54:39.854Z] CLI Version:   14.15.1
+[debug] [2025-10-21T02:54:39.854Z] Platform:      darwin
+[debug] [2025-10-21T02:54:39.854Z] Node Version:  v24.4.1
+[debug] [2025-10-21T02:54:39.854Z] Time:          Tue Oct 21 2025 11:54:39 GMT+0900 (Korean Standard Time)
+[debug] [2025-10-21T02:54:39.855Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-21T02:54:39.959Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-21T02:54:39.959Z] > authorizing via signed-in user (contact@alolot.kr)
+[debug] [2025-10-21T02:54:39.959Z] [iam] checking project gravity-5e4fa for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-10-21T02:54:39.960Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:54:39.960Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:54:39.960Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions [none]
+[debug] [2025-10-21T02:54:39.961Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions x-goog-quota-user=projects/gravity-5e4fa
+[debug] [2025-10-21T02:54:39.961Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T02:54:40.249Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions 200
+[debug] [2025-10-21T02:54:40.250Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T02:54:40.250Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:54:40.250Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:54:40.250Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa [none]
+[debug] [2025-10-21T02:54:40.655Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa 200
+[debug] [2025-10-21T02:54:40.655Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa {"projectId":"gravity-5e4fa","projectNumber":"929613419421","displayName":"gravity","name":"projects/gravity-5e4fa","resources":{"hostingSite":"gravity-5e4fa"},"state":"ACTIVE","etag":"1_2ea07f0c-7ddf-42be-b693-e961cdc5a4a1"}
+[debug] [2025-10-21T02:54:40.655Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:54:40.655Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T02:54:40.655Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/gravity-5e4fa/sites/gravity-5e4fa/channels pageToken=&pageSize=10
+[debug] [2025-10-21T02:54:41.323Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/gravity-5e4fa/sites/gravity-5e4fa/channels 200
+[debug] [2025-10-21T02:54:41.323Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/gravity-5e4fa/sites/gravity-5e4fa/channels {"channels":[{"name":"projects/gravity-5e4fa/sites/gravity-5e4fa/channels/live","url":"https://gravity-5e4fa.web.app","release":{"name":"projects/gravity-5e4fa/sites/gravity-5e4fa/channels/live/releases/1761015124856000","version":{"name":"projects/gravity-5e4fa/sites/gravity-5e4fa/versions/d27a23808279f280","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T02:52:01.055860Z","createUser":{"email":"contact@alolot.kr"},"finalizeTime":"2025-10-21T02:52:04.740400Z","finalizeUser":{"email":"contact@alolot.kr"},"fileCount":"15","versionBytes":"1789249"},"type":"DEPLOY","releaseTime":"2025-10-21T02:52:04.856Z","releaseUser":{"email":"contact@alolot.kr"}},"createTime":"2025-08-11T03:50:47.977527704Z","updateTime":"2025-10-21T02:52:04.856Z","retainedReleaseCount":2147483647}]}
+[info] 
+[info] Channels for site gravity-5e4fa
+[info] 
+[info] ┌────────────┬─────────────────────┬───────────────────────────────┬─────────────┐
+│ Channel ID │ Last Release Time   │ URL                           │ Expire Time │
+├────────────┼─────────────────────┼───────────────────────────────┼─────────────┤
+│ live       │ 2025-10-21 11:52:04 │ https://gravity-5e4fa.web.app │ never       │
+└────────────┴─────────────────────┴───────────────────────────────┴─────────────┘
+[debug] [2025-10-21T03:06:37.124Z] ----------------------------------------------------------------------
+[debug] [2025-10-21T03:06:37.126Z] Command:       /opt/homebrew/Cellar/node/24.4.1/bin/node /opt/homebrew/bin/firebase deploy --only hosting
+[debug] [2025-10-21T03:06:37.126Z] CLI Version:   14.15.1
+[debug] [2025-10-21T03:06:37.126Z] Platform:      darwin
+[debug] [2025-10-21T03:06:37.126Z] Node Version:  v24.4.1
+[debug] [2025-10-21T03:06:37.126Z] Time:          Tue Oct 21 2025 12:06:37 GMT+0900 (Korean Standard Time)
+[debug] [2025-10-21T03:06:37.126Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-21T03:06:37.230Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-21T03:06:37.231Z] > authorizing via signed-in user (contact@alolot.kr)
+[debug] [2025-10-21T03:06:37.231Z] [iam] checking project gravity-5e4fa for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-10-21T03:06:37.231Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:37.231Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:37.232Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions [none]
+[debug] [2025-10-21T03:06:37.232Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions x-goog-quota-user=projects/gravity-5e4fa
+[debug] [2025-10-21T03:06:37.232Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T03:06:37.498Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions 200
+[debug] [2025-10-21T03:06:37.499Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T03:06:37.499Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:37.499Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:37.499Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa [none]
+[debug] [2025-10-21T03:06:37.912Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa 200
+[debug] [2025-10-21T03:06:37.912Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa {"projectId":"gravity-5e4fa","projectNumber":"929613419421","displayName":"gravity","name":"projects/gravity-5e4fa","resources":{"hostingSite":"gravity-5e4fa"},"state":"ACTIVE","etag":"1_2ea07f0c-7ddf-42be-b693-e961cdc5a4a1"}
+[info] 
+[info] === Deploying to 'gravity-5e4fa'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-10-21T03:06:37.915Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:37.915Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:37.916Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions [none]
+[debug] [2025-10-21T03:06:37.916Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-10-21T03:06:39.240Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions 200
+[debug] [2025-10-21T03:06:39.240Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions {"name":"projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[gravity-5e4fa]: beginning deploy... 
+[info] i  hosting[gravity-5e4fa]: found 13 files in build 
+[debug] [2025-10-21T03:06:39.252Z] [hosting] uploading with 200 concurrency
+[debug] [2025-10-21T03:06:39.689Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:39.689Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:39.689Z] [hosting] hash cache [YnVpbGQ] stored for 13 files
+[debug] [2025-10-21T03:06:39.689Z] [hosting][hash queue][FINAL] {"max":434,"min":5,"avg":43.46153846153846,"active":0,"complete":13,"success":13,"errored":0,"retried":0,"total":13,"elapsed":437}
+[debug] [2025-10-21T03:06:39.690Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2:populateFiles [none]
+[debug] [2025-10-21T03:06:39.690Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2:populateFiles {"files":{"/robots.txt":"3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c","/_redirects":"48de504d92a8c1fa7e8e2e13ee51aab8a45667d535c0386e76bf2c88b4c6c4b7","/index.html":"65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6","/asset-manifest.json":"ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc","/sitemap.xml":"20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897","/manifest.json":"d93e5128b00f94f181a49b6ace990457d74f87a7fd7f87d8df6ae0c346158352","/static/js/main.dad3ff01.js.LICENSE.txt":"5ab9aa93d52178d5ed268dc50f0764a0679607ea481be9a494017df316bc523c","/static/js/453.c7e08b54.chunk.js":"fb83b44172b3246af991df5424adeab2a941e27066954661022e51ce5a94cfb8","/static/js/453.c7e08b54.chunk.js.map":"8c46c361da4c4d331406c7e9e576c1c27e1f05a58bf9f696ac783899a102cb24","/static/css/main.284ce6ad.css":"197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4","/static/css/main.284ce6ad.css.map":"7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb","/static/js/main.dad3ff01.js":"3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732","/static/js/main.dad3ff01.js.map":"0819e74debae09ba7f920392d3c1b483ad58ea8d93022b7e780f92579ae44f63"}}
+[debug] [2025-10-21T03:06:40.132Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2:populateFiles 200
+[debug] [2025-10-21T03:06:40.133Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2:populateFiles {"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/166ffb947811afa2/files"}
+[debug] [2025-10-21T03:06:40.133Z] [hosting][populate queue][FINAL] {"max":444,"min":444,"avg":444,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":444}
+[debug] [2025-10-21T03:06:40.133Z] [hosting] uploads queued: 0
+[debug] [2025-10-21T03:06:40.133Z] [hosting][upload queue][FINAL] {"max":0,"min":9999999999,"avg":0,"active":0,"complete":0,"success":0,"errored":0,"retried":0,"total":0,"elapsed":1761016000133}
+[info] i  hosting: upload complete 
+[info] ✔  hosting[gravity-5e4fa]: file upload complete 
+[debug] [2025-10-21T03:06:40.133Z] [hosting] deploy completed after 891ms
+[debug] [2025-10-21T03:06:40.134Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png|webp|svg|ico)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(woff|woff2|ttf|otf|eot)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "index.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1; mode=block"
+            }
+          ]
+        }
+      ],
+      "site": "gravity-5e4fa"
+    },
+    "version": "projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2"
+  }
+]
+[info] i  hosting[gravity-5e4fa]: finalizing version... 
+[debug] [2025-10-21T03:06:40.137Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:40.138Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:40.139Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/166ffb947811afa2 updateMask=status%2Cconfig
+[debug] [2025-10-21T03:06:40.139Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/166ffb947811afa2 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"headers":[{"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)","headers":{"Cache-Control":"no-cache, no-store, must-revalidate"}},{"glob":"**/*.@(js|css)","headers":{"Cache-Control":"public, max-age=31536000, immutable"}},{"glob":"**/*.@(woff|woff2|ttf|otf|eot)","headers":{"Cache-Control":"public, max-age=31536000, immutable"}},{"glob":"index.html","headers":{"Cache-Control":"no-cache, no-store, must-revalidate"}},{"glob":"**","headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"}}]}}
+[debug] [2025-10-21T03:06:40.572Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/166ffb947811afa2 200
+[debug] [2025-10-21T03:06:40.572Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/166ffb947811afa2 {"name":"projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-XSS-Protection":"1; mode=block","X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T03:06:38.733340Z","createUser":{"email":"contact@alolot.kr"},"finalizeTime":"2025-10-21T03:06:40.520958Z","finalizeUser":{"email":"contact@alolot.kr"}}
+[debug] [2025-10-21T03:06:40.572Z] [hosting] finalized version for gravity-5e4fa:[object Object]
+[info] ✔  hosting[gravity-5e4fa]: version finalized 
+[info] i  hosting[gravity-5e4fa]: releasing new version... 
+[debug] [2025-10-21T03:06:40.572Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:40.572Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:06:40.572Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases versionName=projects%2F929613419421%2Fsites%2Fgravity-5e4fa%2Fversions%2F166ffb947811afa2
+[debug] [2025-10-21T03:06:40.572Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases {}
+[debug] [2025-10-21T03:06:41.305Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases 200
+[debug] [2025-10-21T03:06:41.305Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases {"name":"projects/929613419421/sites/gravity-5e4fa/channels/live/releases/1761016000620000","version":{"name":"projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T03:06:38.733340Z","createUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjURRj1CrWIyGWPhnzpjBR2j1NrecgX_Sw_yvzP3HpXgykOjoRikKNEuGCoRY1ieu3fdeiVu9eN-Nx5XWNOgzg0mauPBwUxD3ke99ZVlX2rc5Knlvs6qLUal1Zjyd4BbS6LZhRTjg9VHRZMxk-Ra1FWd1eQNoow_dRCI3kNqkxObj6vQ8RJY45V86UpPdU8ZdIPU6xkOpOHoXqHOyApGizN-vBJF2moaJjGJ7dBl86XEQ_mM1c2HlxKS4AR3H2b5Rhy6RtAofYb20xOolJxz7TjE4zrGRGtARhAEsv0-xYuFYvC-kEQHslYazz2DzXSYgudGtJC_bR7LBtRckz_pbXoctVQ0L_Ufd0JuuMXu-iBfUjFR0XbhziGmc6tQisEaTq4Kezaja2aLXzZI4as0FjVIXcdk6gK5o1ohFxCGqoQ8gjkXA7e37ejxBZ8xbal_kpe5U42zLlCCkgpGHOqVLt5Qaqu-XsseEtt1EW8pO--2OuhgOwxOpBKG3fb4l3HSKWQKCsIoeLq8EyVwiXU7-dsyi6NFERFknRkPGsx3R2sUHr3KfTrDKhVc05QA7pitt_wpnehh9jl-8qIhNgvwskpojuEBdOHSihlgxyx64Duw2iCc4gGCO9PsZnB3QysO_jyJtnY6EEwVAiVN24YkqUjhLpD33ybq1aoCyksSxykGxBVXseBXatuQ-0l5AArbUB_QFEkgqLeNKb3rX48F8nDAwL8Yq7FKzj41oy3fFgmnQCcHuWZPkmrcK7mhrRDUrsAPSTRLhjglQUasC6t3Q2EIT634Aem8WTis643FEXP5ZS3HvLbQZPl0p2vYCoqF7GnmrMD_LJCPImSswCZFAZG0wqRVqP1QR_hlxl3yZPgbc2Hbe4RjLhNnuMDHioimRNfWuO4i1C9ddoi39wYBnFnYe5x4gLLUs8Dp-kJe_xmFU9R2v-gILVUxs06L23UB8CSJqF4iAw82vPAO5Id0FkqUZBVGSXOB38_tPfq14AlwAg"},"finalizeTime":"2025-10-21T03:06:40.520958Z","finalizeUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjURRj1CrWIyGWPhnzpjBR2j1NrecgX_Sw_yvzP3HpXgykOjoRikKNEuGCoRY1ieu3fdeiVu9eN-Nx5XWNOgzg0mauPBwUxD3ke99ZVlX2rc5Knlvs6qLUal1Zjyd4BbS6LZhRTjg9VHRZMxk-Ra1FWd1eQNoow_dRCI3kNqkxObj6vQ8RJY45V86UpPdU8ZdIPU6xkOpOHoXqHOyApGizN-vBJF2moaJjGJ7dBl86XEQ_mM1c2HlxKS4AR3H2b5Rhy6RtAofYb20xOolJxz7TjE4zrGRGtARhAEsv0-xYuFYvC-kEQHslYazz2DzXSYgudGtJC_bR7LBtRckz_pbXoctVQ0L_Ufd0JuuMXu-iBfUjFR0XbhziGmc6tQisEaTq4Kezaja2aLXzZI4as0FjVIXcdk6gK5o1ohFxCGqoQ8gjkXA7e37ejxBZ8xbal_kpe5U42zLlCCkgpGHOqVLt5Qaqu-XsseEtt1EW8pO--2OuhgOwxOpBKG3fb4l3HSKWQKCsIoeLq8EyVwiXU7-dsyi6NFERFknRkPGsx3R2sUHr3KfTrDKhVc05QA7pitt_wpnehh9jl-8qIhNgvwskpojuEBdOHSihlgxyx64Duw2iCc4gGCO9PsZnB3QysO_jyJtnY6EEwVAiVN24YkqUjhLpD33ybq1aoCyksSxykGxBVXseBXatuQ-0l5AArbUB_QFEkgqLeNKb3rX48F8nDAwL8Yq7FKzj41oy3fFgmnQCcHuWZPkmrcK7mhrRDUrsAPSTRLhjglQUasC6t3Q2EIT634Aem8WTis643FEXP5ZS3HvLbQZPl0p2vYCoqF7GnmrMD_LJCPImSswCZFAZG0wqRVqP1QR_hlxl3yZPgbc2Hbe4RjLhNnuMDHioimRNfWuO4i1C9ddoi39wYBnFnYe5x4gLLUs8Dp-kJe_xmFU9R2v-gILVUxs06L23UB8CSJqF4iAw82vPAO5Id0FkqUZBVGSXOB38_tPfq14AlwAg"}},"type":"DEPLOY","releaseTime":"2025-10-21T03:06:40.620Z","releaseUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjURRj1CrWIyGWPhnzpjBR2j1NrecgX_Sw_yvzP3HpXgykOjoRikKNEuGCoRY1ieu3fdeiVu9eN-Nx5XWNOgzg0mauPBwUxD3ke99ZVlX2rc5Knlvs6qLUal1Zjyd4BbS6LZhRTjg9VHRZMxk-Ra1FWd1eQNoow_dRCI3kNqkxObj6vQ8RJY45V86UpPdU8ZdIPU6xkOpOHoXqHOyApGizN-vBJF2moaJjGJ7dBl86XEQ_mM1c2HlxKS4AR3H2b5Rhy6RtAofYb20xOolJxz7TjE4zrGRGtARhAEsv0-xYuFYvC-kEQHslYazz2DzXSYgudGtJC_bR7LBtRckz_pbXoctVQ0L_Ufd0JuuMXu-iBfUjFR0XbhziGmc6tQisEaTq4Kezaja2aLXzZI4as0FjVIXcdk6gK5o1ohFxCGqoQ8gjkXA7e37ejxBZ8xbal_kpe5U42zLlCCkgpGHOqVLt5Qaqu-XsseEtt1EW8pO--2OuhgOwxOpBKG3fb4l3HSKWQKCsIoeLq8EyVwiXU7-dsyi6NFERFknRkPGsx3R2sUHr3KfTrDKhVc05QA7pitt_wpnehh9jl-8qIhNgvwskpojuEBdOHSihlgxyx64Duw2iCc4gGCO9PsZnB3QysO_jyJtnY6EEwVAiVN24YkqUjhLpD33ybq1aoCyksSxykGxBVXseBXatuQ-0l5AArbUB_QFEkgqLeNKb3rX48F8nDAwL8Yq7FKzj41oy3fFgmnQCcHuWZPkmrcK7mhrRDUrsAPSTRLhjglQUasC6t3Q2EIT634Aem8WTis643FEXP5ZS3HvLbQZPl0p2vYCoqF7GnmrMD_LJCPImSswCZFAZG0wqRVqP1QR_hlxl3yZPgbc2Hbe4RjLhNnuMDHioimRNfWuO4i1C9ddoi39wYBnFnYe5x4gLLUs8Dp-kJe_xmFU9R2v-gILVUxs06L23UB8CSJqF4iAw82vPAO5Id0FkqUZBVGSXOB38_tPfq14AlwAg"}}
+[debug] [2025-10-21T03:06:41.306Z] [hosting] release: {"name":"projects/929613419421/sites/gravity-5e4fa/channels/live/releases/1761016000620000","version":{"name":"projects/929613419421/sites/gravity-5e4fa/versions/166ffb947811afa2","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T03:06:38.733340Z","createUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjURRj1CrWIyGWPhnzpjBR2j1NrecgX_Sw_yvzP3HpXgykOjoRikKNEuGCoRY1ieu3fdeiVu9eN-Nx5XWNOgzg0mauPBwUxD3ke99ZVlX2rc5Knlvs6qLUal1Zjyd4BbS6LZhRTjg9VHRZMxk-Ra1FWd1eQNoow_dRCI3kNqkxObj6vQ8RJY45V86UpPdU8ZdIPU6xkOpOHoXqHOyApGizN-vBJF2moaJjGJ7dBl86XEQ_mM1c2HlxKS4AR3H2b5Rhy6RtAofYb20xOolJxz7TjE4zrGRGtARhAEsv0-xYuFYvC-kEQHslYazz2DzXSYgudGtJC_bR7LBtRckz_pbXoctVQ0L_Ufd0JuuMXu-iBfUjFR0XbhziGmc6tQisEaTq4Kezaja2aLXzZI4as0FjVIXcdk6gK5o1ohFxCGqoQ8gjkXA7e37ejxBZ8xbal_kpe5U42zLlCCkgpGHOqVLt5Qaqu-XsseEtt1EW8pO--2OuhgOwxOpBKG3fb4l3HSKWQKCsIoeLq8EyVwiXU7-dsyi6NFERFknRkPGsx3R2sUHr3KfTrDKhVc05QA7pitt_wpnehh9jl-8qIhNgvwskpojuEBdOHSihlgxyx64Duw2iCc4gGCO9PsZnB3QysO_jyJtnY6EEwVAiVN24YkqUjhLpD33ybq1aoCyksSxykGxBVXseBXatuQ-0l5AArbUB_QFEkgqLeNKb3rX48F8nDAwL8Yq7FKzj41oy3fFgmnQCcHuWZPkmrcK7mhrRDUrsAPSTRLhjglQUasC6t3Q2EIT634Aem8WTis643FEXP5ZS3HvLbQZPl0p2vYCoqF7GnmrMD_LJCPImSswCZFAZG0wqRVqP1QR_hlxl3yZPgbc2Hbe4RjLhNnuMDHioimRNfWuO4i1C9ddoi39wYBnFnYe5x4gLLUs8Dp-kJe_xmFU9R2v-gILVUxs06L23UB8CSJqF4iAw82vPAO5Id0FkqUZBVGSXOB38_tPfq14AlwAg"},"finalizeTime":"2025-10-21T03:06:40.520958Z","finalizeUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjURRj1CrWIyGWPhnzpjBR2j1NrecgX_Sw_yvzP3HpXgykOjoRikKNEuGCoRY1ieu3fdeiVu9eN-Nx5XWNOgzg0mauPBwUxD3ke99ZVlX2rc5Knlvs6qLUal1Zjyd4BbS6LZhRTjg9VHRZMxk-Ra1FWd1eQNoow_dRCI3kNqkxObj6vQ8RJY45V86UpPdU8ZdIPU6xkOpOHoXqHOyApGizN-vBJF2moaJjGJ7dBl86XEQ_mM1c2HlxKS4AR3H2b5Rhy6RtAofYb20xOolJxz7TjE4zrGRGtARhAEsv0-xYuFYvC-kEQHslYazz2DzXSYgudGtJC_bR7LBtRckz_pbXoctVQ0L_Ufd0JuuMXu-iBfUjFR0XbhziGmc6tQisEaTq4Kezaja2aLXzZI4as0FjVIXcdk6gK5o1ohFxCGqoQ8gjkXA7e37ejxBZ8xbal_kpe5U42zLlCCkgpGHOqVLt5Qaqu-XsseEtt1EW8pO--2OuhgOwxOpBKG3fb4l3HSKWQKCsIoeLq8EyVwiXU7-dsyi6NFERFknRkPGsx3R2sUHr3KfTrDKhVc05QA7pitt_wpnehh9jl-8qIhNgvwskpojuEBdOHSihlgxyx64Duw2iCc4gGCO9PsZnB3QysO_jyJtnY6EEwVAiVN24YkqUjhLpD33ybq1aoCyksSxykGxBVXseBXatuQ-0l5AArbUB_QFEkgqLeNKb3rX48F8nDAwL8Yq7FKzj41oy3fFgmnQCcHuWZPkmrcK7mhrRDUrsAPSTRLhjglQUasC6t3Q2EIT634Aem8WTis643FEXP5ZS3HvLbQZPl0p2vYCoqF7GnmrMD_LJCPImSswCZFAZG0wqRVqP1QR_hlxl3yZPgbc2Hbe4RjLhNnuMDHioimRNfWuO4i1C9ddoi39wYBnFnYe5x4gLLUs8Dp-kJe_xmFU9R2v-gILVUxs06L23UB8CSJqF4iAw82vPAO5Id0FkqUZBVGSXOB38_tPfq14AlwAg"}},"type":"DEPLOY","releaseTime":"2025-10-21T03:06:40.620Z","releaseUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjURRj1CrWIyGWPhnzpjBR2j1NrecgX_Sw_yvzP3HpXgykOjoRikKNEuGCoRY1ieu3fdeiVu9eN-Nx5XWNOgzg0mauPBwUxD3ke99ZVlX2rc5Knlvs6qLUal1Zjyd4BbS6LZhRTjg9VHRZMxk-Ra1FWd1eQNoow_dRCI3kNqkxObj6vQ8RJY45V86UpPdU8ZdIPU6xkOpOHoXqHOyApGizN-vBJF2moaJjGJ7dBl86XEQ_mM1c2HlxKS4AR3H2b5Rhy6RtAofYb20xOolJxz7TjE4zrGRGtARhAEsv0-xYuFYvC-kEQHslYazz2DzXSYgudGtJC_bR7LBtRckz_pbXoctVQ0L_Ufd0JuuMXu-iBfUjFR0XbhziGmc6tQisEaTq4Kezaja2aLXzZI4as0FjVIXcdk6gK5o1ohFxCGqoQ8gjkXA7e37ejxBZ8xbal_kpe5U42zLlCCkgpGHOqVLt5Qaqu-XsseEtt1EW8pO--2OuhgOwxOpBKG3fb4l3HSKWQKCsIoeLq8EyVwiXU7-dsyi6NFERFknRkPGsx3R2sUHr3KfTrDKhVc05QA7pitt_wpnehh9jl-8qIhNgvwskpojuEBdOHSihlgxyx64Duw2iCc4gGCO9PsZnB3QysO_jyJtnY6EEwVAiVN24YkqUjhLpD33ybq1aoCyksSxykGxBVXseBXatuQ-0l5AArbUB_QFEkgqLeNKb3rX48F8nDAwL8Yq7FKzj41oy3fFgmnQCcHuWZPkmrcK7mhrRDUrsAPSTRLhjglQUasC6t3Q2EIT634Aem8WTis643FEXP5ZS3HvLbQZPl0p2vYCoqF7GnmrMD_LJCPImSswCZFAZG0wqRVqP1QR_hlxl3yZPgbc2Hbe4RjLhNnuMDHioimRNfWuO4i1C9ddoi39wYBnFnYe5x4gLLUs8Dp-kJe_xmFU9R2v-gILVUxs06L23UB8CSJqF4iAw82vPAO5Id0FkqUZBVGSXOB38_tPfq14AlwAg"}}
+[info] ✔  hosting[gravity-5e4fa]: release complete 
+[info] 
+[info] ✔  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/gravity-5e4fa/overview
+[info] Hosting URL: https://gravity-5e4fa.web.app
+[debug] [2025-10-21T03:12:02.244Z] ----------------------------------------------------------------------
+[debug] [2025-10-21T03:12:02.246Z] Command:       /opt/homebrew/Cellar/node/24.4.1/bin/node /opt/homebrew/bin/firebase deploy --only hosting
+[debug] [2025-10-21T03:12:02.246Z] CLI Version:   14.15.1
+[debug] [2025-10-21T03:12:02.246Z] Platform:      darwin
+[debug] [2025-10-21T03:12:02.246Z] Node Version:  v24.4.1
+[debug] [2025-10-21T03:12:02.246Z] Time:          Tue Oct 21 2025 12:12:02 GMT+0900 (Korean Standard Time)
+[debug] [2025-10-21T03:12:02.246Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-21T03:12:02.346Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-21T03:12:02.347Z] > authorizing via signed-in user (contact@alolot.kr)
+[debug] [2025-10-21T03:12:02.347Z] [iam] checking project gravity-5e4fa for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-10-21T03:12:02.347Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:02.347Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:02.348Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions [none]
+[debug] [2025-10-21T03:12:02.348Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions x-goog-quota-user=projects/gravity-5e4fa
+[debug] [2025-10-21T03:12:02.348Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T03:12:02.636Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions 200
+[debug] [2025-10-21T03:12:02.636Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gravity-5e4fa:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-10-21T03:12:02.636Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:02.637Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:02.637Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa [none]
+[debug] [2025-10-21T03:12:03.068Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa 200
+[debug] [2025-10-21T03:12:03.068Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gravity-5e4fa {"projectId":"gravity-5e4fa","projectNumber":"929613419421","displayName":"gravity","name":"projects/gravity-5e4fa","resources":{"hostingSite":"gravity-5e4fa"},"state":"ACTIVE","etag":"1_2ea07f0c-7ddf-42be-b693-e961cdc5a4a1"}
+[info] 
+[info] === Deploying to 'gravity-5e4fa'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2025-10-21T03:12:03.071Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:03.071Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:03.071Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions [none]
+[debug] [2025-10-21T03:12:03.071Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2025-10-21T03:12:04.133Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions 200
+[debug] [2025-10-21T03:12:04.133Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions {"name":"projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[gravity-5e4fa]: beginning deploy... 
+[info] i  hosting[gravity-5e4fa]: found 13 files in build 
+[debug] [2025-10-21T03:12:04.144Z] [hosting] uploading with 200 concurrency
+[debug] [2025-10-21T03:12:04.579Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:04.579Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:04.580Z] [hosting] hash cache [YnVpbGQ] stored for 13 files
+[debug] [2025-10-21T03:12:04.580Z] [hosting][hash queue][FINAL] {"max":432,"min":5,"avg":43.30769230769231,"active":0,"complete":13,"success":13,"errored":0,"retried":0,"total":13,"elapsed":434}
+[debug] [2025-10-21T03:12:04.580Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e:populateFiles [none]
+[debug] [2025-10-21T03:12:04.580Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e:populateFiles {"files":{"/robots.txt":"3173d7fe7e80e10bfbbe4523155b363a9c4c6c46aa2c5ab47f88b8476c76ee3c","/index.html":"65107bdc4058ca6fe066011218cacd7016b438765d23d24c9d169ff47bef64b6","/asset-manifest.json":"ba7117a54fb5bac82b76ae1e5db41dbcaefcca27520e9c755ad3a2a2fb10e6dc","/_redirects":"48de504d92a8c1fa7e8e2e13ee51aab8a45667d535c0386e76bf2c88b4c6c4b7","/static/js/main.dad3ff01.js.LICENSE.txt":"5ab9aa93d52178d5ed268dc50f0764a0679607ea481be9a494017df316bc523c","/static/js/453.c7e08b54.chunk.js":"fb83b44172b3246af991df5424adeab2a941e27066954661022e51ce5a94cfb8","/static/js/453.c7e08b54.chunk.js.map":"8c46c361da4c4d331406c7e9e576c1c27e1f05a58bf9f696ac783899a102cb24","/manifest.json":"d93e5128b00f94f181a49b6ace990457d74f87a7fd7f87d8df6ae0c346158352","/sitemap.xml":"20892ee47e604c97767de15b9abc38fdf4736e417ed14336e6eab5b6c0218897","/static/css/main.284ce6ad.css":"197c9f1f0d5a165d21563b0b0cdc0260211c093eeba221d91629343a682c21e4","/static/css/main.284ce6ad.css.map":"7562eefbfa2a0d5fcd6ee0751b5ebbd7166c0f924d6360cdde2249d58fa201cb","/static/js/main.dad3ff01.js":"3f22f7a12bb3141e26f1e22fbac6f6e3e74eadce154be097c3e4ccdc251be732","/static/js/main.dad3ff01.js.map":"0852645f085ece0c2b01b3778cf3041d28b5d14ffe5349f68171a04d5b77ac31"}}
+[debug] [2025-10-21T03:12:04.993Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e:populateFiles 200
+[debug] [2025-10-21T03:12:04.993Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e:populateFiles {"uploadRequiredHashes":["0852645f085ece0c2b01b3778cf3041d28b5d14ffe5349f68171a04d5b77ac31"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/132de9209df9f77e/files"}
+[debug] [2025-10-21T03:12:04.994Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:04.994Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:04.994Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/132de9209df9f77e/files/0852645f085ece0c2b01b3778cf3041d28b5d14ffe5349f68171a04d5b77ac31 [none]
+[debug] [2025-10-21T03:12:04.994Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/132de9209df9f77e/files/0852645f085ece0c2b01b3778cf3041d28b5d14ffe5349f68171a04d5b77ac31 [stream]
+[debug] [2025-10-21T03:12:04.996Z] [hosting][populate queue][FINAL] {"max":415,"min":415,"avg":415,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":417}
+[debug] [2025-10-21T03:12:04.996Z] [hosting] uploads queued: 1
+[info] i  hosting: uploading new files [0/1] (0%) 
+[debug] [2025-10-21T03:12:06.537Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/132de9209df9f77e/files/0852645f085ece0c2b01b3778cf3041d28b5d14ffe5349f68171a04d5b77ac31 200
+[debug] [2025-10-21T03:12:06.537Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/gravity-5e4fa/versions/132de9209df9f77e/files/0852645f085ece0c2b01b3778cf3041d28b5d14ffe5349f68171a04d5b77ac31 [stream]
+[debug] [2025-10-21T03:12:06.537Z] [hosting][upload queue][FINAL] {"max":1544,"min":1544,"avg":1544,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1544}
+[info] i  hosting: upload complete 
+[info] ✔  hosting[gravity-5e4fa]: file upload complete 
+[debug] [2025-10-21T03:12:06.537Z] [hosting] deploy completed after 2402ms
+[debug] [2025-10-21T03:12:06.537Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(jpg|jpeg|gif|png|webp|svg|ico)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(js|css)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(woff|woff2|ttf|otf|eot)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
+          "source": "index.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "1; mode=block"
+            }
+          ]
+        }
+      ],
+      "site": "gravity-5e4fa"
+    },
+    "version": "projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e"
+  }
+]
+[info] i  hosting[gravity-5e4fa]: finalizing version... 
+[debug] [2025-10-21T03:12:06.538Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:06.538Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:06.538Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/132de9209df9f77e updateMask=status%2Cconfig
+[debug] [2025-10-21T03:12:06.538Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/132de9209df9f77e {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}],"headers":[{"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)","headers":{"Cache-Control":"no-cache, no-store, must-revalidate"}},{"glob":"**/*.@(js|css)","headers":{"Cache-Control":"public, max-age=31536000, immutable"}},{"glob":"**/*.@(woff|woff2|ttf|otf|eot)","headers":{"Cache-Control":"public, max-age=31536000, immutable"}},{"glob":"index.html","headers":{"Cache-Control":"no-cache, no-store, must-revalidate"}},{"glob":"**","headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"}}]}}
+[debug] [2025-10-21T03:12:07.182Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/132de9209df9f77e 200
+[debug] [2025-10-21T03:12:07.182Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/versions/132de9209df9f77e {"name":"projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-XSS-Protection":"1; mode=block","X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T03:12:03.675250Z","createUser":{"email":"contact@alolot.kr"},"finalizeTime":"2025-10-21T03:12:07.136968Z","finalizeUser":{"email":"contact@alolot.kr"}}
+[debug] [2025-10-21T03:12:07.182Z] [hosting] finalized version for gravity-5e4fa:[object Object]
+[info] ✔  hosting[gravity-5e4fa]: version finalized 
+[info] i  hosting[gravity-5e4fa]: releasing new version... 
+[debug] [2025-10-21T03:12:07.183Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:07.183Z] Checked if tokens are valid: true, expires at: 1761018644014
+[debug] [2025-10-21T03:12:07.183Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases versionName=projects%2F929613419421%2Fsites%2Fgravity-5e4fa%2Fversions%2F132de9209df9f77e
+[debug] [2025-10-21T03:12:07.183Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases {}
+[debug] [2025-10-21T03:12:07.692Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases 200
+[debug] [2025-10-21T03:12:07.692Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gravity-5e4fa/channels/live/releases {"name":"projects/929613419421/sites/gravity-5e4fa/channels/live/releases/1761016327046000","version":{"name":"projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T03:12:03.675250Z","createUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjXU8MBvNvU0_lPEe0yKdn1th0IurJE_P3NoOrFWbPZeSYK9kdhJpnqiIcxokGMRVaCwevuf2lJK6dGrk3Zq54orJ45dBmAK0EUkoK2pDed-EgJ8d2IjcloyVi6jXKWS8-z84dLTx7LX-YW48bKgLE_ITnjeKBST-jcFAF9nxaaoL1seO5J_S8ftgGxnIjydfgpQ7QRh4-RzA0WolN1bu5h0XIkb7IDM3zCgE1vrxz8sLFeLEh-mBVX1V56cCAejZcQT3G28y3x7dyda0p-kWh490v4rIHCk9VCBSpfp6b3d990AjdtHuBYolfSsBBHsPWL18hrxsWxEvSmMfQE4u8RnXUFeGLr6EXbXMgLJPbS1DwJ6-LFt-Eie1MPy20RFEUKIGdygFP98gsBr6wWKdaEuuU1y0ls3wB6-87hHd-mk-ogy-_K6ZDsDq93dYY8fXck_nqKbzNSi-odsq4sasszMWcQxal6Ci9l245KUhdD8EFdv_-nQEA6c2dNffZnD2iOl8tYqgRaox3jXill5E5C9B0VliIMgJsZFdc3ccn9fXipXKWlLBH-4wvsVpi4rzj8ShXzAGOPYOi15nROlnHHJkus0UmXDnYnjj6Ffn_VITFVMxfEe312-mw1OBifzUEvywl7CjIt8bfcQrRppXVU03tJV2hgCCCUbz5TYC6Edoc53jJRWNSlemToAj06VUXAG-pTiUA_7P2t_5wTblckAhyq0lENUYhTXr6dVpbXqRGuEwntFYjAnRXWehu24k_poyuJLm2bVE7Jy7OnHjjkGi7ZdEExjdWm3YaMdbjdOy4CxK2a5Y5cknabIXbhxx8r_GmxYfIpaq-3ykN2XE-rB8jzwv34TZEfrsk525U23Q8yXDJ4iFtnY5sp6zh6LLXNeSdPH6bsQhDJ0uZPn6t27s0aX1loEd-PZ6oqVEGZciQaKD0RBGvUO9ohy3e5vaneYkI7qxdGobA5swiORpDbobvNrNxr36CdivamCW7W6Goet"},"finalizeTime":"2025-10-21T03:12:07.136968Z","finalizeUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjXU8MBvNvU0_lPEe0yKdn1th0IurJE_P3NoOrFWbPZeSYK9kdhJpnqiIcxokGMRVaCwevuf2lJK6dGrk3Zq54orJ45dBmAK0EUkoK2pDed-EgJ8d2IjcloyVi6jXKWS8-z84dLTx7LX-YW48bKgLE_ITnjeKBST-jcFAF9nxaaoL1seO5J_S8ftgGxnIjydfgpQ7QRh4-RzA0WolN1bu5h0XIkb7IDM3zCgE1vrxz8sLFeLEh-mBVX1V56cCAejZcQT3G28y3x7dyda0p-kWh490v4rIHCk9VCBSpfp6b3d990AjdtHuBYolfSsBBHsPWL18hrxsWxEvSmMfQE4u8RnXUFeGLr6EXbXMgLJPbS1DwJ6-LFt-Eie1MPy20RFEUKIGdygFP98gsBr6wWKdaEuuU1y0ls3wB6-87hHd-mk-ogy-_K6ZDsDq93dYY8fXck_nqKbzNSi-odsq4sasszMWcQxal6Ci9l245KUhdD8EFdv_-nQEA6c2dNffZnD2iOl8tYqgRaox3jXill5E5C9B0VliIMgJsZFdc3ccn9fXipXKWlLBH-4wvsVpi4rzj8ShXzAGOPYOi15nROlnHHJkus0UmXDnYnjj6Ffn_VITFVMxfEe312-mw1OBifzUEvywl7CjIt8bfcQrRppXVU03tJV2hgCCCUbz5TYC6Edoc53jJRWNSlemToAj06VUXAG-pTiUA_7P2t_5wTblckAhyq0lENUYhTXr6dVpbXqRGuEwntFYjAnRXWehu24k_poyuJLm2bVE7Jy7OnHjjkGi7ZdEExjdWm3YaMdbjdOy4CxK2a5Y5cknabIXbhxx8r_GmxYfIpaq-3ykN2XE-rB8jzwv34TZEfrsk525U23Q8yXDJ4iFtnY5sp6zh6LLXNeSdPH6bsQhDJ0uZPn6t27s0aX1loEd-PZ6oqVEGZciQaKD0RBGvUO9ohy3e5vaneYkI7qxdGobA5swiORpDbobvNrNxr36CdivamCW7W6Goet"}},"type":"DEPLOY","releaseTime":"2025-10-21T03:12:07.046Z","releaseUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjXU8MBvNvU0_lPEe0yKdn1th0IurJE_P3NoOrFWbPZeSYK9kdhJpnqiIcxokGMRVaCwevuf2lJK6dGrk3Zq54orJ45dBmAK0EUkoK2pDed-EgJ8d2IjcloyVi6jXKWS8-z84dLTx7LX-YW48bKgLE_ITnjeKBST-jcFAF9nxaaoL1seO5J_S8ftgGxnIjydfgpQ7QRh4-RzA0WolN1bu5h0XIkb7IDM3zCgE1vrxz8sLFeLEh-mBVX1V56cCAejZcQT3G28y3x7dyda0p-kWh490v4rIHCk9VCBSpfp6b3d990AjdtHuBYolfSsBBHsPWL18hrxsWxEvSmMfQE4u8RnXUFeGLr6EXbXMgLJPbS1DwJ6-LFt-Eie1MPy20RFEUKIGdygFP98gsBr6wWKdaEuuU1y0ls3wB6-87hHd-mk-ogy-_K6ZDsDq93dYY8fXck_nqKbzNSi-odsq4sasszMWcQxal6Ci9l245KUhdD8EFdv_-nQEA6c2dNffZnD2iOl8tYqgRaox3jXill5E5C9B0VliIMgJsZFdc3ccn9fXipXKWlLBH-4wvsVpi4rzj8ShXzAGOPYOi15nROlnHHJkus0UmXDnYnjj6Ffn_VITFVMxfEe312-mw1OBifzUEvywl7CjIt8bfcQrRppXVU03tJV2hgCCCUbz5TYC6Edoc53jJRWNSlemToAj06VUXAG-pTiUA_7P2t_5wTblckAhyq0lENUYhTXr6dVpbXqRGuEwntFYjAnRXWehu24k_poyuJLm2bVE7Jy7OnHjjkGi7ZdEExjdWm3YaMdbjdOy4CxK2a5Y5cknabIXbhxx8r_GmxYfIpaq-3ykN2XE-rB8jzwv34TZEfrsk525U23Q8yXDJ4iFtnY5sp6zh6LLXNeSdPH6bsQhDJ0uZPn6t27s0aX1loEd-PZ6oqVEGZciQaKD0RBGvUO9ohy3e5vaneYkI7qxdGobA5swiORpDbobvNrNxr36CdivamCW7W6Goet"}}
+[debug] [2025-10-21T03:12:07.692Z] [hosting] release: {"name":"projects/929613419421/sites/gravity-5e4fa/channels/live/releases/1761016327046000","version":{"name":"projects/929613419421/sites/gravity-5e4fa/versions/132de9209df9f77e","status":"FINALIZED","config":{"headers":[{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"**/*.@(jpg|jpeg|gif|png|webp|svg|ico)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(js|css)"},{"headers":{"Cache-Control":"public, max-age=31536000, immutable"},"glob":"**/*.@(woff|woff2|ttf|otf|eot)"},{"headers":{"Cache-Control":"no-cache, no-store, must-revalidate"},"glob":"index.html"},{"headers":{"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","X-XSS-Protection":"1; mode=block"},"glob":"**"}],"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2025-10-21T03:12:03.675250Z","createUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjXU8MBvNvU0_lPEe0yKdn1th0IurJE_P3NoOrFWbPZeSYK9kdhJpnqiIcxokGMRVaCwevuf2lJK6dGrk3Zq54orJ45dBmAK0EUkoK2pDed-EgJ8d2IjcloyVi6jXKWS8-z84dLTx7LX-YW48bKgLE_ITnjeKBST-jcFAF9nxaaoL1seO5J_S8ftgGxnIjydfgpQ7QRh4-RzA0WolN1bu5h0XIkb7IDM3zCgE1vrxz8sLFeLEh-mBVX1V56cCAejZcQT3G28y3x7dyda0p-kWh490v4rIHCk9VCBSpfp6b3d990AjdtHuBYolfSsBBHsPWL18hrxsWxEvSmMfQE4u8RnXUFeGLr6EXbXMgLJPbS1DwJ6-LFt-Eie1MPy20RFEUKIGdygFP98gsBr6wWKdaEuuU1y0ls3wB6-87hHd-mk-ogy-_K6ZDsDq93dYY8fXck_nqKbzNSi-odsq4sasszMWcQxal6Ci9l245KUhdD8EFdv_-nQEA6c2dNffZnD2iOl8tYqgRaox3jXill5E5C9B0VliIMgJsZFdc3ccn9fXipXKWlLBH-4wvsVpi4rzj8ShXzAGOPYOi15nROlnHHJkus0UmXDnYnjj6Ffn_VITFVMxfEe312-mw1OBifzUEvywl7CjIt8bfcQrRppXVU03tJV2hgCCCUbz5TYC6Edoc53jJRWNSlemToAj06VUXAG-pTiUA_7P2t_5wTblckAhyq0lENUYhTXr6dVpbXqRGuEwntFYjAnRXWehu24k_poyuJLm2bVE7Jy7OnHjjkGi7ZdEExjdWm3YaMdbjdOy4CxK2a5Y5cknabIXbhxx8r_GmxYfIpaq-3ykN2XE-rB8jzwv34TZEfrsk525U23Q8yXDJ4iFtnY5sp6zh6LLXNeSdPH6bsQhDJ0uZPn6t27s0aX1loEd-PZ6oqVEGZciQaKD0RBGvUO9ohy3e5vaneYkI7qxdGobA5swiORpDbobvNrNxr36CdivamCW7W6Goet"},"finalizeTime":"2025-10-21T03:12:07.136968Z","finalizeUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjXU8MBvNvU0_lPEe0yKdn1th0IurJE_P3NoOrFWbPZeSYK9kdhJpnqiIcxokGMRVaCwevuf2lJK6dGrk3Zq54orJ45dBmAK0EUkoK2pDed-EgJ8d2IjcloyVi6jXKWS8-z84dLTx7LX-YW48bKgLE_ITnjeKBST-jcFAF9nxaaoL1seO5J_S8ftgGxnIjydfgpQ7QRh4-RzA0WolN1bu5h0XIkb7IDM3zCgE1vrxz8sLFeLEh-mBVX1V56cCAejZcQT3G28y3x7dyda0p-kWh490v4rIHCk9VCBSpfp6b3d990AjdtHuBYolfSsBBHsPWL18hrxsWxEvSmMfQE4u8RnXUFeGLr6EXbXMgLJPbS1DwJ6-LFt-Eie1MPy20RFEUKIGdygFP98gsBr6wWKdaEuuU1y0ls3wB6-87hHd-mk-ogy-_K6ZDsDq93dYY8fXck_nqKbzNSi-odsq4sasszMWcQxal6Ci9l245KUhdD8EFdv_-nQEA6c2dNffZnD2iOl8tYqgRaox3jXill5E5C9B0VliIMgJsZFdc3ccn9fXipXKWlLBH-4wvsVpi4rzj8ShXzAGOPYOi15nROlnHHJkus0UmXDnYnjj6Ffn_VITFVMxfEe312-mw1OBifzUEvywl7CjIt8bfcQrRppXVU03tJV2hgCCCUbz5TYC6Edoc53jJRWNSlemToAj06VUXAG-pTiUA_7P2t_5wTblckAhyq0lENUYhTXr6dVpbXqRGuEwntFYjAnRXWehu24k_poyuJLm2bVE7Jy7OnHjjkGi7ZdEExjdWm3YaMdbjdOy4CxK2a5Y5cknabIXbhxx8r_GmxYfIpaq-3ykN2XE-rB8jzwv34TZEfrsk525U23Q8yXDJ4iFtnY5sp6zh6LLXNeSdPH6bsQhDJ0uZPn6t27s0aX1loEd-PZ6oqVEGZciQaKD0RBGvUO9ohy3e5vaneYkI7qxdGobA5swiORpDbobvNrNxr36CdivamCW7W6Goet"}},"type":"DEPLOY","releaseTime":"2025-10-21T03:12:07.046Z","releaseUser":{"email":"contact@alolot.kr","imageUrl":"https://lh3.googleusercontent.com/a-/ALV-UjXU8MBvNvU0_lPEe0yKdn1th0IurJE_P3NoOrFWbPZeSYK9kdhJpnqiIcxokGMRVaCwevuf2lJK6dGrk3Zq54orJ45dBmAK0EUkoK2pDed-EgJ8d2IjcloyVi6jXKWS8-z84dLTx7LX-YW48bKgLE_ITnjeKBST-jcFAF9nxaaoL1seO5J_S8ftgGxnIjydfgpQ7QRh4-RzA0WolN1bu5h0XIkb7IDM3zCgE1vrxz8sLFeLEh-mBVX1V56cCAejZcQT3G28y3x7dyda0p-kWh490v4rIHCk9VCBSpfp6b3d990AjdtHuBYolfSsBBHsPWL18hrxsWxEvSmMfQE4u8RnXUFeGLr6EXbXMgLJPbS1DwJ6-LFt-Eie1MPy20RFEUKIGdygFP98gsBr6wWKdaEuuU1y0ls3wB6-87hHd-mk-ogy-_K6ZDsDq93dYY8fXck_nqKbzNSi-odsq4sasszMWcQxal6Ci9l245KUhdD8EFdv_-nQEA6c2dNffZnD2iOl8tYqgRaox3jXill5E5C9B0VliIMgJsZFdc3ccn9fXipXKWlLBH-4wvsVpi4rzj8ShXzAGOPYOi15nROlnHHJkus0UmXDnYnjj6Ffn_VITFVMxfEe312-mw1OBifzUEvywl7CjIt8bfcQrRppXVU03tJV2hgCCCUbz5TYC6Edoc53jJRWNSlemToAj06VUXAG-pTiUA_7P2t_5wTblckAhyq0lENUYhTXr6dVpbXqRGuEwntFYjAnRXWehu24k_poyuJLm2bVE7Jy7OnHjjkGi7ZdEExjdWm3YaMdbjdOy4CxK2a5Y5cknabIXbhxx8r_GmxYfIpaq-3ykN2XE-rB8jzwv34TZEfrsk525U23Q8yXDJ4iFtnY5sp6zh6LLXNeSdPH6bsQhDJ0uZPn6t27s0aX1loEd-PZ6oqVEGZciQaKD0RBGvUO9ohy3e5vaneYkI7qxdGobA5swiORpDbobvNrNxr36CdivamCW7W6Goet"}}
+[info] ✔  hosting[gravity-5e4fa]: release complete 
+[info] 
+[info] ✔  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/gravity-5e4fa/overview
+[info] Hosting URL: https://gravity-5e4fa.web.app

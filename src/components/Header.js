@@ -101,7 +101,12 @@ const Header = ({ language, onLanguageChange }) => {
   };
 
   const handlePageChange = (page) => {
-    navigate(`/${page}`);
+    if (page === '') {
+      // 메인 페이지로 이동 시 # 제거
+      window.location.href = '/';
+    } else {
+      navigate(`/${page}`);
+    }
     setIsMobileMenuOpen(false); // 모바일 메뉴 닫기
     // 페이지 변경 시 메뉴 즉시 닫기
     setIsMenuHovered(false);

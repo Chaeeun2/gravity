@@ -31,7 +31,6 @@ const Login = () => {
       
       navigate('/admin/overview');
     } catch (error) {
-      // console.error('로그인 오류:', error);
       setError(error.message);
     } finally {
       setLoading(false);

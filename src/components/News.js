@@ -99,20 +99,12 @@ const News = ({ language }) => {
       if (result.success) {
         // 중요공지 우선, 그 다음 publishDate 우선으로 정렬
         const sortedData = sortWithImportant(result.data);
-        
-        console.log('Sorted news data:', sortedData.map(item => ({
-          id: item.id,
-          title: item.title,
-          publishDate: item.publishDate,
-          createdAt: item.createdAt
-        })));
-        
+
         setNewsData(sortedData);
       } else {
         setNewsData([]);
       }
     } catch (error) {
-      console.error('뉴스 데이터 로딩 오류:', error);
       setNewsData([]);
     } finally {
       setLoading(false);

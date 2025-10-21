@@ -23,7 +23,6 @@ const Footer = ({ language = 'KO' }) => {
           }
         }
       } catch (error) {
-        // console.error('Contact 데이터 로드 실패:', error);
       } finally {
         setLoading(false);
       }
@@ -54,7 +53,6 @@ const Footer = ({ language = 'KO' }) => {
   // PDF 다운로드 함수
   const handleDownload = async (pdfUrl, filename) => {
     if (!pdfUrl) {
-      // console.error('PDF URL이 없습니다.');
       return;
     }
 
@@ -106,13 +104,11 @@ const Footer = ({ language = 'KO' }) => {
         }, 100);
       }
     } catch (error) {
-      // console.error('다운로드 처리 오류:', error);
       
       // Fallback: 새 탭에서 열기
       try {
         window.open(pdfUrl, '_blank');
       } catch (finalError) {
-        // console.error('최종 fallback도 실패:', finalError);
       }
     }
   };

@@ -34,7 +34,6 @@ const Contact = ({ language }) => {
           setContactData(null);
         }
       } catch (error) {
-        // console.error('Contact 데이터 로딩 오류:', error);
         setContactData(null);
       } finally {
         setLoading(false);

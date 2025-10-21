@@ -1,6 +1,26 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Allow: /
+
+# Allow only pages in sitemap
+Allow: /$
+Allow: /#/overview$
+Allow: /#/leadership$
+Allow: /#/organization$
+Allow: /#/portfolio$
+Allow: /#/investment-strategy$
+Allow: /#/investment-process$
+Allow: /#/risk-compliance$
+Allow: /#/disclosure$
+Allow: /#/news$
+Allow: /#/contact$
+
+# Block all other routes
+Disallow: /admin
+Disallow: /admin/
+Disallow: /test
+Disallow: /#/test
+Disallow: /#/news/
+Disallow: /#/disclosure/
 
 # Sitemap
-Sitemap: https://gravity-am.com/sitemap.xml
+Sitemap: http://www.gravityamc.com/sitemap.xml
