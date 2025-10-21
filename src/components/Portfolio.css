@@ -164,7 +164,6 @@
 }
 
 .portfolio-section {
-  opacity: 0;
   transform: translateY(30px);
   display: grid;
   grid-template-columns: 1fr 5fr;

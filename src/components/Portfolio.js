@@ -46,26 +46,29 @@ const Portfolio = ({ language }) => {
     { id: 'floor', label: 'Floor' }
   ]);
 
+
+
   // Firebase에서 카테고리 데이터 로드
   useEffect(() => {
     const loadCategories = async () => {
       try {
+const defaultCategories = [
+          { id: 'office', label: 'Office' },
+          { id: 'logistics', label: 'Logistics' },
+          { id: 'residence', label: 'Residence' },
+          { id: 'hotel', label: 'Hotel' },
+          { id: 'others', label: 'Others' }
+        ];
+
         if (!db) {
-          // 기본 카테고리 사용
-          setCategories([
-            { id: 'office', label: 'Office' },
-            { id: 'logistics', label: 'Logistics' },
-            { id: 'residence', label: 'Residence' },
-            { id: 'hotel', label: 'Hotel' },
-            { id: 'others', label: 'Others' }
-          ]);
+setCategories(defaultCategories);
           return;
         }
 
-        const categoriesDoc = await getDoc(doc(db, 'portfolio', 'categories'), { source: 'server' });
+        const categoriesDoc = await getDoc(doc(db, 'portfolio', 'categories'));
         if (categoriesDoc.exists()) {
           const categoriesData = categoriesDoc.data().categories || [];
-          // order 필드로 정렬
+// order 필드로 정렬
           const sortedCategories = categoriesData.sort((a, b) => {
             const orderA = a.order !== undefined ? a.order : 999;
             const orderB = b.order !== undefined ? b.order : 999;
@@ -73,17 +76,10 @@ const Portfolio = ({ language }) => {
           });
           setCategories(sortedCategories);
         } else {
-          // 기본 카테고리 사용
-          setCategories([
-            { id: 'office', label: 'Office' },
-            { id: 'logistics', label: 'Logistics' },
-            { id: 'residence', label: 'Residence' },
-            { id: 'hotel', label: 'Hotel' },
-            { id: 'others', label: 'Others' }
-          ]);
+setCategories(defaultCategories);
         }
       } catch (error) {
-        // 기본 카테고리 사용
+// 기본 카테고리 사용
         setCategories([
           { id: 'office', label: 'Office' },
           { id: 'logistics', label: 'Logistics' },
@@ -105,7 +101,7 @@ const Portfolio = ({ language }) => {
         return; // 기본 라벨 사용
       }
 
-      const labelsDoc = await getDoc(doc(db, 'portfolio', 'labels'), { source: 'server' });
+      const labelsDoc = await getDoc(doc(db, 'portfolio', 'labels'));
       if (labelsDoc.exists()) {
         const labelsData = labelsDoc.data();
         if (labelsData.labels && Array.isArray(labelsData.labels)) {
@@ -113,6 +109,7 @@ const Portfolio = ({ language }) => {
         }
       }
           } catch (error) {
+        console.error('[Portfolio] 라벨 로딩 에러:', error);
         // 포트폴리오 라벨 로딩 오류 처리
       // 기본 라벨 사용
     }
@@ -122,15 +119,15 @@ const Portfolio = ({ language }) => {
   useEffect(() => {
     const loadAllData = async () => {
       try {
-        setLoading(true);
+setLoading(true);
         if (!db) {
-          setLoading(false);
+setLoading(false);
           return;
         }
 
-        // 포트폴리오 컬렉션의 모든 문서를 한 번에 가져오기 (캐시 방지)
-        const querySnapshot = await getDocs(collection(db, 'portfolio'), { source: 'server' });
-        const data = querySnapshot.docs.map(doc => ({
+        // 포트폴리오 컬렉션의 모든 문서를 한 번에 가져오기
+const querySnapshot = await getDocs(collection(db, 'portfolio'));
+const data = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
@@ -149,31 +146,36 @@ const Portfolio = ({ language }) => {
         }
 
         // 카테고리별로 데이터 분류
-        const categorizedData = {};
+const categorizedData = {};
         categories.forEach(category => {
           categorizedData[category.id] = [];
         });
-
+let filteredCount = 0;
+        let categorizedCount = 0;
         data.forEach(item => {
           // operational-status, total-amount, categories 등 특별한 문서는 제외
           if (item.id === 'operational-status' || item.id === 'total-amount' || item.id === 'categories') {
+            filteredCount++;
             return;
           }
-          
+
           // 포트폴리오 항목이 아닌 경우 제외 (titleKo나 category가 없는 경우)
           if (!item.titleKo || !item.category) {
+            filteredCount++;
             return;
           }
-          
+
           const category = item.category || 'others';
           if (categorizedData[category]) {
             categorizedData[category].push(item);
+            categorizedCount++;
           } else {
             categorizedData.others.push(item);
+            categorizedCount++;
           }
         });
 
-        // 각 카테고리별로 order 필드로 정렬
+// 각 카테고리별로 order 필드로 정렬
         Object.keys(categorizedData).forEach(category => {
           categorizedData[category].sort((a, b) => {
             const orderA = a.order !== undefined ? a.order : 999;
@@ -182,9 +184,9 @@ const Portfolio = ({ language }) => {
           });
         });
 
-        setPortfolioData(categorizedData);
+setPortfolioData(categorizedData);
               } catch (error) {
-          // 데이터 로딩 오류 처리
+// 데이터 로딩 오류 처리
         // 에러 발생 시 기본 데이터 사용
         setPortfolioData({
           office: [],
@@ -194,13 +196,15 @@ const Portfolio = ({ language }) => {
           others: []
         });
       } finally {
-        setLoading(false);
+setLoading(false);
       }
     };
 
-    if (categories.length > 0) {
-      loadAllData();
-    }
+    // categories가 로드되었는지 확인
+if (categories.length > 0) {
+loadAllData();
+    } else {
+}
   }, [language, categories]);
 
 
@@ -233,59 +237,20 @@ const Portfolio = ({ language }) => {
     });
   }, []); // 컴포넌트 마운트 시에만 실행
 
-  // Animation for category elements - 모두 동시에 애니메이션
+  // 카드를 바로 표시 (애니메이션 없음)
   useEffect(() => {
-    if (categories.length === 0) return;
+    if (cardRefs.current.length === 0) {
+      return;
+    }
 
-    const timer = setTimeout(() => {
-      categories.forEach((category) => {
-        if (categoryRefs.current[category.id]) {
-          const element = categoryRefs.current[category.id];
-          
-          // 초기 상태 설정
-          element.style.opacity = '0';
-          element.style.transform = 'translateY(30px)';
-          element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-          
-          // 운용현황 이후 동시에 애니메이션 실행
-          setTimeout(() => {
-            if (element) {
-              element.style.opacity = '1';
-              element.style.transform = 'translateY(0)';
-            }
-          }, 400); // 모든 카테고리 동시 시작
-        }
-      });
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [categories]); // categories가 로드되면 실행
-
-  // Animation for portfolio cards - 모든 카드 동시 애니메이션
-  useEffect(() => {
-    if (cardRefs.current.length === 0) return;
-
-    const timer = setTimeout(() => {
-      cardRefs.current.forEach((card) => {
-        if (card) {
-          // 초기 상태 설정
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(30px)';
-          card.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-          
-          // 카테고리와 동시에 애니메이션 실행
-          setTimeout(() => {
-            if (card) {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }
-          }, 400); // 카테고리와 동일한 시작 시간
-        }
-      });
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [portfolioData, language]); // 포트폴리오 데이터 로드 시 실행
+    cardRefs.current.forEach((card) => {
+      if (card) {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+        card.style.transition = 'none';
+      }
+    });
+  }, [portfolioData, language]);
 
   // 라벨 변경 시 content 객체 재생성을 위한 useEffect
   useEffect(() => {
@@ -317,7 +282,7 @@ const Portfolio = ({ language }) => {
 
   return (
     <div className="portfolio-page">
-      {/* Header Section */}
+{/* Header Section */}
       <section className={`portfolio-header portfolio-header-${language.toLowerCase()}`}>
         <div className="portfolio-header-content">
           <h1 ref={titleRef} className={`portfolio-title portfolio-title-${language.toLowerCase()}`}>
