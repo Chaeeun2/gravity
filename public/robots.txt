@@ -23,4 +23,4 @@ Disallow: /#/news/
 Disallow: /#/disclosure/
 
 # Sitemap
-Sitemap: http://www.gravityamc.com/sitemap.xml
+Sitemap: https://www.gravityamc.com/sitemap.xml
