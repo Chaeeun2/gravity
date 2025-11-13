@@ -182,7 +182,7 @@
 
 .news-item {
   display: grid;
-  grid-template-columns: 60px 1fr 120px;
+  grid-template-columns: 60px 1fr 110px;
   gap: 20px;
   align-items: center;
   padding: 25px 25px 25px 15px;
@@ -215,7 +215,7 @@
   font-weight: 400;
   color: var(--text-black);
   font-family: var(--font-pret);
-  text-align: right;
+  text-align: left;
 }
 
 /* Pagination */
