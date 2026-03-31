@@ -233,7 +233,7 @@ const LeadershipManager = () => {
     }));
     
     // 개별 입력 필드 상태도 함께 업데이트
-    setExperienceInputs(prev => ({
+    setEducationInputs(prev => ({
       ko: [...prev.ko, ''],
       en: [...prev.en, '']
     }));
