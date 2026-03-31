@@ -170,6 +170,14 @@
   margin-top: 80px;
 }
 
+.research-strategy-section {
+  margin-top: 80px;
+}
+
+.research-strategy-title span {
+  display: block;
+}
+
 /* Members Grid */
 .members-grid {
   display: flex;
@@ -195,6 +203,10 @@
   .leadership-section:nth-child(1) .member-card,
   .leadership-section:nth-child(2) .member-card,
   .leadership-section:nth-child(3) .member-card {
+    border-top: 1px solid var(--line-color);
+  }
+
+  .research-strategy-section .member-card:nth-child(-n + 3) {
     border-top: 1px solid var(--line-color);
   }
 
@@ -280,6 +292,10 @@
   .leadership-section:nth-child(1) .member-card,
   .leadership-section:nth-child(2) .member-card,
   .leadership-section:nth-child(3) .member-card {
+    border-top: 1px solid var(--line-color);
+  }
+
+  .research-strategy-section .member-card:nth-child(-n + 2) {
     border-top: 1px solid var(--line-color);
   }
 
@@ -433,6 +449,10 @@
     margin-top: 60px;
   }
 
+  .research-strategy-section {
+    margin-top: 60px;
+  }
+
   .part-title-wrapper {
     display: flex;
     gap: 7px;
@@ -537,6 +557,10 @@
 
   .professional-section {
     gap: 25px;
+  }
+
+  .research-strategy-section {
+    margin-top: 50px;
   }
 }
 

@@ -11,7 +11,7 @@ const Leadership = ({ language }) => {
   const part1Ref = useRef(null);
   const part2Ref = useRef(null);
   const part3Ref = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const researchStrategyRef = useRef(null);
   const [isTablet, setIsTablet] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -38,7 +38,13 @@ const Leadership = ({ language }) => {
           // order 필드를 기준으로 정렬 (어드민에서 설정한 순서)
           const sortedData = data.sort((a, b) => {
             // 카테고리별로 먼저 정렬
-            const categoryOrder = { 'management': 0, 'part1': 1, 'part2': 2, 'part3': 3 };
+            const categoryOrder = {
+              management: 0,
+              part1: 1,
+              part2: 2,
+              part3: 3,
+              researchStrategy: 4,
+            };
             const orderA = categoryOrder[a.category] ?? 999;
             const orderB = categoryOrder[b.category] ?? 999;
             
@@ -78,6 +84,7 @@ const Leadership = ({ language }) => {
     resetElement(part1Ref);
     resetElement(part2Ref);
     resetElement(part3Ref);
+    resetElement(researchStrategyRef);
 
     // 애니메이션 시작
     const titleTimer = setTimeout(() => {
@@ -110,12 +117,19 @@ const Leadership = ({ language }) => {
       }
     }, 1000);
 
+    const researchStrategyTimer = setTimeout(() => {
+      if (researchStrategyRef.current) {
+        researchStrategyRef.current.classList.add("animate-fade-in-up");
+      }
+    }, 1100);
+
     return () => {
       clearTimeout(titleTimer);
       clearTimeout(managementTimer);
       clearTimeout(part1Timer);
       clearTimeout(part2Timer);
       clearTimeout(part3Timer);
+      clearTimeout(researchStrategyTimer);
     };
   };
 
@@ -142,9 +156,7 @@ const Leadership = ({ language }) => {
   // 모바일 및 태블릿 감지
   useEffect(() => {
     const checkScreenSize = () => {
-      const newIsMobile = window.innerWidth <= 768;
       const newIsTablet = window.innerWidth <= 1200;
-      setIsMobile(newIsMobile);
       setIsTablet(newIsTablet);
     };
 
@@ -218,43 +230,40 @@ const Leadership = ({ language }) => {
     );
   }
 
+  const mapLeadershipMembers = (category) =>
+    leadershipData
+      .filter((item) => item.category === category)
+      .map((item) => ({
+        ...item,
+        experience: language === 'KO' ? (item.experienceKo || []) : (item.experienceEn || []),
+        education: language === 'KO' ? (item.educationKo || []) : (item.educationEn || []),
+      }));
+
   // Firebase 데이터를 사용하여 동적으로 콘텐츠 생성
   const currentContent = {
     title: "Leadership",
     management: {
       title: language === 'KO' ? "경영진" : "Management",
-      members: leadershipData.filter(item => item.category === 'management').map(item => ({
-        ...item,
-        experience: language === 'KO' ? (item.experienceKo || []) : (item.experienceEn || []),
-        education: language === 'KO' ? (item.educationKo || []) : (item.educationEn || [])
-      }))
+      members: mapLeadershipMembers('management')
     },
     parts: [
       {
         title: "Part. 1",
-        members: leadershipData.filter(item => item.category === 'part1').map(item => ({
-          ...item,
-          experience: language === 'KO' ? (item.experienceKo || []) : (item.experienceEn || []),
-          education: language === 'KO' ? (item.educationKo || []) : (item.educationEn || [])
-        }))
+        members: mapLeadershipMembers('part1')
       },
       {
         title: "Part. 2", 
-        members: leadershipData.filter(item => item.category === 'part2').map(item => ({
-          ...item,
-          experience: language === 'KO' ? (item.experienceKo || []) : (item.experienceEn || []),
-          education: language === 'KO' ? (item.educationKo || []) : (item.educationEn || [])
-        }))
+        members: mapLeadershipMembers('part2')
       },
       {
         title: "Part. 3",
-        members: leadershipData.filter(item => item.category === 'part3').map(item => ({
-          ...item,
-          experience: language === 'KO' ? (item.experienceKo || []) : (item.experienceEn || []),
-          education: language === 'KO' ? (item.educationKo || []) : (item.educationEn || [])
-        }))
+        members: mapLeadershipMembers('part3')
       }
-    ]
+    ],
+    researchStrategy: {
+      title: "Research&Strategy",
+      members: mapLeadershipMembers('researchStrategy')
+    }
   };
 
   const handleMemberClick = (member) => {
@@ -454,6 +463,48 @@ const Leadership = ({ language }) => {
                     )
                   )}
                 </div>
+              </div>
+            </div>
+
+            <div
+              ref={researchStrategyRef}
+              className="leadership-section research-strategy-section"
+            >
+              <h2 className="leadership-section-title research-strategy-title">
+                <span>Research</span>
+                <span>&Strategy</span>
+              </h2>
+              <div className="members-grid">
+                {currentContent.researchStrategy.members.map(
+                  (member, memberIndex) => (
+                    <div
+                      key={memberIndex}
+                      className={`member-card member-card-${language.toLowerCase()}`}
+                      onClick={() => handleMemberClick(member)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div className="member-info">
+                        <div className="member-name">
+                          {language === 'KO' ? member.nameKo : member.nameEn}
+                        </div>
+                        <div className="member-position">
+                          {language === 'KO' ? member.positionKo : member.positionEn}
+                        </div>
+                      </div>
+                      <div className="member-arrow">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 12 20"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M1.39 0L0 1.406 8.261 10.013 7.38 10.931 7.385 10.926 0.045 18.573 1.414 20C3.443 17.887 9.107 11.986 11 10.013 9.594 8.547 10.965 9.976 1.39 0"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>

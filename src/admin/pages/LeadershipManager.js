@@ -21,6 +21,19 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+const CATEGORY_OPTIONS = [
+  { value: 'management', label: '경영진' },
+  { value: 'part1', label: '투자운용 Part 1' },
+  { value: 'part2', label: '투자운용 Part 2' },
+  { value: 'part3', label: '투자운용 Part 3' },
+  { value: 'researchStrategy', label: 'Research&Strategy' },
+];
+
+const CATEGORY_ORDER = CATEGORY_OPTIONS.reduce((acc, option, index) => {
+  acc[option.value] = index;
+  return acc;
+}, {});
+
 const LeadershipManager = () => {
   const [leadershipData, setLeadershipData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,12 +96,11 @@ const LeadershipManager = () => {
         })
       );
       
-      // 카테고리 순서대로 정렬: management -> part1 -> part2 -> part3
+      // 카테고리 순서대로 정렬
       // 각 카테고리 내에서는 order 필드로 정렬
       const sortedData = dataWithOrder.sort((a, b) => {
-        const categoryOrder = { 'management': 0, 'part1': 1, 'part2': 2, 'part3': 3 };
-        const orderA = categoryOrder[a.category] ?? 999;
-        const orderB = categoryOrder[b.category] ?? 999;
+        const orderA = CATEGORY_ORDER[a.category] ?? 999;
+        const orderB = CATEGORY_ORDER[b.category] ?? 999;
         
         if (orderA !== orderB) {
           return orderA - orderB;
@@ -110,7 +122,7 @@ const LeadershipManager = () => {
   // 추가 모달 열기
   const openAddModal = () => {
     setEditingId(null);
-    resetForm();
+    resetForm(selectedCategory);
     setModalOpen(true);
   };
 
@@ -143,11 +155,23 @@ const LeadershipManager = () => {
   };
 
   // 모달 닫기
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalOpen(false);
     setEditingId(null);
-    resetForm();
-  };
+    setFormData({
+      nameKo: '',
+      nameEn: '',
+      positionKo: '',
+      positionEn: '',
+      experienceKo: [''],
+      experienceEn: [''],
+      educationKo: [''],
+      educationEn: [''],
+      category: 'management'
+    });
+    setExperienceInputs({ ko: [''], en: [''] });
+    setEducationInputs({ ko: [''], en: [''] });
+  }, []);
 
   // ESC 키로 모달 닫기
   useEffect(() => {
@@ -164,10 +188,10 @@ const LeadershipManager = () => {
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [modalOpen]);
+  }, [modalOpen, closeModal]);
 
   // 폼 초기화
-  const resetForm = () => {
+  const resetForm = (category = 'management') => {
     setFormData({
       nameKo: '',
       nameEn: '',
@@ -177,7 +201,7 @@ const LeadershipManager = () => {
       experienceEn: [''],
       educationKo: [''],
       educationEn: [''],
-      category: 'management'
+      category
     });
     
     // 개별 입력 필드 상태도 초기화
@@ -458,75 +482,6 @@ const LeadershipManager = () => {
     );
   };
 
-  // 드래그 가능한 경력/학력 줄 컴포넌트
-  const SortableLine = ({ type, language, index, value, onChange, onDelete, placeholder }) => {
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      transform,
-      transition,
-      isDragging,
-    } = useSortable({ id: `${type}-${language}-${index}` });
-
-    const style = {
-      transform: CSS.Transform.toString(transform),
-      transition,
-      opacity: isDragging ? 0.5 : 1,
-    };
-
-    return (
-      <div
-        ref={setNodeRef}
-        style={style}
-        className={`admin-form-${type}-line`}
-      >
-        <div 
-          className="admin-form-drag-handle"
-          {...attributes}
-          {...listeners}
-          style={{ cursor: 'grab', padding: '4px', marginRight: '8px', color: '#999' }}
-        >
-          ⠿
-        </div>
-        <input
-          type="text"
-          className="admin-input"
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-        />
-        {language === 'en' && (
-          <button
-            type="button"
-            className="admin-button delete-line"
-            onClick={onDelete}
-          >
-            ×
-          </button>
-        )}
-      </div>
-    );
-  };
-
-  // 경력/학력 줄 드래그 종료 시 순서 변경
-  const handleLineDragEnd = async (event, type, language) => {
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-      const oldIndex = formData[`${type}${language}`].findIndex(item => item.id === active.id);
-      const newIndex = formData[`${type}${language}`].findIndex(item => item.id === over.id);
-
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newLines = arrayMove(formData[`${type}${language}`], oldIndex, newIndex);
-        setFormData(prev => ({
-          ...prev,
-          [`${type}${language}`]: newLines
-        }));
-      }
-    }
-  };
-
   // 국영문 세트 드래그 종료 시 순서 변경
   const handleLineSetDragEnd = (event, type) => {
     const { active, over } = event;
@@ -594,10 +549,11 @@ const LeadershipManager = () => {
                     className="admin-select"
                     style={{ marginRight: '10px', width: '180px' }}
                   >
-                    <option value="management">경영진</option>
-                    <option value="part1">투자운용 Part 1</option>
-                    <option value="part2">투자운용 Part 2</option>
-                    <option value="part3">투자운용 Part 3</option>
+                    {CATEGORY_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                   <button
                     type="button"
@@ -714,10 +670,11 @@ const LeadershipManager = () => {
                       onChange={(e) => setFormData({...formData, category: e.target.value})}
                       required
                     >
-                      <option value="management">경영진</option>
-                      <option value="part1">투자운용 Part 1</option>
-                      <option value="part2">투자운용 Part 2</option>
-                      <option value="part3">투자운용 Part 3</option>
+                      {CATEGORY_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
